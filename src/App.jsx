@@ -1,7 +1,8 @@
 import React from 'react'
 import Navbar from './components/Navbar.jsx'
 // import HeroSection from './components/HeroSection.jsx'
-import Hero from './components/Hero.jsx'
+// import Hero from './components/Hero.jsx'
+import NewHero from './components/NewHero.jsx'
 import SatisfactionText from './components/SatisfactionText.jsx'
 import CreativeAgencySection from './components/CreativeAgencySection.jsx'
 import UGCTestimonials from './components/UGCTestimonials.jsx'
@@ -13,7 +14,8 @@ const App = () => {
   return (
     <div>
       <Navbar />
-      <Hero />
+      <NewHero />
+      {/* <Hero /> */}
       <SatisfactionText />
       <CreativeAgencySection />
       {/* <PortfolioShowcase /> */}

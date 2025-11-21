@@ -4,8 +4,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const UGCTestimonials = () => {
-  const sectionRef = useRef(null);
   const sliderRef = useRef(null);
+  const containerRef = useRef(null);
 
   const testimonials = [
     { id: 1, video: "/videos/Video-793.mp4", name: "Rohan Sharma", company: "Starlight Solar" },
@@ -15,67 +15,59 @@ const UGCTestimonials = () => {
     { id: 5, video: "/videos/Video-793.mp4", name: "Suresh Kumar", company: "Luxury Brand" },
     { id: 6, video: "/videos/Video-793.mp4", name: "Deepak Mehta", company: "E-Commerce Giant" },
     { id: 7, video: "/videos/Video-793.mp4", name: "Rajesh Verma", company: "Digital Empire" },
+    { id: 8, video: "/videos/Video-793.mp4", name: "Priya Mehta", company: "Fashion Hub" },
   ];
 
   useEffect(() => {
-    const cards = sliderRef.current?.children;
+  const ctx = gsap.context(() => {
+    const slider = sliderRef.current;
+    if (!slider) return;    // IMPORTANT FIX
 
-    if (!cards) return;
+    const cards = Array.from(slider.children);
+    if (!cards.length) return;  // Prevents undefined crash
 
-    Array.from(cards).forEach((card) => {
-      const video = card.querySelector('video');
-
-      const playWithSound = () => {
-        if (video) {
-          video.muted = false;
-          video.volume = 0.8;
-          video.play().catch(() => {});
-        }
-        gsap.to(card, { scale: 1.04, duration: 0.6, ease: "power3.out" });
-      };
-
-      const muteVideo = () => {
-        if (video) video.muted = true;
-        gsap.to(card, { scale: 1, duration: 0.8 });
-      };
-
-      card.addEventListener('mouseenter', playWithSound);
-      card.addEventListener('touchstart', playWithSound, { passive: true });
-      card.addEventListener('mouseleave', muteVideo);
-      card.addEventListener('touchend', muteVideo);
-
-      // Scroll reveal
-      gsap.fromTo(card,
-        { y: 200, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1.4,
-          ease: "power4.out",
-          scrollTrigger: {
-            trigger: card,
-            start: "top 90%",
-          }
-        }
-      );
+    gsap.from(cards, {
+      y: 80,
+      opacity: 0,
+      duration: 1.2,
+      stagger: 0.1,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top 80%"
+      }
     });
 
-    // Cleanup listeners on unmount
+    // next prev
+    const nextBtn = document.getElementById("next-btn");
+    const prevBtn = document.getElementById("prev-btn");
+
+    const scrollAmount = 300;
+
+    const scrollNext = () =>
+      slider.scrollBy({ left: scrollAmount, behavior: "smooth" });
+
+    const scrollPrev = () =>
+      slider.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+
+    nextBtn?.addEventListener("click", scrollNext);
+    prevBtn?.addEventListener("click", scrollPrev);
+
     return () => {
-      Array.from(cards).forEach(card => {
-        card.removeEventListener('mouseenter', playWithSound);
-        card.removeEventListener('touchstart', playWithSound);
-        card.removeEventListener('mouseleave', muteVideo);
-        card.removeEventListener('touchend', muteVideo);
-      });
+      nextBtn?.removeEventListener("click", scrollNext);
+      prevBtn?.removeEventListener("click", scrollPrev);
     };
-  }, []);
+  }, containerRef);
+
+  return () => ctx.revert();
+}, []);
+
 
   return (
-    <section ref={sectionRef} className="relative bg-black py-24 overflow-hidden">
+    <section ref={containerRef} className="relative bg-black py-24 overflow-hidden">
       {/* Background Glow */}
-      <div className="absolute inset-0 opacity-30 pointer-events-none">
-        <div className="absolute top-32 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[#0078f0] rounded-full blur-3xl animate-pulse" />
+      <div className="absolute inset-0 opacity-25 pointer-events-none">
+        <div className="absolute top-40 left-1/2 -translate-x-1/2 w-[1000px] h-[1000px] bg-[#0078f0]/30 rounded-full blur-3xl" />
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
@@ -86,66 +78,67 @@ const UGCTestimonials = () => {
               WHAT OUR
             </span>
             <br />
-            <span className="text-[#0078f0] [text-shadow:0_0_140px_#0078f0] drop-shadow-2xl">
+            <span className="text-[#0078f0] [text-shadow:0_0_140px_#0078f0]">
               CLIENTS SAY
             </span>
           </h2>
-          <p className="mt-6 text-lg md:text-xl text-zinc-400">Swipe / Hover → Hear real voices</p>
         </div>
 
-        {/* Horizontal Slider */}
-        <div className="relative">
+        {/* Slider with Arrows */}
+        <div className="relative group">
+          {/* Prev Button */}
+          <button
+            id="prev-btn"
+            className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 w-14 h-14 bg-black/70 backdrop-blur-md border border-zinc-700 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-400 hover:bg-[#0078f0] hover:border-[#0078f0]"
+          >
+            <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+            </svg>
+          </button>
+
+          {/* Next Button */}
+          <button
+            id="next-btn"
+            className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 w-14 h-14 bg-black/70 backdrop-blur-md border border-zinc-700 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-400 hover:bg-[#0078f0] hover:border-[#0078f0]"
+          >
+            <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+            </svg>
+          </button>
+
+          {/* Horizontal Slider */}
           <div
             ref={sliderRef}
-            className="flex gap-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth px-6 md:px-0 pb-4"
+            className="flex gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth px-20 md:px-24"
           >
-            {[...testimonials, ...testimonials].map((t, i) => (
+            {testimonials.concat(testimonials).map((t, i) => (
               <div
                 key={i}
-                className="flex-shrink-0 w-[320px] md:w-96 snap-center group"
+                className="flex-shrink-0 w-72 snap-center"
               >
-                <div className="relative">
-                  {/* Glow on Hover */}
-                  <div className="absolute -inset-6 bg-[#0078f0] rounded-3xl blur-3xl opacity-0 group-hover:opacity-70 transition-opacity duration-700 -z-10" />
-
-                  {/* Phone Frame Card */}
-                  <div className="relative rounded-3xl overflow-hidden border-8 border-zinc-900 shadow-2xl bg-black">
-                    <video
-                      src={t.video}
-                      className="w-full h-96 md:h-[600px] object-cover"
-                      loop
-                      muted
-                      playsInline
-                      autoPlay
-                    />
-
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent pointer-events-none" />
-
-                    {/* Client Info */}
-                    <div className="absolute bottom-0 left-0 p-8 text-left">
-                      <h3 className="text-2xl font-bold text-white drop-shadow-2xl">{t.name}</h3>
-                      <p className="text-[#0078f0] font-bold text-lg drop-shadow-lg">{t.company}</p>
-                    </div>
-
-                    {/* Sound Icon on Hover */}
-                    <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                      <div className="w-14 h-14 bg-white/10 backdrop-blur-xl rounded-full flex items-center justify-center border border-white/20">
-                        <svg className="w-8 h-8 text-[#0078f0]" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z" />
-                        </svg>
-                      </div>
-                    </div>
+                <div className="relative rounded-2xl overflow-hidden border-4 border-zinc-900 bg-black shadow-2xl hover:border-[#0078f0]/60 transition-all duration-500">
+                  <video
+                    src={t.video}
+                    className="w-full h-80 md:h-96 object-cover"
+                    loop
+                    muted
+                    playsInline
+                    autoPlay
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 p-6">
+                    <h3 className="text-xl font-bold text-white">{t.name}</h3>
+                    <p className="text-[#0078f0] font-semibold text-sm mt-1">{t.company}</p>
                   </div>
                 </div>
               </div>
             ))}
           </div>
+        </div>
 
-          {/* Mobile Swipe Hint */}
-          <div className="text-center mt-10 md:hidden">
-            <p className="text-zinc-500 text-sm">← Swipe to see more →</p>
-          </div>
+        {/* Mobile Hint */}
+        <div className="text-center mt-12 md:hidden">
+          <p className="text-zinc-600 text-sm">Swipe to explore</p>
         </div>
 
         {/* Stats */}
@@ -153,11 +146,12 @@ const UGCTestimonials = () => {
           <p className="text-2xl md:text-3xl text-zinc-300 font-light">
             <span className="text-[#0078f0] font-bold">500+</span> Happy Clients • 
             <span className="text-[#0078f0] font-bold"> 10+</span> Countries • 
-            <span className="text-[#0078f0] font-bold"> 7</span> Years Strong
+            <span className="text-[#0078f0] font-bold"> 7</span> Years of Trust
           </p>
         </div>
       </div>
 
+      {/* Hide Scrollbar */}
       <style jsx>{`
         .scrollbar-hide {
           -ms-overflow-style: none;
