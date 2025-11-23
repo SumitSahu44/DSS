@@ -15,6 +15,8 @@ const PortfolioShowcase = () => {
     { id: 2, title: "Sadabahar Handloom", full: "/images/sadabahaar.png" },
     { id: 3, title: "Lithoveda", full: "/images/lithoveda.png" },
     { id: 4, title: "Vanya Resort", full: "/images/vanya.png" },
+    { id: 4, title: "Jeevan Shaadi", full: "/images/jeevanshaadi.png" },
+    { id: 4, title: "Edmirai", full: "/images/edmirai.png" },
   ];
 
   useEffect(() => {

@@ -13,6 +13,7 @@ import CustomCursor from './components/CustomCursor.jsx'
 import PortfolioShowcase from './components/PortfolioShowcase.jsx'
 import CreativeFooter from './components/CreativeFooter.jsx'
 import ContactSection from './components/ContactSection.jsx'
+import AboutSection from './components/AboutSection.jsx'
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
       <CustomCursor />
       <Navbar />
       <PremiumHero />
+      <AboutSection />
       {/* <NewHero /> */}
       {/* <Hero /> */}
       <SatisfactionText />
