@@ -100,12 +100,12 @@ const CreativeAgencySection = () => {
       <div className="container mx-auto px-6 relative z-10">
         {/* Title */}
         <div ref={titleRef} className="text-center mb-20">
-          <h2 className="text-7xl md:text-9xl font-black tracking-tighter leading-none">
+          <h2 className="text-7xl md:text-8xl font-black tracking-tighter leading-none">
             <span className="bg-gradient-to-r from-blue-400 to-blue-200 bg-clip-text text-transparent">
               We Craft
             </span>
           </h2>
-          <h2 className="text-7xl md:text-9xl font-black tracking-tighter leading-none -mt-8">
+          <h2 className="text-7xl md:text-8xl font-black tracking-tighter leading-none -mt-8">
             <span className="bg-gradient-to-r from-orange-300 to-orange-500 bg-clip-text text-transparent">
               Digital Mastery
             </span>

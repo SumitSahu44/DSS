@@ -67,10 +67,10 @@ const HeroSection = () => {
       className="relative min-h-screen pt-24 md:pt-32 bg-black overflow-hidden flex flex-col items-center justify-center px-6"
     >
       {/* Background Glow */}
-      <div className="absolute inset-0 pointer-events-none">
+      {/* <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-10 md:top-20 left-10 md:left-20 w-80 md:w-96 h-80 md:h-96 bg-[#0078f0] rounded-full blur-3xl opacity-40 animate-pulse" />
         <div className="absolute bottom-10 md:bottom-20 right-10 md:right-20 w-72 md:w-80 h-72 md:h-80 bg-orange-600 rounded-full blur-3xl opacity-30" />
-      </div>
+      </div> */}
 
       {/* Title */}
       <h1 className="hero-title text-5xl md:text-7xl lg:text-8xl font-black text-center leading-none z-20 mb-10 max-w-5xl">

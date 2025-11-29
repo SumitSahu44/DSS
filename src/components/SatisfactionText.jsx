@@ -80,7 +80,7 @@ const SatisfactionText = () => {
       <div className="text-center leading-tight">
         <h1
           ref={upperRef}
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl 
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl 
                      font-extrabold tracking-tighter
                      bg-gradient-to-r from-blue-400 to-blue-200 
                      text-transparent bg-clip-text"
@@ -90,9 +90,8 @@ const SatisfactionText = () => {
 
         <h1
           ref={lowerRef}
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl 
-                     font-extrabold tracking-tighter mt-2 md:mt-4
-                     bg-gradient-to-r from-orange-300 to-orange-500 
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl 
+                     font-extrabold tracking-tighter bg-gradient-to-r from-orange-300 to-orange-500 
                      text-transparent bg-clip-text"
         >
           Is Our Success

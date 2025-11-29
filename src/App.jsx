@@ -14,14 +14,16 @@ import PortfolioShowcase from './components/PortfolioShowcase.jsx'
 import CreativeFooter from './components/CreativeFooter.jsx'
 import ContactSection from './components/ContactSection.jsx'
 import AboutSection from './components/AboutSection.jsx'
-
+import VisionMission from './components/VisionMission2.jsx'
+import NewAbout from './components/NewAbout.jsx'
 const App = () => {
   return (
     <div>
       <CustomCursor  />
       <Navbar />
       <PremiumHero />
-      <AboutSection />
+      <NewAbout />
+      {/* <AboutSection /> */}
       {/* <NewHero /> */}
       {/* <Hero /> */}
       <SatisfactionText />
@@ -29,6 +31,7 @@ const App = () => {
       <PortfolioShowcase />
       {/* <BeyondPixelsSection /> */}
       {/* <InfiniteServicesMarquee /> */}
+      <VisionMission /> 
       <UGCTestimonials />
       <ContactSection />
       <CreativeFooter />
