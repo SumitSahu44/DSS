@@ -49,7 +49,7 @@ const Navbar = () => {
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isVisible ? "translate-y-0" : "-translate-y-full"
-        } ${lastScrollY > 100 ? "bg-black/70 backdrop-blur-md" : "bg-transparent"}`}
+        } ${lastScrollY > 100 ? "bg-transparent" : "bg-transparent"}`} /* after ? bg-black/70 backdrop-blur-md  */
       >
         <div className="container mx-auto px-6 py-1">
           <div className="flex items-center justify-between">
