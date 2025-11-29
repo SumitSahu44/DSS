@@ -18,24 +18,30 @@ import VisionMission from './components/VisionMission2.jsx'
 import NewAbout from './components/NewAbout.jsx'
 import Clients from './components/Clients.jsx'
 import NewVisionMission from './components/NewVisionMission.jsx'
+import AchievementTimeline from './components/Achivements.jsx'
+
 const App = () => {
   return (
     <div>
       <CustomCursor  />
       <Navbar />
       <PremiumHero />
-      <NewAbout />
+     
       {/* <AboutSection /> */}
       {/* <NewHero /> */}
       {/* <Hero /> */}
       <SatisfactionText />
+       <NewAbout /> 
+       <AchievementTimeline />
       <CreativeAgencySection />
       <PortfolioShowcase />
       <Clients />
       <NewVisionMission />
+     
       {/* <BeyondPixelsSection /> */}
       {/* <InfiniteServicesMarquee /> */}
       {/* <VisionMission />  */}
+
       <UGCTestimonials />
       <ContactSection />
       <CreativeFooter />
