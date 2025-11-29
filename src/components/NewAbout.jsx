@@ -87,9 +87,6 @@ export default function BrandParallax() {
         </div>
       </div> */}
 
-
-
-
       {/* --- PARALLAX SECTION --- */}
       <div ref={containerRef} className="relative h-screen w-full overflow-hidden">
         

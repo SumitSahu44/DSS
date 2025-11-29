@@ -16,6 +16,8 @@ import ContactSection from './components/ContactSection.jsx'
 import AboutSection from './components/AboutSection.jsx'
 import VisionMission from './components/VisionMission2.jsx'
 import NewAbout from './components/NewAbout.jsx'
+import Clients from './components/Clients.jsx'
+import NewVisionMission from './components/NewVisionMission.jsx'
 const App = () => {
   return (
     <div>
@@ -29,9 +31,11 @@ const App = () => {
       <SatisfactionText />
       <CreativeAgencySection />
       <PortfolioShowcase />
+      <Clients />
+      <NewVisionMission />
       {/* <BeyondPixelsSection /> */}
       {/* <InfiniteServicesMarquee /> */}
-      <VisionMission /> 
+      {/* <VisionMission />  */}
       <UGCTestimonials />
       <ContactSection />
       <CreativeFooter />
