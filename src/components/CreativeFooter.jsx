@@ -1,195 +1,179 @@
 import React, { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger, ScrollToPlugin } from "gsap/all";
-import { FiInstagram, FiYoutube, FiLinkedin, FiMail, FiPhone, FiMapPin } from "react-icons/fi";
+// Using CDN imports for GSAP
+import gsap from "https://esm.sh/gsap";
+import { ScrollTrigger } from "https://esm.sh/gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+gsap.registerPlugin(ScrollTrigger);
 
-const CreativeFooter = () => {
+export default function Footer() {
   const footerRef = useRef(null);
-  const titleRef = useRef(null);
-  const linksRef = useRef([]);
-
-  // Smooth scroll function
-  const scrollToSection = (sectionId) => {
-    gsap.to(window, {
-      duration: 1.6,
-      scrollTo: { y: `#${sectionId}`, offsetY: 80 },
-      ease: "power3.inOut",
-    });
-  };
+  const ctaRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Title reveal
-      gsap.fromTo(
-        titleRef.current.children,
-        { y: 120, opacity: 0 },
+      
+      // 1. Reveal Footer Content
+      gsap.fromTo(footerRef.current.children, 
+        { y: 50, opacity: 0 },
         {
-          y: 0,
-          opacity: 1,
-          duration: 1.8,
-          stagger: 0.15,
-          ease: "power4.out",
+          y: 0, opacity: 1, duration: 1, stagger: 0.1, ease: "power3.out",
           scrollTrigger: {
-            trigger: titleRef.current,
+            trigger: footerRef.current,
             start: "top 90%",
-          },
+          }
         }
       );
 
-      // Links stagger
-      gsap.from(linksRef.current, {
-        y: 80,
-        opacity: 0,
-        duration: 1.4,
-        stagger: 0.12,
-        ease: "power3.out",
+      // 2. Big Text Parallax
+      gsap.to(".footer-bg-text", {
+        y: -50,
+        ease: "none",
         scrollTrigger: {
           trigger: footerRef.current,
-          start: "top 80%",
-        },
+          start: "top bottom",
+          end: "bottom bottom",
+          scrub: 1
+        }
       });
+
     }, footerRef);
 
     return () => ctx.revert();
   }, []);
 
-  // Quick links with correct IDs
-  const quickLinks = [
-    { name: "Home", id: "home" },
-     { name: "About", id: "about" },
-    { name: "Services", id: "services" },
-    { name: "Portfolio", id: "portfolio" },
-    { name: "Testimonials", id: "testimonials" },
-    { name: "Contact", id: "contact" },
-  ];
-
   return (
-    <footer
+    <footer 
       ref={footerRef}
-      className="relative bg-black text-white overflow-hidden pt-32 pb-16"
+      className="relative bg-[#050505] text-white pt-20 md:pt-32 pb-10 overflow-hidden font-sans border-t border-white/5"
     >
-      {/* Subtle Glow (optional - uncomment if you want back) */}
-      {/* <div className="absolute inset-0 opacity-30 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0078f0] via-transparent to-[#ff6b00] blur-3xl" />
-      </div> */}
+      
+      {/* --- BACKGROUND ELEMENTS --- */}
+      <div className="absolute inset-0 pointer-events-none">
+         {/* Noise Texture */}
+         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay" />
+         
+         {/* Gradient Mesh */}
+         <div className="absolute bottom-0 left-[-20%] w-[60vw] h-[60vw] bg-[#0078f0]/10 rounded-full blur-[150px]" />
+         <div className="absolute top-0 right-[-20%] w-[60vw] h-[60vw] bg-[#ff9f20]/10 rounded-full blur-[150px]" />
+
+         {/* MASSIVE BACKGROUND TEXT */}
+         <div className="footer-bg-text absolute bottom-0 left-0 w-full text-center pointer-events-none select-none overflow-hidden">
+            <h1 className="text-[18vw] md:text-[20vw] font-black text-white/[0.02] leading-none tracking-tighter">
+               AGENCY
+            </h1>
+         </div>
+      </div>
 
       <div className="container mx-auto px-6 relative z-10">
-        {/* Big Bold Heading */}
-        <div ref={titleRef} className="text-center mb-20">
-          <h2 className="text-6xl md:text-7xl font-black tracking-tighter leading-none">
-            <span className="bg-gradient-to-r from-blue-400 to-blue-200 bg-clip-text text-transparent">
-              Let's Build
-            </span>
-          </h2>
-          <h2 className="text-6xl md:text-7xl font-black tracking-tighter leading-none -mt-6 md:-mt-8">
-            <span className="bg-gradient-to-r from-orange-300 to-orange-500 bg-clip-text text-transparent">
-              Something Epic
-            </span>
-          </h2>
+        
+        {/* --- 1. BIG CALL TO ACTION --- */}
+        <div ref={ctaRef} className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-24 pb-16 md:pb-24 border-b border-white/10">
+           <div className="max-w-3xl">
+              <h2 className="text-5xl md:text-8xl font-black tracking-tighter leading-none mb-6">
+                 READY TO <br/>
+                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0078f0] to-[#ff9f20]">SCALE UP?</span>
+              </h2>
+              <p className="text-lg md:text-xl text-gray-400 font-light max-w-xl">
+                 Let's build something that defines your industry. Schedule a call with our strategy team today.
+              </p>
+           </div>
+           
+           {/* CTA Button */}
+           <a href="#contact" className="group relative mt-8 md:mt-0 inline-flex items-center justify-center px-10 py-5 bg-white text-black font-bold uppercase tracking-widest text-sm overflow-hidden rounded-full transition-transform hover:scale-105">
+              <span className="relative z-10 group-hover:text-white transition-colors duration-300">Start Project</span>
+              <div className="absolute inset-0 bg-[#0078f0] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+           </a>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-7xl mx-auto">
-          {/* Left - Contact Info */}
-          <div ref={(el) => (linksRef.current[0] = el)} className="space-y-8">
-            <h3 className="text-3xl  font-black bg-gradient-to-r from-blue-400 to-blue-200 bg-clip-text text-transparent">
-              Get in Touch
-            </h3>
-            <div className="space-y-6">
-              <a
-                href="mailto:hello@youragency.com"
-                className="flex items-center gap-4 text-lg md:text-xl group hover:text-blue-400 transition-all"
-              >
-                <FiMail className="text-2xl group-hover:scale-110 transition-transform" />
-                <span>hello@youragency.com</span>
-              </a>
-              <a
-                href="tel:+919876543210"
-                className="flex items-center gap-4 text-lg md:text-xl group hover:text-orange-400 transition-all"
-              >
-                <FiPhone className="text-2xl group-hover:scale-110 transition-transform" />
-                <span>+91 98765 43210</span>
-              </a>
-              <div className="flex items-center gap-4 text-lg md:text-xl">
-                <FiMapPin className="text-2xl text-orange-400" />
-                <span>Mumbai • Delhi • Bangalore</span>
+        {/* --- 2. MAIN GRID LINKS --- */}
+        {/* Mobile: 2 Columns Grid | Desktop: 12 Column Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-12 gap-8 md:gap-8 mb-16 md:mb-24">
+           
+           {/* Column 1: Brand Info (Full width on mobile for newsletter space) */}
+           <div className="col-span-2 md:col-span-4 flex flex-col gap-6">
+              <div className="text-2xl font-black tracking-tighter">
+                 AGENCY<span className="text-[#0078f0]">.</span>
               </div>
-            </div>
+              <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
+                 We are a digital innovation agency crafting world-class experiences for brands that dare to lead.
+              </p>
+              
+              {/* Newsletter */}
+              <div className="mt-2">
+                 <p className="text-xs uppercase tracking-widest text-white mb-3">Subscribe to Insights</p>
+                 <div className="flex gap-2">
+                    <input 
+                      type="email" 
+                      placeholder="Email Address" 
+                      className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-[#0078f0] transition-colors w-full"
+                    />
+                    <button className="bg-white/10 hover:bg-[#0078f0] text-white px-4 py-3 rounded-lg transition-colors">
+                       →
+                    </button>
+                 </div>
+              </div>
+           </div>
 
-            {/* Social Icons */}
-            <div className="flex gap-5 pt-8">
-              {[
-                { icon: <FiInstagram size={26} />, link: "https://www.instagram.com/digitalsuccess_solutions/" },
-                // { icon: <FiYoutube size={26} />, link: "https://youtube.com" },
-                { icon: <FiLinkedin size={26} />, link: "https://www.linkedin.com/company/digital-success-solutions-dss/posts/?feedView=all" },
-              ].map((social, i) => (
-                <a
-                  key={i}
-                  href={social.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-14 h-14 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center 
-                  hover:bg-gradient-to-br hover:from-blue-500 hover:to-orange-500 hover:border-transparent 
-                  hover:scale-110 transition-all duration-500 group"
-                >
-                  <span className="group-hover:scale-125 transition-transform text-white">
-                    {social.icon}
-                  </span>
-                </a>
-              ))}
-            </div>
-          </div>
+           {/* Column 2: Sitemap (Half width on mobile) */}
+           <div className="col-span-1 md:col-span-2 md:col-start-6">
+              <h4 className="text-sm font-bold uppercase tracking-widest text-white mb-4 md:mb-6">Explore</h4>
+              <ul className="flex flex-col gap-3 md:gap-4 text-gray-400 text-sm">
+                 {['Work', 'Services', 'Agency', 'Careers', 'Contact'].map(item => (
+                    <li key={item}>
+                       <a href="#" className="hover:text-[#ff9f20] transition-colors flex items-center gap-2 group">
+                          <span className="w-0 group-hover:w-2 h-[1px] bg-[#ff9f20] transition-all duration-300" />
+                          {item}
+                       </a>
+                    </li>
+                 ))}
+              </ul>
+           </div>
 
-          {/* Center - Quick Links (Now Clickable!) */}
-          <div ref={(el) => (linksRef.current[1] = el)} className="space-y-8">
-            <h3 className="text-3xl  font-black bg-gradient-to-r from-orange-300 to-orange-500 bg-clip-text text-transparent">
-              Navigate
-            </h3>
-            <ul className="space-y-4 text-lg text-zinc-400">
-              {quickLinks.map((link) => (
-                <li key={link.id}>
-                  <button
-                    onClick={() => scrollToSection(link.id)}
-                    className="hover:text-white hover:translate-x-3 inline-block transition-all duration-300 text-left w-full"
-                  >
-                    → {link.name}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
+           {/* Column 3: Services (Half width on mobile) */}
+           <div className="col-span-1 md:col-span-3">
+              <h4 className="text-sm font-bold uppercase tracking-widest text-white mb-4 md:mb-6">Services</h4>
+              <ul className="flex flex-col gap-3 md:gap-4 text-gray-400 text-sm">
+                 {['Brand Strategy', 'UI/UX Design', 'Web Development', 'Growth Marketing', 'Content Creation'].map(item => (
+                    <li key={item}>
+                       <a href="#" className="hover:text-[#0078f0] transition-colors">
+                          {item}
+                       </a>
+                    </li>
+                 ))}
+              </ul>
+           </div>
 
-          {/* Right - CTA */}
-          <div ref={(el) => (linksRef.current[2] = el)} className="flex flex-col items-start justify-center">
-            <button
-              onClick={() => scrollToSection("contact")}
-              className="relative px-10 md:px-12 py-5 md:py-6 text-xl md:text-2xl font-black rounded-3xl overflow-hidden group cursor-pointer
-              bg-gradient-to-r from-blue-600 to-orange-600 hover:from-blue-500 hover:to-orange-500
-              shadow-2xl hover:shadow-blue-500/50 transition-all duration-500"
-            >
-              <span className="relative z-10">Start Your Project</span>
-              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-            </button>
+           {/* Column 4: Contact & Socials (Full width on mobile for balance) */}
+           <div className="col-span-2 md:col-span-3">
+              <h4 className="text-sm font-bold uppercase tracking-widest text-white mb-4 md:mb-6">Connect</h4>
+              <p className="text-gray-400 text-sm mb-1">hello@agency.com</p>
+              <p className="text-gray-400 text-sm mb-6">+1 (555) 123-4567</p>
+              
+              <div className="flex gap-4">
+                 {['Li', 'Tw', 'In', 'Be'].map((social, i) => (
+                    <a key={i} href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-xs font-bold text-gray-400 hover:text-white hover:bg-white/10 hover:border-white/30 transition-all">
+                       {social}
+                    </a>
+                 ))}
+              </div>
+           </div>
 
-            <p className="mt-8 text-zinc-400 text-base md:text-lg max-w-sm">
-              Ready to turn your vision into digital reality? Let's create something unforgettable.
-            </p>
-          </div>
         </div>
 
-        {/* Bottom Credit */}
-        <div className="text-center mt-20 pt-16 border-t border-zinc-800">
-          <p className="text-zinc-500 text-sm">
-            © 2025. Crafted with <span className="text-orange-500">♥</span> & powered by{" "}
-            <span className="bg-gradient-to-r from-blue-400 to-orange-500 bg-clip-text text-transparent font-bold">
-              Digital Success Solutions
-            </span>
-          </p>
+        {/* --- 3. BOTTOM BAR (Legal) --- */}
+        <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/5 text-xs text-gray-600 font-mono uppercase tracking-wider gap-4 md:gap-0">
+           <div className="flex gap-6">
+              <span>© 2024 Agency Inc.</span>
+           </div>
+           
+           <div className="flex flex-wrap justify-center gap-6 md:gap-8">
+              <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+              <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+              <a href="#" className="hover:text-white transition-colors">Cookie Policy</a>
+           </div>
         </div>
+
       </div>
     </footer>
   );
-};
-
-export default CreativeFooter;
+}

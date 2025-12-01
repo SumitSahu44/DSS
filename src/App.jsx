@@ -19,24 +19,31 @@ import NewAbout from './components/NewAbout.jsx'
 import Clients from './components/Clients.jsx'
 import NewVisionMission from './components/NewVisionMission.jsx'
 import AchievementTimeline from './components/Achivements.jsx'
-
+import Services from './components/services.jsx'
+import ZeroToHeroScroll from './Zero-t-Hero.jsx'  
+import Deconstructed from './components/Deconstructed.jsx'
 const App = () => {
   return (
     <div>
       <CustomCursor  />
       <Navbar />
       <PremiumHero />
-     
+       {/* <SatisfactionText /> */}
+         <NewAbout /> 
+          <AchievementTimeline />
+             <Deconstructed />
+               <ZeroToHeroScroll />
+
+                <PortfolioShowcase />
+      <Clients />
+      <NewVisionMission />
       {/* <AboutSection /> */}
       {/* <NewHero /> */}
       {/* <Hero /> */}
-      <SatisfactionText />
-       <NewAbout /> 
-       <AchievementTimeline />
-      <CreativeAgencySection />
-      <PortfolioShowcase />
-      <Clients />
-      <NewVisionMission />
+      {/* <Services /> */}
+      {/* <CreativeAgencySection /> */}
+   
+     
      
       {/* <BeyondPixelsSection /> */}
       {/* <InfiniteServicesMarquee /> */}

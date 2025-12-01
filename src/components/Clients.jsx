@@ -1,32 +1,78 @@
-import React, { useRef } from 'react';
-import { gsap } from 'gsap';
+import React, { useRef, useEffect } from 'react';
+// Using CDN imports
+import gsap from "https://esm.sh/gsap";
+import { ScrollTrigger } from "https://esm.sh/gsap/ScrollTrigger";
 
-// Real Brand Logos (Using placeholders for demo - Replace src with your logos)
+gsap.registerPlugin(ScrollTrigger);
+
+// Logos (Using high-quality white versions for dark mode)
 const brands = [
-  { id: 1, name: "Spotify", src: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/1024px-Spotify_logo_without_text.svg.png" },
-  { id: 2, name: "Slack", src: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Slack_icon_2019.svg/1024px-Slack_icon_2019.svg.png" },
-  { id: 3, name: "Airbnb", src: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Airbnb_Logo_B%C3%A9lo.svg/1024px-Airbnb_Logo_B%C3%A9lo.svg.png" },
-  { id: 4, name: "Netflix", src: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1024px-Netflix_2015_logo.svg.png" },
-  { id: 5, name: "Google", src: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1024px-Google_%22G%22_logo.svg.png" },
-  { id: 6, name: "Microsoft", src: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/1024px-Microsoft_logo.svg.png" },
-  { id: 7, name: "Amazon", src: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Amazon_icon.svg/1024px-Amazon_icon.svg.png" },
-  { id: 8, name: "Apple", src: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/834px-Apple_logo_black.svg.png" },
+  { id: 1, name: "Spotify", src: "https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" },
+  { id: 2, name: "Slack", src: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Slack_icon_2019.svg" },
+  { id: 3, name: "Airbnb", src: "https://upload.wikimedia.org/wikipedia/commons/6/69/Airbnb_Logo_B%C3%A9lo.svg" },
+  { id: 4, name: "Netflix", src: "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" },
+  { id: 5, name: "Google", src: "https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" },
+  { id: 6, name: "Microsoft", src: "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" },
+  { id: 7, name: "Amazon", src: "https://upload.wikimedia.org/wikipedia/commons/4/4a/Amazon_icon.svg" },
+  { id: 8, name: "Apple", src: "https://upload.wikimedia.org/wikipedia/commons/3/31/Apple_logo_white.svg" },
 ];
 
 export default function PremiumLogoGrid() {
   const containerRef = useRef(null);
   const cardsRef = useRef([]);
+  const headerRef = useRef(null);
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      
+      // 1. Header Entrance
+      gsap.fromTo(headerRef.current,
+        { y: 50, opacity: 0 },
+        {
+          y: 0, opacity: 1, duration: 1, ease: "power3.out",
+          scrollTrigger: { trigger: headerRef.current, start: "top 85%" }
+        }
+      );
+
+      // 2. Grid Stagger Entrance
+      gsap.fromTo(cardsRef.current,
+        { y: 50, opacity: 0, scale: 0.9 },
+        {
+          y: 0, opacity: 1, scale: 1, duration: 0.8, stagger: 0.05, ease: "back.out(1.5)",
+          scrollTrigger: { trigger: containerRef.current, start: "top 80%" }
+        }
+      );
+
+      // 3. Floating Logos Animation (Continuous)
+      cardsRef.current.forEach((card, i) => {
+        const logo = card.querySelector('.brand-logo');
+        gsap.to(logo, {
+          y: -5,
+          duration: 1.5 + Math.random(), // Randomize duration for organic feel
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+          delay: Math.random() // Randomize start
+        });
+      });
+
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  // --- FLASHLIGHT EFFECT LOGIC ---
   const handleMouseMove = (e) => {
     if (!containerRef.current) return;
 
-    cardsRef.current.forEach((card) => {
+    const cards = cardsRef.current;
+    
+    cards.forEach((card) => {
       if (!card) return;
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
 
-      // Updating CSS variables for efficient animation
       card.style.setProperty('--mouse-x', `${x}px`);
       card.style.setProperty('--mouse-y', `${y}px`);
     });
@@ -36,94 +82,108 @@ export default function PremiumLogoGrid() {
     <section 
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative min-h-screen bg-[#050505] flex flex-col items-center justify-center py-24 px-6 overflow-hidden"
+      className="relative min-h-[80vh] bg-[#050505] flex flex-col items-center justify-center py-32 px-6 overflow-hidden font-sans selection:bg-blue-500/30"
     >
       
-      {/* Background Decor - Subtle Premium Mesh */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[#0078f0]/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-[#ff9f20]/5 rounded-full blur-[120px]" />
-        {/* Grid Lines Pattern */}
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150"></div>
+      {/* --- BACKGROUND AMBIENCE (Matching Previous Sections) --- */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay" />
+        
+        {/* Ambient Glows */}
+        <div className="absolute top-0 left-1/3 w-[600px] h-[600px] bg-[#0078f0]/10 rounded-full blur-[150px] animate-pulse" />
+        <div className="absolute bottom-0 right-1/3 w-[600px] h-[600px] bg-[#ff9f20]/10 rounded-full blur-[150px] animate-pulse" style={{animationDelay: '1s'}} />
       </div>
 
-      <div className="relative z-10 max-w-5xl w-full">
-        {/* Header */}
-        <div className="text-center mb-16">
-           <h2 className="text-[#ff9f20] font-bold tracking-[0.2em] text-sm uppercase mb-3">
-             Our Ecosystem
-           </h2>
-           <h3 className="text-4xl md:text-5xl font-bold text-white">
-             Trusted by Market Leaders
-           </h3>
-           <p className="text-gray-500 mt-4 max-w-xl mx-auto">
-             We collaborate with brands that define the future.
-           </p>
+      <div className="relative z-10 max-w-6xl w-full">
+        
+        {/* --- HEADER --- */}
+        <div ref={headerRef} className="text-center mb-20">
+            <div className="flex items-center justify-center gap-4 text-gray-500 text-xs font-mono uppercase tracking-[0.3em] mb-6">
+               <div className="w-12 h-[1px] bg-gray-700" />
+               <span>Ecosystem</span>
+               <div className="w-12 h-[1px] bg-gray-700" />
+            </div>
+
+            <h2 className="text-5xl md:text-7xl font-black text-white tracking-tighter mix-blend-exclusion">
+               TRUSTED BY<br />
+               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0078f0] to-[#ff9f20]">GIANTS.</span>
+            </h2>
         </div>
 
-        {/* --- PREMIUM GRID --- */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {/* --- PREMIUM FLASHLIGHT GRID --- */}
+        {/* We use gap-[1px] to create the grid lines effect */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-[1px] bg-white/5 rounded-2xl overflow-hidden p-[1px] shadow-2xl">
+          
           {brands.map((brand, i) => (
             <div
               key={brand.id}
               ref={(el) => (cardsRef.current[i] = el)}
-              className="group relative h-44 rounded-xl bg-white/[0.02] border border-white/5 overflow-hidden transition-all duration-300"
+              className="group relative h-48 bg-[#0a0a0a] hover:bg-[#0f0f0f] transition-colors duration-300 flex items-center justify-center overflow-hidden"
             >
               
-              {/* 1. The Dynamic Border Glow (Mouse controlled) */}
+              {/* 1. FLASHLIGHT BORDER REVEAL (Follows Mouse) */}
               <div 
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-0"
                 style={{
                   background: `radial-gradient(
-                    400px circle at var(--mouse-x) var(--mouse-y), 
-                    rgba(255, 159, 32, 0.4), 
+                    600px circle at var(--mouse-x) var(--mouse-y), 
+                    rgba(255, 255, 255, 0.06), 
                     transparent 40%
                   )`
                 }}
               />
 
-              {/* 2. Inner Mask (Creates the border effect by covering the center) */}
+              {/* 2. INNER GLOW SPOT (Follows Mouse) */}
               <div 
-                className="absolute inset-[1px] bg-[#0a0a0a] rounded-xl z-10 flex items-center justify-center"
-              >
-                {/* 3. Subtle Inner Glow inside the card (Very faint) */}
-                <div 
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  style={{
-                    background: `radial-gradient(
-                      200px circle at var(--mouse-x) var(--mouse-y), 
-                      rgba(0, 120, 240, 0.7), 
-                      transparent 50%
-                    )`
-                  }}
-                />
+                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"
+                 style={{
+                   background: `radial-gradient(
+                     400px circle at var(--mouse-x) var(--mouse-y), 
+                     rgba(0, 120, 240, 0.15), 
+                     transparent 40%
+                   )`
+                 }}
+              />
 
-                {/* LOGO IMAGE */}
-                <div className="relative z-20 flex flex-col items-center justify-center transition-transform duration-500 group-hover:-translate-y-1">
-                  <img 
-                    src={brand.src} 
-                    alt={brand.name}
-                    className="w-16 h-16 object-contain filter grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 ease-out"
-                    style={{
-                      // Adds a subtle drop shadow when colored
-                      filter: 'grayscale(100%) brightness(0.7)',
-                    }}
-                    // Inline style override for hover state effect
-                    onMouseEnter={(e) => e.currentTarget.style.filter = 'grayscale(0%) drop-shadow(0 0 15px rgba(255,159,32,0.3))'}
-                    onMouseLeave={(e) => e.currentTarget.style.filter = 'grayscale(100%) brightness(0.7)'}
-                  />
-                </div>
+              {/* 3. LOGO CONTAINER */}
+              <div className="relative z-10 p-8 w-full h-full flex flex-col items-center justify-center">
+                 
+                 {/* Logo */}
+                 <img 
+                   src={brand.src} 
+                   alt={brand.name}
+                   className="brand-logo w-16 md:w-20 h-16 md:h-20 object-contain filter grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
+                   style={{
+                     filter: 'grayscale(100%) brightness(0.6)',
+                   }}
+                   // Inline override for hover specificity
+                   onMouseEnter={(e) => e.currentTarget.style.filter = 'grayscale(0%) drop-shadow(0 0 20px rgba(255,255,255,0.2))'}
+                   onMouseLeave={(e) => e.currentTarget.style.filter = 'grayscale(100%) brightness(0.6)'}
+                 />
+
+                 {/* Brand Name (Hidden initially, slides up on hover) */}
+                 <div className="absolute bottom-6 opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                    <span className="text-xs font-bold uppercase tracking-widest text-gray-500">
+                      {brand.name}
+                    </span>
+                 </div>
 
               </div>
+
             </div>
           ))}
         </div>
 
-        {/* Bottom CTA */}
-        <div className="text-center mt-16">
-          <p className="text-gray-500 text-sm">
-            And 50+ other companies pushing boundaries.
+        {/* --- BOTTOM TEXT --- */}
+        <div className="text-center mt-16 flex flex-col items-center gap-4">
+          <p className="text-gray-500 text-sm font-light">
+             Powering next-gen experiences for world-class teams.
           </p>
+          <div className="flex gap-1">
+             <div className="w-1.5 h-1.5 rounded-full bg-[#0078f0]" />
+             <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
+             <div className="w-1.5 h-1.5 rounded-full bg-[#ff9f20]" />
+          </div>
         </div>
 
       </div>
