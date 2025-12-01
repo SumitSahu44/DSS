@@ -114,9 +114,9 @@ export default function StackServices() {
         scrollTrigger: {
           trigger: container,
           start: "top top",
-          end: "+=600%", 
+          end: "+=250%", // FAST SCROLL: Reduced from 600% to 250%
           pin: true,
-          scrub: 1,
+          scrub: 0.5,   // Snappier response
           onUpdate: (self) => {
             const progress = self.progress;
             const index = Math.min(Math.floor(progress * totalCards), totalCards - 1);
@@ -159,19 +159,16 @@ export default function StackServices() {
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative h-screen w-full bg-black overflow-hidden flex flex-col items-center justify-center font-sans"
+      className="relative h-screen w-full pt-6 pb-6 bg-[#050505] overflow-hidden flex flex-col items-center justify-center font-sans selection:bg-blue-500/30"
     >
       
       {/* --- BACKGROUND (Mixed Gradient: Blue + Orange + Black) --- */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         {/* Base Darkness */}
-        <div className="absolute inset-0 bg-black" />
+        <div className="absolute inset-0 bg-[#050505]" />
 
         {/* The Requested Colors - Mixed as Blurry Blobs */}
-        {/* Blue (#0078f0) - Top Left/Center */}
         <div className="absolute top-[-10%] left-[-10%] md:left-[10%] w-[70vw] h-[70vw] md:w-[40vw] md:h-[40vw] bg-[#0078f0] rounded-full blur-[150px] opacity-30 animate-pulse" style={{ animationDuration: '8s' }} />
-        
-        {/* Orange (#ff9f20) - Bottom Right/Center */}
         <div className="absolute bottom-[-10%] right-[-10%] md:right-[10%] w-[70vw] h-[70vw] md:w-[40vw] md:h-[40vw] bg-[#ff9f20] rounded-full blur-[150px] opacity-20 animate-pulse" style={{ animationDuration: '10s' }} />
         
         {/* Noise Texture Overlay */}
@@ -181,10 +178,11 @@ export default function StackServices() {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:50px_50px]" />
         
         {/* Vignette to focus center */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#050505]" />
       </div>
 
-      {/* --- HEADER (Moved Up) --- */}
+      {/* --- HEADER (Matches Portfolio Style) --- */}
+       {/* --- HEADER (Moved Up) --- */}
       <div className="absolute top-8 md:top-10 z-20 text-center w-full px-6">
         <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter mb-3 drop-shadow-lg">
           Our Services
@@ -204,21 +202,19 @@ export default function StackServices() {
          <span className="text-sm font-bold text-white/30">06</span>
       </div>
 
-      {/* --- CARDS STACK CONTAINER (With Tilt Wrapper) --- */}
+      {/* --- CARDS STACK CONTAINER --- */}
       {/* Added mt-12 to push stack down from header */}
       <div 
         ref={stackWrapperRef}
-        className="relative z-10 mt-12 w-[85vw] h-[60vh] md:w-[420px] md:h-[580px]"
-        style={{ perspective: '1200px' }} // Essential for 3D effect
+        className="relative z-10 mt-16 w-[85vw] h-[55vh] md:w-[420px] md:h-[580px]"
+        style={{ perspective: '1200px' }} 
       >
         
-        {/* Inner container to hold cards */}
         <div className="relative w-full h-full transform-style-3d">
           {services.map((service, index) => (
             <div
               key={index}
               ref={el => cardsRef.current[index] = el}
-              // Card Styling
               className={`absolute inset-0 rounded-[2rem] p-8 flex flex-col justify-between border border-white/10 shadow-2xl overflow-hidden bg-gradient-to-br ${service.theme}`}
               style={{ 
                 boxShadow: '0 0 0 1px rgba(255,255,255,0.05), 0 25px 60px -15px rgba(0,0,0,0.6)',
@@ -227,7 +223,7 @@ export default function StackServices() {
               }}
             >
               
-              {/* 1. TOP SECTION: Number & Decoration */}
+              {/* 1. TOP SECTION */}
               <div className="flex justify-between items-start w-full relative z-10">
                 <span className={`text-7xl md:text-8xl font-black opacity-20 tracking-tighter select-none ${service.accent}`}>
                   {service.id}
@@ -239,13 +235,12 @@ export default function StackServices() {
                 </div>
               </div>
 
-              {/* 2. BACKGROUND GLOW (Subtle) */}
+              {/* 2. BACKGROUND GLOW */}
               <div className={`absolute -right-20 -top-20 w-64 h-64 rounded-full opacity-20 blur-[60px] ${service.accent.replace('text', 'bg')}`} />
 
-              {/* 3. BOTTOM SECTION: Content */}
+              {/* 3. BOTTOM SECTION */}
               <div className="relative z-10 mt-auto">
                 
-                {/* Animated Divider */}
                 <div className={`w-12 h-1 mb-6 rounded-full ${service.accent.replace('text', 'bg')}`} />
                 
                 <h3 className="text-3xl md:text-4xl font-bold text-white mb-4 leading-[1.1]">
@@ -256,14 +251,13 @@ export default function StackServices() {
                   {service.desc}
                 </p>
 
-                {/* Action Link (Fake) */}
                 <div className={`mt-6 flex items-center gap-2 text-xs font-bold uppercase tracking-widest cursor-pointer group ${service.accent}`}>
                   <span>Learn More</span>
                   <span className="group-hover:translate-x-1 transition-transform">→</span>
                 </div>
               </div>
 
-              {/* Glass Shine Overlay */}
+              {/* Glass Shine */}
               <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent opacity-50 pointer-events-none rounded-[2rem]" />
             </div>
           ))}

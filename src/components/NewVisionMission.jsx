@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+// Fixing imports by using CDN links since local node_modules are not available
+import gsap from 'https://esm.sh/gsap';
+import { ScrollTrigger } from 'https://esm.sh/gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,29 +22,32 @@ export default function VisionMissionReveal() {
         scrollTrigger: {
           trigger: container,
           start: 'top top',
-          end: '+=150%', // Scroll distance (speed control)
-          pin: true,     // Screen ko rok dega
-          scrub: 1,      // Smooth animation based on scroll
+          end: '+=250%', // Increased Duration (Old was 150%, New is 250% for fixing overlap)
+          pin: true,
+          scrub: 1,
           anticipatePin: 1
         }
       });
 
-      // 2. MISSION SLIDE-IN (Right to Left)
+      // --- PHASE 1: HOLD VISION (The Fix) ---
+      // Empty animation to keep Vision visible for a while before Mission slides in
+      tl.to({}, { duration: 0.5 }); 
+
+      // --- PHASE 2: MISSION SLIDE-IN ---
       tl.to(missionSection, {
-        x: '0%', // Move from 100% (right) to 0% (center)
+        x: '0%', // Slide from Right to Center
         ease: 'power2.inOut',
-        duration: 1
+        duration: 1.5 // Smooth Slide
       });
 
-      // 3. PARALLAX TEXT EFFECTS (Optional Polish)
-      // Vision text fades out slightly as it gets covered
+      // 3. PARALLAX TEXT EFFECT
       gsap.to(visionContentRef.current, {
         opacity: 0.5,
         scale: 0.95,
         scrollTrigger: {
           trigger: container,
           start: 'top top',
-          end: '+=50%',
+          end: '+=100%',
           scrub: 1
         }
       });
@@ -60,7 +64,7 @@ export default function VisionMissionReveal() {
       <div ref={containerRef} className="relative h-screen w-full overflow-hidden">
 
         {/* =========================================
-            LAYER 1: OUR VISION (Base Layer) 
+            LAYER 1: OUR VISION (Base Layer - Original Design) 
            ========================================= */}
         <div className="absolute inset-0 w-full h-full bg-[#050505] flex items-center justify-center p-8 md:p-20">
           
@@ -79,7 +83,7 @@ export default function VisionMissionReveal() {
               <div className="h-2 w-32 bg-[#0078f0] rounded-full mt-4" />
             </div>
 
-            {/* Right: Content */}
+            {/* Right: Content (Original Full Text) */}
             <div className="text-gray-300 text-lg md:text-xl leading-relaxed space-y-6 border-l border-white/10 pl-8">
               <p>
                 To build a future where every startup, small business, and growing brand in India 
@@ -108,17 +112,16 @@ export default function VisionMissionReveal() {
 
 
         {/* =========================================
-            LAYER 2: OUR MISSION (Sliding Panel) 
+            LAYER 2: OUR MISSION (Sliding Panel - Original Design) 
            ========================================= */}
         <div 
           ref={missionSectionRef}
           className="absolute inset-0 w-full h-full bg-[#ff9f20] text-black flex items-center justify-center p-8 md:p-20 translate-x-[100%] z-20"
           style={{
-             // Adding a slight shadow to the leading edge for depth
              boxShadow: '-50px 0 100px rgba(0,0,0,0.5)'
           }}
         >
-          {/* Decorative Pattern on Orange BG */}
+          {/* Decorative Pattern */}
           <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] mix-blend-multiply" />
 
           <div ref={missionContentRef} className="relative z-10 grid md:grid-cols-2 gap-12 max-w-7xl w-full items-center">
@@ -159,11 +162,6 @@ export default function VisionMissionReveal() {
         </div>
 
       </div>
-
-      {/* Continue scrolling indicator */}
-      {/* <div className="h-[50vh] bg-black flex items-center justify-center text-gray-600">
-        <p>Keep Scrolling for Services...</p>
-      </div> */}
 
     </div>
   );

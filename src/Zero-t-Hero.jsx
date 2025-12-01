@@ -12,7 +12,7 @@ const steps = [
     title: "The Spark",
     desc: "A raw, unpolished idea. It's dark, messy, but alive.",
     width: "w-[85vw] md:w-[400px]", 
-    img: "https://images.unsplash.com/photo-1515434126000-961d90c5c911?auto=format&fit=crop&q=80&w=800",
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIrWzmOmGNO_CaehHXel6Olobwq0JxzyZILw&s",
     theme: "grayscale brightness-75",
     accent: "text-gray-400 border-gray-500"
   },
@@ -32,7 +32,7 @@ const steps = [
     title: "Visual Soul",
     desc: "Color, typography, and voice give it a heartbeat.",
     width: "w-[85vw] md:w-[600px]", 
-    img: "https://images.unsplash.com/photo-1558655146-d09347e0c766?auto=format&fit=crop&q=80&w=800",
+    img: "https://miro.medium.com/v2/resize:fit:1400/1*1ThxzpUlojLUu_OKiYkMAg.jpeg",
     theme: "saturate-100 contrast-100",
     accent: "text-purple-400 border-purple-500"
   },
@@ -127,7 +127,7 @@ export default function BrandProcess() {
     <div className="bg-[#050505] relative text-white font-sans selection:bg-blue-500/30 overflow-x-hidden">
       
       {/* Noise Texture */}
-      <div className="fixed inset-0 pointer-events-none opacity-20 z-50 mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      <div className="fixed inset-0 pt-6 pointer-events-none opacity-20 z-50 mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
 
       {/* --- TOP PROGRESS BAR --- */}
       <div className="fixed top-0 left-0 w-full h-1 bg-white/5 z-50">

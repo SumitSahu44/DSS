@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+// Fixing imports by using CDN links since local node_modules are not available
+import gsap from 'https://esm.sh/gsap';
+import { ScrollTrigger } from 'https://esm.sh/gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -9,19 +10,32 @@ export default function BrandParallax() {
   const maskLayerRef = useRef(null);
   const dotsRef = useRef([]);
 
-  // Dots data (Reduced count slightly for better mobile performance)
-  const dotsData = useRef([...Array(40)].map(() => ({
-    size: Math.random() * 4 + 2,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    alpha: Math.random() * 0.5 + 0.3,
-    duration: Math.random() * 20 + 10,
-    depth: Math.random() * 0.5 + 0.1,
-  })));
+  // Generate random data for dots with Colors (Blue, Orange, Mix)
+  const dotsData = useRef([...Array(100)].map(() => {
+    const colorRoll = Math.random();
+    let colorClass = '';
+    
+    // 40% Blue, 40% Orange, 20% Gradient Mix
+    if (colorRoll < 0.4) {
+      colorClass = 'bg-[#0078f0]';
+    } else if (colorRoll < 0.8) {
+      colorClass = 'bg-[#ff9f20]';
+    } else {
+      colorClass = 'bg-gradient-to-br from-[#0078f0] to-[#ff9f20]';
+    }
 
-  // Responsive Positions: 
-  // Mobile: Text centered vertically/horizontally to stay safe.
-  // Desktop (md): Original creative positions.
+    return {
+      size: Math.random() * 4 + 2, // 2px to 6px
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      alpha: Math.random() * 0.6 + 0.3, // Opacity
+      duration: Math.random() * 15 + 10, // Float duration (Slower is better)
+      depth: Math.random() * 0.5 + 0.1, // For parallax effect
+      colorClass: colorClass
+    };
+  }));
+
+  // Responsive Positions
   const infoPoints = [
     { 
       id: 1, title: "Strategy", desc: "Data-driven insights.", 
@@ -48,29 +62,29 @@ export default function BrandParallax() {
   useEffect(() => {
     const maskLayer = maskLayerRef.current;
     const texts = gsap.utils.toArray('.agency-text');
-    const ring = maskLayer.querySelector('.tech-ring'); // Select the new ring
+    const ring = maskLayer.querySelector('.tech-ring');
 
-    gsap.set(maskLayer, { '--mask-radius': '12vh' }); // Start smaller
+    // --- 1. MASK REVEAL ANIMATION (SCROLL) ---
+    gsap.set(maskLayer, { '--mask-radius': '12vh' });
 
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: containerRef.current,
         start: 'top top',
-        end: '+=150%', // Reduced from 250% to 150% (Faster scroll)
+        end: '+=150%',
         pin: true,
-        scrub: 1, // Tighter scrub for instant feel
-        onLeave: () => console.log("Scroll Finished - Next Section"), // Debug
+        scrub: 1,
       }
     });
 
-    // 1. Expand Mask (Hole gets bigger)
+    // Expand Mask
     tl.to(maskLayer, { 
       '--mask-radius': '150vmax', 
       duration: 10, 
       ease: 'power1.inOut' 
     }, 0);
 
-    // 2. Rotate & Expand the Tech Ring with the hole
+    // Rotate Ring
     tl.to(ring, {
       scale: 15,
       opacity: 0,
@@ -79,11 +93,9 @@ export default function BrandParallax() {
       ease: 'power1.in'
     }, 0);
 
-    // 3. Text Animations (Synced tightly)
+    // Text Animations
     texts.forEach((text, i) => {
-      // Logic: Show text when mask is near it area
       const startTime = i * 2; 
-      
       tl.fromTo(text, 
         { opacity: 0, scale: 0.8, y: 50, filter: 'blur(10px)' },
         { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)', duration: 1.5, ease: 'back.out(1.7)' }, 
@@ -95,27 +107,42 @@ export default function BrandParallax() {
       );
     });
 
-    // 4. Final Cleanup: Ensure mask is gone EXACTLY when scroll ends
-    tl.to(maskLayer, { opacity: 0, duration: 0.5 }, 9.5); 
+    // Cleanup Mask
+    tl.to(maskLayer, { opacity: 0, duration: 0.5 }, 9.5);
 
 
-    // --- Galaxy & Mouse Logic (Same as before, optimized) ---
+    // --- 2. GALAXY MOTION (Ambient + Mouse) ---
     const ctx = gsap.context(() => {
-        // Floating dots
+        
         dotsRef.current.forEach((dot, i) => {
             if(!dot) return;
+            const data = dotsData.current[i];
+
+            // A. AMBIENT FLOATING (Always running)
+            // Using xPercent/yPercent so it doesn't conflict with x/y mouse movement
             gsap.to(dot, {
-                x: `+=${Math.random() * 80 - 40}`,
-                y: `+=${Math.random() * 80 - 40}`,
-                rotation: Math.random() * 360,
-                duration: dotsData.current[i].duration,
+                xPercent: "random(-1000, 1000)", // Large range relative to dot size
+                yPercent: "random(-1000, 1000)", 
+                rotation: "random(-360, 360)",
+                duration: data.duration,
                 repeat: -1,
                 yoyo: true,
                 ease: "sine.inOut"
             });
+
+            // Random pulsing opacity
+            gsap.to(dot, {
+                opacity: 0.2,
+                duration: Math.random() * 2 + 1,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut",
+                delay: Math.random() * 2
+            });
         });
     });
 
+    // B. MOUSE INTERACTION (Parallax)
     const handleMouse = (e) => {
       const { clientX, clientY } = e;
       const xCenter = window.innerWidth / 2;
@@ -125,15 +152,17 @@ export default function BrandParallax() {
         if (!dot) return;
         const depth = dotsData.current[i].depth;
         
-        // Simpler calculation for performance
-        let moveX = (clientX - xCenter) * depth * -0.3;
-        let moveY = (clientY - yCenter) * depth * -0.3;
+        // Move opposite to mouse
+        let moveX = (clientX - xCenter) * depth * -0.4;
+        let moveY = (clientY - yCenter) * depth * -0.4;
 
+        // Use 'x' and 'y' (pixels) for mouse, separate from ambient 'xPercent'
         gsap.to(dot, {
           x: moveX,
           y: moveY,
-          duration: 1,
-          overwrite: "auto"
+          duration: 1.2,
+          ease: "power2.out",
+          overwrite: false // Important: Don't kill the ambient motion
         });
       });
     };
@@ -148,100 +177,92 @@ export default function BrandParallax() {
   }, []);
 
   return (
-    <>
-      {/* Container setup */}
-      <div className="bg-[#050505] text-white">
-        
-        {/* PARALLAX SECTION */}
-        <div ref={containerRef} className="relative h-screen w-full overflow-hidden">
+    <div className="bg-[#050505] text-white">
+      
+      {/* PARALLAX SECTION */}
+      <div ref={containerRef} className="relative h-screen w-full overflow-hidden">
 
-          {/* Background Video */}
-          <div className="absolute inset-0 z-0">
-            <video
-              autoPlay loop muted playsInline
-              className="w-full h-full object-cover opacity-70"
-            >
-              <source src="https://www.pexels.com/download/video/4919748/" type="video/mp4" />
-            </video>
-            {/* <div className="absolute inset-0 bg-black/60" /> */}
-          </div>
-
-          {/* MASK LAYER (Black Overlay + Hole + Galaxy) */}
-          <div
-            ref={maskLayerRef}
-            className="absolute inset-0 z-10 flex items-center justify-center overflow-hidden"
-            style={{
-              background: '#000000',
-              maskImage: 'radial-gradient(circle at center, transparent var(--mask-radius), black calc(var(--mask-radius) + 60px))',
-              WebkitMaskImage: 'radial-gradient(circle at center, transparent var(--mask-radius), black calc(var(--mask-radius) + 60px))',
-            }}
+        {/* Background Video */}
+        <div className="absolute inset-0 z-0">
+          <video
+            autoPlay loop muted playsInline
+            className="w-full h-full object-cover opacity-70"
           >
-            {/* 1. SOLID BORDER (Inner) */}
-            <div 
-              className="absolute border border-[#0078f0]/40 rounded-full"
-              style={{
-                width: 'calc(var(--mask-radius) * 2 + 10px)',
-                height: 'calc(var(--mask-radius) * 2 + 10px)',
-                transition: 'width 0.1s, height 0.1s'
-              }} 
-            />
-
-            {/* 2. CREATIVE TECH RING (Outer, Dashed, Rotating) */}
-            <div 
-              className="tech-ring absolute rounded-full border border-dashed border-[#0078f0]/60"
-              style={{
-                width: 'calc(var(--mask-radius) * 2 + 60px)',
-                height: 'calc(var(--mask-radius) * 2 + 60px)',
-                transition: 'width 0.1s, height 0.1s',
-                animation: 'spin 20s linear infinite' // CSS Spin
-              }} 
-            />
-
-            {/* Galaxy Dots */}
-            {dotsData.current.map((data, i) => (
-              <div
-                key={i}
-                ref={el => dotsRef.current[i] = el}
-                className="absolute rounded-full bg-white"
-                style={{
-                  width: data.size + 'px',
-                  height: data.size + 'px',
-                  left: data.x + '%',
-                  top: data.y + '%',
-                  opacity: data.alpha,
-                  backgroundColor: i % 2 === 0 ? '#0078f0' : '#ffffff',
-                  boxShadow: '0 0 10px rgba(0, 120, 240, 0.5)'
-                }}
-              />
-            ))}
-          </div>
-
-          {/* TEXT LAYER */}
-          <div className="absolute inset-0 z-20 pointer-events-none">
-            {infoPoints.map((item) => (
-              <div 
-                key={item.id} 
-                className={`agency-text absolute ${item.pos} ${item.align} w-full max-w-[90vw] md:w-auto md:max-w-md px-4`}
-              >
-                {/* Responsive Font Sizes: text-3xl for mobile, text-5xl for desktop */}
-                <h3 className="text-3xl md:text-5xl font-bold text-white mb-2 tracking-tighter mix-blend-difference">
-                  {item.title}
-                  <span className="text-[#0078f0] inline-block scale-150 leading-none">.</span>
-                </h3>
-                
-                <div className={`flex items-center gap-3 justify-center ${item.align.includes('right') ? 'md:flex-row-reverse' : 'md:flex-row'}`}>
-                  <div className="hidden md:block h-[1px] w-12 bg-[#0078f0]/50" />
-                  <p className="text-xs md:text-sm font-light text-gray-300 uppercase tracking-[0.2em]">
-                    {item.desc}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-
+            <source src="https://www.pexels.com/download/video/4919748/" type="video/mp4" />
+          </video>
         </div>
 
-      
+        {/* MASK LAYER (Black Overlay + Galaxy) */}
+        <div
+          ref={maskLayerRef}
+          className="absolute inset-0 z-10 flex items-center justify-center overflow-hidden"
+          style={{
+            background: '#000000',
+            maskImage: 'radial-gradient(circle at center, transparent var(--mask-radius), black calc(var(--mask-radius) + 60px))',
+            WebkitMaskImage: 'radial-gradient(circle at center, transparent var(--mask-radius), black calc(var(--mask-radius) + 60px))',
+          }}
+        >
+          {/* Inner Solid Border */}
+          <div 
+            className="absolute border border-[#0078f0]/40 rounded-full"
+            style={{
+              width: 'calc(var(--mask-radius) * 2 + 10px)',
+              height: 'calc(var(--mask-radius) * 2 + 10px)',
+              transition: 'width 0.1s, height 0.1s'
+            }} 
+          />
+
+          {/* Outer Creative Tech Ring */}
+          <div 
+            className="tech-ring absolute rounded-full border border-dashed border-[#0078f0]/60"
+            style={{
+              width: 'calc(var(--mask-radius) * 2 + 60px)',
+              height: 'calc(var(--mask-radius) * 2 + 60px)',
+              transition: 'width 0.1s, height 0.1s',
+              animation: 'spin 20s linear infinite'
+            }} 
+          />
+
+          {/* Galaxy Dots */}
+          {dotsData.current.map((data, i) => (
+            <div
+              key={i}
+              ref={el => dotsRef.current[i] = el}
+              className={`absolute rounded-full ${data.colorClass}`}
+              style={{
+                width: data.size + 'px',
+                height: data.size + 'px',
+                left: data.x + '%',
+                top: data.y + '%',
+                opacity: data.alpha,
+                boxShadow: `0 0 12px ${data.colorClass.includes('orange') ? '#ff9f20' : '#0078f0'}`,
+                willChange: 'transform' // Performance optimization
+              }}
+            />
+          ))}
+        </div>
+
+        {/* TEXT LAYER */}
+        <div className="absolute inset-0 z-20 pointer-events-none">
+          {infoPoints.map((item) => (
+            <div 
+              key={item.id} 
+              className={`agency-text absolute ${item.pos} ${item.align} w-full max-w-[90vw] md:w-auto md:max-w-md px-4`}
+            >
+              <h3 className="text-3xl md:text-5xl font-bold text-white mb-2 tracking-tighter mix-blend-difference">
+                {item.title}
+                <span className="text-[#0078f0] inline-block scale-150 leading-none">.</span>
+              </h3>
+              
+              <div className={`flex items-center gap-3 justify-center ${item.align.includes('right') ? 'md:flex-row-reverse' : 'md:flex-row'}`}>
+                <div className="hidden md:block h-[1px] w-12 bg-[#0078f0]/50" />
+                <p className="text-xs md:text-sm font-light text-gray-300 uppercase tracking-[0.2em]">
+                  {item.desc}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
 
       </div>
 
@@ -252,6 +273,6 @@ export default function BrandParallax() {
           to { transform: rotate(360deg); }
         }
       `}</style>
-    </>
+    </div>
   );
 }
