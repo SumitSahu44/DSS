@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import gsap from 'https://esm.sh/gsap';
 import { ScrollTrigger } from 'https://esm.sh/gsap/ScrollTrigger';
 import { MapPin, ArrowUpRight, Users, Monitor, Briefcase, Trophy } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -75,7 +74,7 @@ export default function AboutSection() {
   }, []);
 
   return (
-    <section ref={containerRef} className="relative py-24 px-4 md:px-8 bg-[#050505] overflow-hidden">
+    <section ref={containerRef} id="about" className="relative py-24 px-4 md:px-8 bg-[#050505] overflow-hidden">
       
       {/* Background Ambience */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#0078f0]/10 rounded-full blur-[120px] pointer-events-none" />
@@ -109,7 +108,7 @@ export default function AboutSection() {
                 </p>
 
               <button className="reveal-text group relative px-8 py-3 bg-white text-black font-bold uppercase text-xs tracking-widest rounded-full overflow-hidden hover:scale-105 transition-transform duration-300">
-                    <span className="relative z-10 group-hover:text-white transition-colors">Discover Our Culture</span>
+                    <span className="relative z-10 group-hover:text-white transition-colors">Explore our Works</span>
                     <div className="absolute inset-0 bg-[#0078f0] translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out" />
                 </button>
                
