@@ -156,19 +156,20 @@ export default function ServicesSection() {
         scrollTrigger: {
           trigger: container,
           start: "top top",
-          // INCREASED SCROLL LENGTH: User needs to scroll more to pass through all cards.
-          // This prevents "flying through" on mobile.
-          end: "+=2000%", 
+          // ADJUSTED SCROLL LENGTH:
+          // 1000% = ~10 screens of scrolling. 
+          // For 7 cards, this is roughly 1.5 screen scroll per card, which feels like "1 slide" per scroll action.
+          // It's much faster than 2000% but slow enough to be controlled.
+          end: "+=1000%", 
           pin: true,
-          scrub: 1, // Smoother control
+          scrub: 0.5, // Faster scrub for snappier feel
           anticipatePin: 1,
           
-          // --- SNAPPING LOGIC (Magic Fix) ---
-          // This forces the scroll to stop exactly on a card, not in between.
+          // --- SNAPPING LOGIC ---
           snap: {
-            snapTo: 1 / (totalCards - 1), // Snap to each card step
-            duration: { min: 0.2, max: 0.3 }, // Snap speed
-            delay: 0.1, // Wait 0.1s after scrolling stops before snapping
+            snapTo: 1 / (totalCards - 1),
+            duration: { min: 0.2, max: 0.4 }, 
+            delay: 0.1, 
             ease: "power1.inOut"
           },
 
