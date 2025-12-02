@@ -4,7 +4,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Data bahar rakha hai taaki re-render pe recreate na ho
 const milestones = [
   {
     year: "2020",
@@ -45,28 +44,24 @@ export default function AchievementTimeline() {
     
     let ctx = gsap.context(() => {
       
-      // 1. OPTIMIZED LINE ANIMATION (ScaleY instead of Height)
-      // Height animation causes "Layout Thrashing" (Lag). ScaleY is GPU only.
       gsap.fromTo(lineRef.current, 
         { scaleY: 0 },
         {
           scaleY: 1,
           ease: 'none',
-          force3D: true, // Force GPU
+          force3D: true,
           scrollTrigger: {
             trigger: container,
             start: 'top 60%', 
             end: 'bottom 80%',
-            scrub: 0.5, // Thoda smoothing add kiya jerky scroll bachane ke liye
+            scrub: 0.5,
           }
         }
       );
 
-      // 2. Milestone Cards Animation
       const items = gsap.utils.toArray('.milestone-item');
       
       items.forEach((item) => {
-        // 'autoAlpha' is better than 'opacity' (sets visibility:hidden automatically)
         gsap.fromTo(item, 
           { autoAlpha: 0, y: 50 }, 
           { 
@@ -74,11 +69,10 @@ export default function AchievementTimeline() {
             y: 0, 
             duration: 0.8,
             ease: 'power3.out',
-            // Will-change hint browser ko pehle se batata hai
             willChange: 'transform, opacity', 
             scrollTrigger: {
               trigger: item,
-              start: 'top 85%', // Thoda jaldi dikhana start kiya
+              start: 'top 85%',
               toggleActions: 'play none none reverse' 
             }
           }
@@ -93,7 +87,7 @@ export default function AchievementTimeline() {
   return (
     <section className="bg-[#050505] py-24 px-4 overflow-hidden relative">
       
-      {/* Background Glows (Optimized: content-visibility) */}
+      {/* Background Glows */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
         <div className="absolute top-[20%] left-[-10%] w-[500px] h-[500px] bg-[#ff9f20]/5 rounded-full blur-[100px] will-change-transform" />
         <div className="absolute bottom-[20%] right-[-10%] w-[500px] h-[500px] bg-[#0078f0]/5 rounded-full blur-[100px] will-change-transform" />
@@ -114,19 +108,16 @@ export default function AchievementTimeline() {
 
       <div ref={containerRef} className="max-w-6xl mx-auto relative min-h-[100vh]">
         
-        {/* --- CENTRAL LINE (Optimized) --- */}
-        {/* Static Background Line */}
+        {/* --- CENTRAL LINE --- */}
         <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-[2px] bg-white/10 -translate-x-1/2 rounded-full" />
-        
-        {/* Animated Gradient Line */}
         <div 
           ref={lineRef}
           className="absolute left-4 md:left-1/2 top-0 w-[2px] bg-gradient-to-b from-[#ff9f20] via-[#ff9f20] to-[#0078f0] -translate-x-1/2 rounded-full shadow-[0_0_15px_#ff9f20]"
           style={{ 
-            height: '100%', // Height full rakho
-            transformOrigin: 'top center', // Scale upar se niche hoga
-            transform: 'scaleY(0)', // Initially 0
-            willChange: 'transform' // Browser hint
+            height: '100%', 
+            transformOrigin: 'top center', 
+            transform: 'scaleY(0)', 
+            willChange: 'transform' 
           }} 
         />
 
@@ -143,10 +134,15 @@ export default function AchievementTimeline() {
                 
                 {/* 1. CONTENT SIDE */}
                 <div className="flex-1 w-full pl-12 md:pl-0 md:px-12 mb-6 md:mb-0">
-                  <div className={`p-6 rounded-2xl bg-white/[0.03] border border-white/5 backdrop-blur-sm hover:border-[#ff9f20]/30 transition-all duration-300 group ${!isEven ? 'md:text-right' : 'text-left'}`}>
-                    <span className={`text-5xl font-black opacity-10 absolute top-2 ${!isEven ? 'right-4 md:left-4' : 'right-4'} ${item.color} select-none`}>
+                  {/* Logic Fix: Text Alignment ko side se match kiya */}
+                  <div className={`p-6 rounded-2xl bg-white/[0.03] border border-white/5 backdrop-blur-sm hover:border-[#ff9f20]/30 transition-all duration-300 group ${isEven ? 'md:text-right' : 'text-left'}`}>
+                    
+                    {/* --- FIXED YEAR LOGIC --- */}
+                    {/* Agar Text Right hai (isEven), to Year Left mein. Agar Text Left hai, to Year Right mein. */}
+                    <span className={`text-5xl font-black opacity-10 absolute -top-4 ${isEven ? 'right-4 md:left-4' : 'right-4'} ${item.color} select-none pointer-events-none`}>
                       {item.year}
                     </span>
+                    
                     <h4 className={`text-2xl font-bold text-white mb-2 relative z-10 ${item.color}`}>
                       {item.title}
                     </h4>
@@ -161,19 +157,18 @@ export default function AchievementTimeline() {
                   <div className={`w-3 h-3 rounded-full ${i % 2 === 0 ? 'bg-[#ff9f20]' : 'bg-[#0078f0]'} animate-pulse`} />
                 </div>
 
-                {/* 3. IMAGE SIDE (Optimized) */}
+                {/* 3. IMAGE SIDE */}
                 <div className="flex-1 w-full pl-12 md:pl-0 md:px-12">
                   <div className="relative rounded-2xl overflow-hidden aspect-video group border border-white/10 shadow-2xl transform-gpu">
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all duration-500 z-10" />
                     <img 
                       src={item.img} 
                       alt={item.title} 
-                      loading="lazy" // Lazy Load added
-                      width="600"    // Explicit dimensions prevent layout shift
+                      loading="lazy"
+                      width="600"
                       height="337"
                       className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0 will-change-transform"
                     />
-                    {/* Year badge for Mobile */}
                     <div className="md:hidden absolute bottom-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-md text-white font-bold text-sm border border-white/10">
                       {item.year}
                     </div>

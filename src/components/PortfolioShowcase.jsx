@@ -159,6 +159,7 @@ export default function PortfolioShowcase() {
   return (
     <section
       ref={sectionRef}
+      id="work"
       className="relative min-h-screen bg-[#050505] text-white overflow-hidden py-32 font-sans selection:bg-blue-500/30"
     >
       

@@ -3,133 +3,126 @@ import gsap from "https://esm.sh/gsap";
 
 export default function Navbar() {
   const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navRef = useRef(null);
   const mobileMenuRef = useRef(null);
+  const menuOverlayRef = useRef(null);
 
-  // --- SMART SCROLL LOGIC ---
+  // --- STRICT SCROLL LOGIC ---
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       
-      // Show navbar if at the very top OR scrolling UP
-      if (currentScrollY < 10) {
+      // Top 20px pe show, niche jate hi gayab
+      if (currentScrollY < 20) {
         setIsVisible(true);
-      } else if (currentScrollY > lastScrollY) {
-        // Scrolling DOWN -> Hide
-        setIsVisible(false);
-        setIsMobileMenuOpen(false); // Close mobile menu on scroll
       } else {
-        // Scrolling UP -> Show
-        setIsVisible(true);
+        setIsVisible(false);
+        setIsMobileMenuOpen(false);
       }
-
-      setLastScrollY(currentScrollY);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  }, []);
 
   // --- MOBILE MENU ANIMATION ---
   useEffect(() => {
+    const menu = mobileMenuRef.current;
+    const overlay = menuOverlayRef.current;
+    
     if (isMobileMenuOpen) {
-      gsap.to(mobileMenuRef.current, {
-        height: "auto",
-        opacity: 1,
-        duration: 0.5,
-        ease: "power3.out",
-      });
+      gsap.to(overlay, { autoAlpha: 1, duration: 0.3 });
+      gsap.to(menu, { y: 0, opacity: 1, duration: 0.5, ease: "power4.out" });
+      gsap.fromTo(".mobile-link", 
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, stagger: 0.1, duration: 0.4, delay: 0.1 }
+      );
     } else {
-      gsap.to(mobileMenuRef.current, {
-        height: 0,
-        opacity: 0,
-        duration: 0.4,
-        ease: "power3.in",
-      });
+      gsap.to(menu, { y: -20, opacity: 0, duration: 0.3, ease: "power3.in" });
+      gsap.to(overlay, { autoAlpha: 0, duration: 0.3 });
     }
   }, [isMobileMenuOpen]);
 
   return (
     <>
+      {/* --- FLOATING NAVBAR --- */}
       <nav
         ref={navRef}
-        className={`fixed top-0 left-0 w-full z-50 transition-transform duration-500 ease-in-out ${
-          isVisible ? "translate-y-0" : "-translate-y-full"
-        }`}
+        className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] 
+          ${isVisible ? "translate-y-0 opacity-100" : "-translate-y-[150%] opacity-0"}
+          w-[90%] md:w-auto md:min-w-[600px] max-w-6xl rounded-full`}
       >
-        {/* Glass Container */}
-        <div className="absolute inset-0border-b border-white/10" />
-        
-        {/* Top Gradient Line */}
-        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#0078f0] to-transparent opacity-50" />
+        {/* Glass Effect */}
+        <div className="absolute inset-0 bg-[#050505]/60 backdrop-blur-xl rounded-full border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.5)] overflow-hidden">
+             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-60" />
+        </div>
 
-        <div className="container mx-auto px-6 py-4 relative z-10 flex items-center justify-between">
+        <div className="relative px-6 py-3 md:py-2 flex items-center justify-between">
           
-          {/* --- LOGO --- */}
-          <a href="#" className="flex items-center gap-2 group">
-            {/* Replace src with your actual logo path */}
-            <div className="w-20 h-20 flex items-center justify-center  overflow-hidden group-hover:border-[#0078f0] transition-colors">
-               {/* Placeholder for Logo Image */}
-               <img 
-                 src="/images/Logo DSS RGB-01.png" 
-                 alt="Logo" 
-                 className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" 
-               />
-            </div>
-          
+          {/* --- LOGO IMAGE --- */}
+          <a href="#" className="flex items-center z-20">
+             {/* Yahan apna logo path lagayein */}
+             <img 
+               src="/images/logo.png" 
+               alt="Brand Logo" 
+               className="h-12 md:h-12 w-auto object-contain hover:opacity-80 transition-opacity" 
+             />
           </a>
 
           {/* --- DESKTOP LINKS --- */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-1 bg-white/5 rounded-full px-2 py-1.5 border border-white/5 ml-4">
             {['Work', 'Services', 'About', 'Insights'].map((link) => (
               <a 
                 key={link} 
                 href={`#${link.toLowerCase()}`} 
-                className="text-sm font-medium text-gray-400 hover:text-white transition-colors relative group"
+                className="px-5 py-1.5 text-xs font-medium text-gray-400 hover:text-white hover:bg-white/10 rounded-full transition-all duration-300"
               >
                 {link}
-                <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#ff9f20] transition-all duration-300 group-hover:w-full" />
               </a>
             ))}
           </div>
 
-          {/* --- CTA BUTTON & MOBILE TOGGLE --- */}
-          <div className="flex items-center gap-4">
-            
-            {/* Desktop CTA */}
+          {/* --- CTA & MOBILE TOGGLE --- */}
+          <div className="flex items-center gap-3 z-20">
             <a 
               href="#contact" 
-              className="hidden md:flex group relative px-6 py-2 bg-white text-black text-xs font-bold uppercase tracking-widest rounded-full overflow-hidden hover:scale-105 transition-transform"
+              className="hidden md:flex items-center gap-2 px-5 py-2 bg-white text-black text-[11px] font-bold uppercase tracking-widest rounded-full hover:bg-[#0078f0] hover:text-white transition-all duration-300 shadow-[0_0_20px_-5px_rgba(255,255,255,0.4)]"
             >
-              <span className="relative z-10 group-hover:text-white transition-colors duration-300">Let's Talk</span>
-              <div className="absolute inset-0 bg-[#0078f0] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+              Let's Talk
             </a>
 
             {/* Mobile Hamburger */}
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden w-10 h-10 flex flex-col justify-center items-center gap-1.5 group"
+              className="md:hidden w-10 h-10 flex flex-col justify-center items-center gap-1.5 group bg-white/10 rounded-full border border-white/5"
             >
-              <span className={`w-6 h-[2px] bg-white transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-              <span className={`w-6 h-[2px] bg-white transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-0' : ''}`} />
-              <span className={`w-6 h-[2px] bg-white transition-transform duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+              <span className={`w-4 h-[1.5px] bg-white transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`} />
+              <span className={`w-4 h-[1.5px] bg-white transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0 scale-0' : ''}`} />
+              <span className={`w-4 h-[1.5px] bg-white transition-all duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`} />
             </button>
           </div>
-        </div>
 
-        {/* --- MOBILE MENU DROPDOWN --- */}
-        <div 
-          ref={mobileMenuRef} 
-          className="md:hidden overflow-hidden h-0 bg-[#050505] border-b border-white/10"
-        >
-          <div className="flex flex-col items-center gap-6 py-8">
+        </div>
+      </nav>
+
+      {/* --- MOBILE MENU OVERLAY --- */}
+      <div 
+        ref={menuOverlayRef}
+        className="fixed inset-0 bg-black/80 backdrop-blur-md z-40 md:hidden opacity-0 invisible"
+        onClick={() => setIsMobileMenuOpen(false)}
+      />
+
+      <div 
+        ref={mobileMenuRef}
+        className="fixed top-24 left-4 right-4 z-40 md:hidden bg-[#0a0a0a] border border-white/10 rounded-3xl p-6 opacity-0 -translate-y-4 shadow-2xl origin-top"
+      >
+         <nav className="flex flex-col items-center gap-4">
             {['Work', 'Services', 'About', 'Insights'].map((link) => (
               <a 
                 key={link} 
                 href={`#${link.toLowerCase()}`} 
-                className="text-lg font-medium text-gray-300 hover:text-[#0078f0] transition-colors"
+                className="mobile-link text-lg font-medium text-gray-400 hover:text-white w-full text-center py-2 border-b border-white/5"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link}
@@ -137,15 +130,13 @@ export default function Navbar() {
             ))}
             <a 
               href="#contact" 
-              className="px-8 py-3 bg-white text-black font-bold uppercase tracking-widest text-xs rounded-full mt-4"
+              className="mobile-link mt-2 w-full py-3 bg-[#0078f0] text-white font-bold text-center rounded-xl uppercase text-xs tracking-widest"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Start Project
             </a>
-          </div>
-        </div>
-
-      </nav>
+         </nav>
+      </div>
     </>
   );
 }

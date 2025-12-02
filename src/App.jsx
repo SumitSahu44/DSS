@@ -4,10 +4,12 @@ import React, { Suspense, useEffect } from 'react'
 import CustomCursor from './components/CustomCursor.jsx'
 import Navbar from './components/Navbar.jsx'
 import PremiumHero from './components/PremiumHero.jsx'
+import TestimonialSection from './components/Testimonials.jsx'
+import Preloader from './components/Preloader.jsx'
 
 // --- 2. LAZY LOAD HEAVY COMPONENTS (Load only when needed) ---
 // Isse initial bundle size kam hoga aur browser hang nahi karega
-const NewAbout = React.lazy(() => import('./components/NewAbout.jsx'))
+const DssAbout = React.lazy(() => import('./components/DssAbout.jsx'))
 const AchievementTimeline = React.lazy(() => import('./components/Achivements.jsx'))
 const Deconstructed = React.lazy(() => import('./components/Deconstructed.jsx'))
 const ZeroToHeroScroll = React.lazy(() => import('./Zero-t-Hero.jsx'))
@@ -39,7 +41,10 @@ const App = () => {
   */
 
   return (
-    // 'overflow-hidden' zaruri hai taaki horizontal scroll na aaye
+    <>
+  
+    <Preloader />
+    
     <div className="w-full overflow-hidden bg-[#f5f2eb]"> 
       <CustomCursor />
       <Navbar />
@@ -47,18 +52,22 @@ const App = () => {
 
       {/* Suspense wrapper heavy components ko handle karega */}
       <Suspense fallback={<Loader />}>
-        {/* <NewAbout /> */}
+        <DssAbout />
         <AchievementTimeline />
         <Deconstructed />
         <ZeroToHeroScroll />
         <PortfolioShowcase />
-        <Clients />
         <NewVisionMission />
+         <Clients />
         <UGCTestimonials />
+        <TestimonialSection />
         <ContactSection />
         <CreativeFooter />
       </Suspense>
     </div>
+      
+    
+    </>
   )
 }
 
