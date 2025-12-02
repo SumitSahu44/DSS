@@ -145,7 +145,7 @@ export default function ServicesSection() {
       cards.forEach((card, i) => {
         gsap.set(card, { 
           zIndex: totalCards - i, 
-          scale: i === 0 ? 1 : 0.9 + (0.01 * (totalCards - 1 - i)), // Stack visual effect
+          scale: i === 0 ? 1 : 0.9 + (0.01 * (totalCards - 1 - i)), 
           y: i === 0 ? 0 : 15 * i, 
           filter: i === 0 ? 'brightness(1) blur(0px)' : 'brightness(0.5) blur(2px)', 
           opacity: 1
@@ -156,13 +156,22 @@ export default function ServicesSection() {
         scrollTrigger: {
           trigger: container,
           start: "top top",
-          // CHANGE: Drastically reduced scroll distance. 
-          // 350% means very little scrolling required to get through all cards.
-          end: "+=350%", 
+          // INCREASED SCROLL LENGTH: User needs to scroll more to pass through all cards.
+          // This prevents "flying through" on mobile.
+          end: "+=2000%", 
           pin: true,
-          // CHANGE: Faster scrub response (0.5s instead of 1s)
-          scrub: 0.5, 
+          scrub: 1, // Smoother control
           anticipatePin: 1,
+          
+          // --- SNAPPING LOGIC (Magic Fix) ---
+          // This forces the scroll to stop exactly on a card, not in between.
+          snap: {
+            snapTo: 1 / (totalCards - 1), // Snap to each card step
+            duration: { min: 0.2, max: 0.3 }, // Snap speed
+            delay: 0.1, // Wait 0.1s after scrolling stops before snapping
+            ease: "power1.inOut"
+          },
+
           onUpdate: (self) => {
              const progress = self.progress;
              const rawIndex = Math.floor(progress * totalCards); 
@@ -177,7 +186,7 @@ export default function ServicesSection() {
         const currentCard = cards[i];
         const nextCard = cards[i + 1];
 
-        // Fly Away Logic
+        // Animate Current Card
         tl.to(currentCard, {
           y: -window.innerHeight * 1.5, 
           rotationX: -40,              
@@ -185,9 +194,10 @@ export default function ServicesSection() {
           opacity: 0,
           scale: 0.9,
           duration: 1, 
-          ease: "power1.inOut", // Snappier ease
+          ease: "power2.inOut",
         });
 
+        // Focus Next Card
         if (nextCard) {
             tl.to(nextCard, {
             scale: 1,              
@@ -199,8 +209,8 @@ export default function ServicesSection() {
         }
       }
 
-      // NO BUFFER: Immediate release so next section comes up instantly
-      tl.to({}, { duration: 0.01 });
+      // Small Buffer so the last card stays for a moment
+      tl.to({}, { duration: 0.1 });
 
     }, containerRef);
 
