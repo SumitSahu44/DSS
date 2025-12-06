@@ -35,18 +35,20 @@ const HeroSection = () => {
     // Coordinates ko image ke center ke pass rakha hai (Max X: 340, Max Y: 150)
     // Isse wo image box se bahar nahi jayenge.
     return [
-        { number: "500+", label: "Happy Clients", x: -280, y: -190 }, // Top Left
-        { number: "8+", label: "Years Exp.", x: 280, y: -200 },       // Top Right
+        { number: "950+", label: "Happy Clients", x: -280, y: -190 }, // Top Left
+        { number: "5+", label: "Years Exp.", x: 280, y: -200 },       // Top Right
         
-        { number: "320+", label: "Projects", x: -340, y: -40 },        // Mid Left (Wider)
-        { number: "10+", label: "Global", x: 340, y: -50 },            // Mid Right (Wider)
+        { number: "1600+", label: "Projects", x: -340, y: -40 },        // Mid Left (Wider)
+        { number: "40+", label: "Industry", x: 340, y: -50 },            // Mid Right (Wider)
         
-        { number: "₹20Cr", label: "Revenue", x: -220, y: 100 },       // Bottom Left (Closer)
+        { number: "₹10Cr+", label: "Revenue", x: -220, y: 100 },       // Bottom Left (Closer)
         { number: "4.9", label: "Rating", x: 220, y: 100 },           // Bottom Right (Closer)
     ];
   }, []);
 
   // --- 3. ANIMATION LOGIC ---
+// --- 3. ANIMATION LOGIC (UPDATED & FIXED) ---
+ // --- 3. ANIMATION LOGIC (FIXED) ---
   useEffect(() => {
     if (!isGsapReady || !sectionRef.current) return;
 
@@ -58,58 +60,54 @@ const HeroSection = () => {
 
     let ctx = gsap.context(() => {
       
-      // 1. Initial Setup: Sabko CENTER me chupao (Scale 0)
+      // 1. Initial State: Center me chupao
       gsap.set(statsEls, {
-        x: 0, 
-        y: 0, 
-        scale: 0, 
-        opacity: 0,
-        xPercent: -50, 
-        yPercent: -50,
-        position: "absolute", 
-        left: "50%", 
-        top: "50%",
+        x: 0, y: 0, scale: 0, opacity: 0,
+        xPercent: -50, yPercent: -50,
+        position: "absolute", left: "50%", top: "50%",
       });
 
-      // 2. EXPLOSION ANIMATION (Center se bahar nikalna)
+      // 2. EXPLOSION ANIMATION
       const statsTl = gsap.timeline({
         scrollTrigger: {
           trigger: imageContainerRef.current,
-          start: "top 75%", // Jaise hi image view me aayegi
+          start: "top 70%",
         }
       });
 
       statsTl.to(statsEls, {
-        x: (i, target) => target.dataset.finalX, // Apni-apni jagah jao
-        y: (i, target) => target.dataset.finalY,
+        // --- YE HAI MAIN FIX ---
+        // Hum dataset (HTML) use nahi kar rahe, seedha 'stats' array use kar rahe hain
+        x: (i) => stats[i]?.x || 0,  
+        y: (i) => stats[i]?.y || 0,
+        // ----------------------
         scale: 1,
         opacity: 1,
         duration: 1.4,
-        stagger: 0.08, // Ek ke baad ek niklenge
-        ease: "elastic.out(1, 0.6)", // Bouncy effect
+        stagger: 0.08,
+        ease: "elastic.out(1, 0.6)",
         force3D: true,
       });
 
-      // 3. GENTLE FLOATING (Bahar nikalne ke baad halka sa hilna)
+      // 3. FLOAT ANIMATION
       statsEls.forEach((stat, i) => {
         gsap.to(stat, {
-          y: `+=${8 + Math.random() * 5}`, // Bohat subtle movement (8-13px)
-          x: `+=${3 + Math.random() * 3}`, // Thoda sa left-right bhi
+          y: `+=${10 + Math.random() * 5}`, 
+          x: `+=${5 + Math.random() * 5}`, 
+          rotation: Math.random() * 4 - 2, // Thoda sa rotation natural feel ke liye
           duration: 2 + Math.random(), 
           repeat: -1,
           yoyo: true,
           ease: "sine.inOut",
-          delay: 1.4 + (i * 0.1), // Explosion ke baad start hoga
+          delay: 1.4 + (i * 0.1),
         });
       });
 
-      // 4. Hero Title Animation
+      // 4. TEXT ANIMATIONS (Optional - aapka purana code yaha rakh sakte hain)
       gsap.fromTo(".hero-title .char-line", 
-        { y: 100, opacity: 0, rotateX: -20 }, 
-        { y: 0, opacity: 1, rotateX: 0, duration: 1.2, stagger: 0.1, ease: "power3.out" }
+        { y: 100, opacity: 0 }, 
+        { y: 0, opacity: 1, duration: 1.2, stagger: 0.1, ease: "power3.out" }
       );
-      
-      // 5. Button Animation
       gsap.fromTo(".hero-cta", 
         { scale: 0.9, opacity: 0, y: 20 }, 
         { scale: 1, opacity: 1, y: 0, duration: 0.8, ease: "back.out(1.5)", delay: 0.6 }
@@ -117,9 +115,11 @@ const HeroSection = () => {
 
     }, sectionRef);
 
-    return () => ctx.revert();
-  }, [isGsapReady, stats]);
+    // FIX: Refresh ScrollTrigger after a small delay to ensure positions are correct
+    setTimeout(() => ScrollTrigger.refresh(), 500);
 
+    return () => ctx.revert();
+  }, [isGsapReady, stats]); // 'stats' dependency zaroori hai
   return (
     <section
       ref={sectionRef}

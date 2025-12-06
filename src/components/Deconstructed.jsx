@@ -156,16 +156,11 @@ export default function ServicesSection() {
         scrollTrigger: {
           trigger: container,
           start: "top top",
-          // ADJUSTED SCROLL LENGTH:
-          // 1000% = ~10 screens of scrolling. 
-          // For 7 cards, this is roughly 1.5 screen scroll per card, which feels like "1 slide" per scroll action.
-          // It's much faster than 2000% but slow enough to be controlled.
-          end: "+=1000%", 
+          end: "+=1200%", // Slightly longer for smoother feeling
           pin: true,
-          scrub: 0.5, // Faster scrub for snappier feel
+          scrub: 0.5,
           anticipatePin: 1,
           
-          // --- SNAPPING LOGIC ---
           snap: {
             snapTo: 1 / (totalCards - 1),
             duration: { min: 0.2, max: 0.4 }, 
@@ -210,7 +205,7 @@ export default function ServicesSection() {
         }
       }
 
-      // Small Buffer so the last card stays for a moment
+      // Small Buffer
       tl.to({}, { duration: 0.1 });
 
     }, containerRef);
@@ -218,114 +213,167 @@ export default function ServicesSection() {
     return () => ctx.revert();
   }, [isGsapReady]);
 
+  // Get active service details safely
+  const currentService = services[activeCard - 1] || services[0];
+
   return (
     <section 
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative h-screen w-full pt-6 pb-6 bg-[#050505] overflow-hidden flex flex-col items-center justify-center font-sans"
+      className="relative h-screen w-full bg-[#050505] overflow-hidden flex flex-col items-center justify-center font-sans"
       id="services"
     >
       
-      {/* --- BACKGROUND --- */}
+      {/* --- BACKGROUND ELEMENTS --- */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-[#050505]" />
-        <div className="absolute top-[-10%] left-[-10%] w-[70vw] h-[70vw] md:w-[40vw] md:h-[40vw] bg-[#0078f0] rounded-full blur-[100px] opacity-20" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[70vw] h-[70vw] md:w-[40vw] md:h-[40vw] bg-[#ff9f20] rounded-full blur-[100px] opacity-15" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:50px_50px]" />
+        {/* Dynamic Glow based on active card color */}
+        <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] md:w-[40vw] md:h-[40vw] rounded-full blur-[120px] opacity-20 transition-colors duration-700 ${currentService.bgAccent}`} />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px]" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#050505]" />
       </div>
 
-      {/* --- HEADER --- */}
-      <div className="absolute top-8 md:top-10 z-20 text-center w-full px-6">
-        <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter mb-3 drop-shadow-lg">
-          Our Services
-        </h2>
-        <div className="h-1 w-24 bg-gradient-to-r from-transparent via-[#0078f0] to-transparent mx-auto rounded-full" />
-      </div>
+      {/* --- MAIN LAYOUT GRID --- */}
+     <div className="relative z-10 w-full max-w-[1600px] h-full 
+     flex flex-col items-center justify-start 
+     md:flex-row md:justify-between 
+     px-4 sm:px-6 md:px-12 py-10">  
+        {/* === LEFT COLUMN: INFO & HEADER (Desktop only mostly) === */}
+        <div className="hidden md:flex flex-1 flex-col justify-center h-full pr-10">
+          <div className="mb-8">
+             <div className="flex items-center gap-3 mb-4">
+                 <div className="h-[2px] w-12 bg-white/30"></div>
+                 <span className="text-white/50 uppercase tracking-[0.2em] text-sm">Our Expertise</span>
+             </div>
+             <h2 className="text-5xl lg:text-7xl font-bold text-white leading-tight">
+               Our <br/>
+               <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">
+                 Services
+               </span>
+             </h2>
+          </div>
 
-      {/* --- PROGRESS COUNTER --- */}
-      <div className="absolute right-6 top-1/2 -translate-y-1/2 z-20 hidden md:flex flex-col gap-4 items-center">
-         <div className="text-white/20 text-sm font-mono rotate-90 origin-center translate-x-2">Step</div>
-         <div className="w-[1px] h-12 bg-white/10" />
-         <span className="text-2xl font-bold text-white tabular-nums">{`0${activeCard}`}</span>
-         <div className="w-[1px] h-12 bg-white/10" />
-         <span className="text-sm font-bold text-white/30">07</span>
-      </div>
-
-      {/* --- CARDS STACK CONTAINER --- */}
-      <div 
-        ref={stackWrapperRef}
-        className="relative z-10 mt-16 w-[85vw] h-[60vh] md:w-[420px] md:h-[620px]"
-        style={{ perspective: '1200px' }} 
-      >
-        
-        <div className="relative w-full h-full transform-style-3d">
-          {services.map((service, index) => {
-            const Icon = service.icon;
-            return (
-                <div
-                key={index}
-                ref={el => cardsRef.current[index] = el}
-                className={`absolute inset-0 rounded-[2rem] p-8 flex flex-col border border-white/10 shadow-2xl overflow-hidden bg-gradient-to-br ${service.theme}`}
-                style={{ 
-                    boxShadow: '0 0 0 1px rgba(255,255,255,0.05), 0 25px 60px -15px rgba(0,0,0,0.6)',
-                    willChange: 'transform, opacity'
-                }}
-                >
-                
-                {/* 1. TOP SECTION: ID & ICON */}
-                <div className="flex justify-between items-start w-full relative z-10 shrink-0">
-                    <span className={`text-6xl md:text-7xl font-black opacity-20 tracking-tighter select-none ${service.accent}`}>
-                    {service.id}
-                    </span>
-                    
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center bg-white/5 backdrop-blur-md border border-white/10 ${service.accent}`}>
-                        <Icon size={24} />
-                    </div>
-                </div>
-
-                {/* 2. MIDDLE SECTION: BULLET POINTS */}
-                <div className="relative z-10 my-auto py-2">
-                    <div className="flex flex-col gap-2">
-                        {service.features.map((feature, i) => (
-                            <div key={i} className="flex items-center gap-3">
-                                <div className={`p-0.5 rounded-full bg-white/10 shrink-0 ${service.accent}`}>
-                                    <Check size={10} />
-                                </div>
-                                <span className="text-white/70 text-xs md:text-sm font-medium tracking-wide leading-tight">
-                                    {feature}
-                                </span>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                {/* 3. BACKGROUND GLOW */}
-                <div className={`absolute -right-20 -top-20 w-64 h-64 rounded-full opacity-10 ${service.bgAccent}`} />
-
-                {/* 4. BOTTOM SECTION: TITLE & DESC */}
-                <div className="relative z-10 mt-auto shrink-0">
-                    <div className={`w-10 h-1 mb-4 rounded-full ${service.bgAccent}`} />
-                    <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 leading-tight">
-                    {service.title}
-                    </h3>
-                    <p className="text-gray-300 text-xs md:text-sm font-light leading-relaxed mb-4 line-clamp-2 md:line-clamp-3">
-                    {service.desc}
-                    </p>
-
-                    <div className={`flex items-center gap-2 text-xs font-bold uppercase tracking-widest cursor-pointer group ${service.accent}`}>
-                    <span>Explore</span>
-                    <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                    </div>
-                </div>
-
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent opacity-50 pointer-events-none rounded-[2rem]" />
-                </div>
-            );
-          })}
+          {/* Large Counter */}
+          <div className="relative">
+             <span className="text-[180px] font-black text-white/5 leading-none select-none absolute -top-20 -left-10">
+               {currentService.id}
+             </span>
+             <div className="relative z-10 mt-12">
+               <p className="text-gray-400 text-lg max-w-sm leading-relaxed border-l-2 border-white/10 pl-6">
+                 Scroll through our specialized services designed to elevate your brand in the digital landscape.
+               </p>
+             </div>
+          </div>
         </div>
-        
+
+
+        {/* === CENTER COLUMN: THE CARD STACK === */}
+        <div className="flex flex-col md:flex-shrink-0 w-full md:w-[450px] flex items-center justify-center h-full pt-10 md:pt-0">
+          
+          {/* Mobile Header (Only visible on small screens) */}
+          <div className="md:hidden text-center mb-8">
+             <h2 className="text-4xl font-bold text-white mb-2">Our Services</h2>
+             <div className="text-white/40 text-sm">Swipe to explore</div>
+          </div>
+
+          <div 
+            ref={stackWrapperRef}
+            className="relative w-full aspect-[3/4] md:w-[420px] md:h-[620px]"
+            style={{ perspective: '1200px' }} 
+          >
+            <div className="relative w-full h-full transform-style-3d">
+              {services.map((service, index) => {
+                const Icon = service.icon;
+                return (
+                    <div
+                    key={index}
+                    ref={el => cardsRef.current[index] = el}
+                    className={`absolute inset-0 rounded-[2rem] p-8 flex flex-col border border-white/10 shadow-2xl overflow-hidden bg-gradient-to-br ${service.theme}`}
+                    style={{ 
+                        boxShadow: '0 0 0 1px rgba(255,255,255,0.05), 0 25px 60px -15px rgba(0,0,0,0.6)',
+                        willChange: 'transform, opacity'
+                    }}
+                    >
+                    
+                    {/* CARD CONTENT (Same as before) */}
+                    <div className="flex justify-between items-start w-full relative z-10 shrink-0">
+                        <span className={`text-6xl md:text-7xl font-black opacity-20 tracking-tighter select-none ${service.accent}`}>
+                        {service.id}
+                        </span>
+                        
+                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center bg-white/5 backdrop-blur-md border border-white/10 ${service.accent}`}>
+                            <Icon size={24} />
+                        </div>
+                    </div>
+
+                    <div className="relative z-10 my-auto py-2">
+                        <div className="flex flex-col gap-2">
+                            {service.features.map((feature, i) => (
+                                <div key={i} className="flex items-center gap-3">
+                                    <div className={`p-0.5 rounded-full bg-white/10 shrink-0 ${service.accent}`}>
+                                        <Check size={10} />
+                                    </div>
+                                    <span className="text-white/70 text-xs md:text-sm font-medium tracking-wide leading-tight">
+                                        {feature}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className={`absolute -right-20 -top-20 w-64 h-64 rounded-full opacity-10 ${service.bgAccent}`} />
+
+                    <div className="relative z-10 mt-auto shrink-0">
+                        <div className={`w-10 h-1 mb-4 rounded-full ${service.bgAccent}`} />
+                        <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 leading-tight">
+                        {service.title}
+                        </h3>
+                        <p className="text-gray-300 text-xs md:text-sm font-light leading-relaxed mb-4 line-clamp-2">
+                        {service.desc}
+                        </p>
+
+                        <div className={`flex items-center gap-2 text-xs font-bold uppercase tracking-widest cursor-pointer group ${service.accent}`}>
+                        <span>Explore</span>
+                        <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                        </div>
+                    </div>
+
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent opacity-50 pointer-events-none rounded-[2rem]" />
+                    </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+
+        {/* === RIGHT COLUMN: NAVIGATION LIST (Desktop Only) === */}
+        <div className="hidden md:flex flex-1 flex-col justify-center h-full pl-16">
+           <div className="flex flex-col gap-4 relative">
+              {/* Vertical Line */}
+              <div className="absolute left-[7px] top-0 bottom-0 w-[1px] bg-white/10" />
+              
+              {services.map((s, idx) => {
+                 const isActive = idx + 1 === activeCard;
+                 return (
+                   <div 
+                      key={idx} 
+                      className={`group flex items-center gap-6 cursor-pointer transition-all duration-300 ${isActive ? 'translate-x-2' : ''}`}
+                      // Optional: You could add click to scroll functionality here if you added a scrollTo method
+                   >
+                      <div className={`relative z-10 w-4 h-4 rounded-full border-2 transition-all duration-300 ${isActive ? `bg-[#050505] border-${s.accent.split('-')[1]}-500 scale-125` : 'bg-[#050505] border-white/20'}`}>
+                         {isActive && <div className={`absolute inset-0 m-auto w-1.5 h-1.5 rounded-full ${s.bgAccent}`} />}
+                      </div>
+                      <span className={`text-lg font-medium transition-colors duration-300 ${isActive ? 'text-white' : 'text-white/30 group-hover:text-white/60'}`}>
+                         {s.title}
+                      </span>
+                   </div>
+                 )
+              })}
+           </div>
+        </div>
+
       </div>
 
     </section>

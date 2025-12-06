@@ -135,7 +135,7 @@ export default function ClientsGrid() {
             <div
               key={logo.id}
               ref={(el) => (cardsRef.current[i] = el)}
-              className="group relative h-32 sm:h-40 bg-[#050505] hover:bg-[#0a0a0a] transition-colors duration-500 flex items-center justify-center p-6"
+              className="group relative h-32 sm:h-40 bg-[#050505] hover:bg-[#0a0a0a] transition-colors duration-500 flex items-center justify-center p-6 "
             >
               
               {/* 1. FLASHLIGHT BORDER REVEAL */}

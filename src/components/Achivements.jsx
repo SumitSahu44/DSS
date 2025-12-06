@@ -4,38 +4,53 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const milestones = [
+// Updated Data: Working Process Steps
+const processSteps = [
   {
-    year: "2020",
-    title: "The Inception",
-    desc: "Started with a single laptop and a vision in a small garage in Indore. We secured our first 10 local clients within 3 months.",
+    number: "01",
+    title: "Requirement Understanding",
+    desc: "We begin by diving deep into your vision. We analyze your goals, target audience, and current challenges to ensure we are building the right solution for your business needs.",
     color: "text-[#ff9f20]", 
-    img: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=600"
+    img: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=600" // Meeting/Discussion
   },
   {
-    year: "2021",
-    title: "Scaling Up",
-    desc: "Expanded to a team of 10. Delivered 50+ websites and hit the milestone of ₹1 Cr in ad spends managed for clients.",
+    number: "02",
+    title: "Research & Strategy",
+    desc: "Data-driven decisions are our forte. We conduct competitor analysis and market research to craft a comprehensive roadmap and strategy that guarantees success.",
     color: "text-[#0078f0]", 
-    img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=600"
+    img: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&q=80&w=600" // Planning/Strategy
   },
   {
-    year: "2023",
-    title: "National Recognition",
-    desc: "Awarded 'Best Emerging Agency'. Partnered with 50+ Brands across India. Opened our new HQ with a team of 25+ creative minds.",
+    number: "03",
+    title: "Design & Content",
+    desc: "Visual storytelling meets user experience. Our designers create stunning UI/UX wireframes while our copywriters craft compelling content that speaks your brand voice.",
     color: "text-[#ff9f20]", 
-    img: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=600"
+    img: "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&q=80&w=600" // Design/Art
   },
   {
-    year: "2025",
-    title: "Global Impact",
-    desc: "Crossed 1600+ Projects. Serving clients in 4 countries. Launched our proprietary AI-marketing tools. The sky is just the beginning.",
+    number: "04",
+    title: "Development & Execution",
+    desc: "This is where magic happens. We code using scalable, modern technologies (React, Node, etc.) ensuring your platform is fast, secure, and responsive across all devices.",
     color: "text-[#0078f0]", 
-    img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=600"
+    img: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600" // Coding
+  },
+  {
+    number: "05",
+    title: "Testing & Optimization",
+    desc: "Perfection is in the details. We perform rigorous QA testing, fix bugs, optimize performance, and ensure SEO readiness before the product ever sees the light of day.",
+    color: "text-[#ff9f20]", 
+    img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=600" // Analytics/Testing
+  },
+  {
+    number: "06",
+    title: "Final Delivery & Support",
+    desc: "We don't just launch and leave. After successful deployment, we provide training, documentation, and ongoing support to ensure your continued growth.",
+    color: "text-[#0078f0]", 
+    img: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=600" // Handshake/Success
   }
 ];
 
-export default function AchievementTimeline() {
+export default function WorkingProcess() {
   const containerRef = useRef(null);
   const lineRef = useRef(null);
   
@@ -44,6 +59,7 @@ export default function AchievementTimeline() {
     
     let ctx = gsap.context(() => {
       
+      // Central Line Animation
       gsap.fromTo(lineRef.current, 
         { scaleY: 0 },
         {
@@ -59,7 +75,8 @@ export default function AchievementTimeline() {
         }
       );
 
-      const items = gsap.utils.toArray('.milestone-item');
+      // Card Items Animation
+      const items = gsap.utils.toArray('.process-item');
       
       items.forEach((item) => {
         gsap.fromTo(item, 
@@ -89,21 +106,24 @@ export default function AchievementTimeline() {
       
       {/* Background Glows */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-[20%] left-[-10%] w-[500px] h-[500px] bg-[#ff9f20]/5 rounded-full blur-[100px] will-change-transform" />
-        <div className="absolute bottom-[20%] right-[-10%] w-[500px] h-[500px] bg-[#0078f0]/5 rounded-full blur-[100px] will-change-transform" />
+        <div className="absolute top-[10%] left-[-10%] w-[500px] h-[500px] bg-[#ff9f20]/5 rounded-full blur-[100px]" />
+        <div className="absolute bottom-[20%] right-[-10%] w-[500px] h-[500px] bg-[#0078f0]/5 rounded-full blur-[100px]" />
       </div>
 
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto mb-20 relative z-10">
         <h2 className="text-[#ff9f20] font-bold tracking-[0.2em] uppercase text-sm mb-4">
-          Our Journey
+          How We Work
         </h2>
         <h3 className="text-4xl md:text-5xl font-bold text-white">
-          From Humble Beginnings to <br/>
+          Our Streamlined <br/>
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff9f20] to-[#0078f0]">
-            Market Leaders
+            Working Process
           </span>
         </h3>
+        <p className="mt-4 text-gray-400 text-lg">
+          From concept to completion, we follow a structured approach to ensure quality and efficiency.
+        </p>
       </div>
 
       <div ref={containerRef} className="max-w-6xl mx-auto relative min-h-[100vh]">
@@ -121,26 +141,24 @@ export default function AchievementTimeline() {
           }} 
         />
 
-        {/* --- MILESTONE CARDS --- */}
+        {/* --- PROCESS STEPS --- */}
         <div className="space-y-16 md:space-y-24 pb-20">
-          {milestones.map((item, i) => {
+          {processSteps.map((item, i) => {
             const isEven = i % 2 === 0;
             return (
               <div 
                 key={i} 
-                className={`milestone-item relative flex flex-col md:flex-row items-center ${isEven ? 'md:flex-row-reverse' : ''}`}
+                className={`process-item relative flex flex-col md:flex-row items-center ${isEven ? 'md:flex-row-reverse' : ''}`}
                 style={{ opacity: 0 }} 
               >
                 
                 {/* 1. CONTENT SIDE */}
                 <div className="flex-1 w-full pl-12 md:pl-0 md:px-12 mb-6 md:mb-0">
-                  {/* Logic Fix: Text Alignment ko side se match kiya */}
                   <div className={`p-6 rounded-2xl bg-white/[0.03] border border-white/5 backdrop-blur-sm hover:border-[#ff9f20]/30 transition-all duration-300 group ${isEven ? 'md:text-right' : 'text-left'}`}>
                     
-                    {/* --- FIXED YEAR LOGIC --- */}
-                    {/* Agar Text Right hai (isEven), to Year Left mein. Agar Text Left hai, to Year Right mein. */}
-                    <span className={`text-5xl font-black opacity-10 absolute -top-4 ${isEven ? 'right-4 md:left-4' : 'right-4'} ${item.color} select-none pointer-events-none`}>
-                      {item.year}
+                    {/* --- STEP NUMBER --- */}
+                    <span className={`text-6xl font-black opacity-[0.07] absolute -top-6 ${isEven ? 'right-4 md:left-4' : 'right-4'} ${item.color} select-none pointer-events-none font-sans`}>
+                      {item.number}
                     </span>
                     
                     <h4 className={`text-2xl font-bold text-white mb-2 relative z-10 ${item.color}`}>
@@ -160,7 +178,7 @@ export default function AchievementTimeline() {
                 {/* 3. IMAGE SIDE */}
                 <div className="flex-1 w-full pl-12 md:pl-0 md:px-12">
                   <div className="relative rounded-2xl overflow-hidden aspect-video group border border-white/10 shadow-2xl transform-gpu">
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all duration-500 z-10" />
+                    <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-all duration-500 z-10" />
                     <img 
                       src={item.img} 
                       alt={item.title} 
@@ -170,7 +188,7 @@ export default function AchievementTimeline() {
                       className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0 will-change-transform"
                     />
                     <div className="md:hidden absolute bottom-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-md text-white font-bold text-sm border border-white/10">
-                      {item.year}
+                      Step {item.number}
                     </div>
                   </div>
                 </div>

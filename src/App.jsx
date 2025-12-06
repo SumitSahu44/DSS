@@ -53,9 +53,10 @@ const App = () => {
       {/* Suspense wrapper heavy components ko handle karega */}
       <Suspense fallback={<Loader />}>
         <DssAbout />
+         <Deconstructed />
         <AchievementTimeline />
-        <Deconstructed />
-        <ZeroToHeroScroll />
+       
+        {/* <ZeroToHeroScroll /> */}
         <PortfolioShowcase />
         <NewVisionMission />
          <Clients />
