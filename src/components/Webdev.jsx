@@ -1,119 +1,159 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import { 
-  ShoppingCart, Database, MousePointerClick, 
-  User, Store, Layers, CheckCircle2, 
+  ShoppingCart, Database, Target, 
+  UserCircle, Store, Palette, 
   Building2, Stethoscope, Briefcase, Utensils, 
-  GraduationCap
+  ArrowRight, Layers, TrendingUp, 
+  Sparkles, Zap, Shield, Rocket, 
+  Code, Server, Layout, Globe, 
+  Check, ChevronRight, Star
 } from "lucide-react";
 
-// --- CUSTOM ICON COMPONENTS FOR TECH STACK ---
-const TechIcon = ({ name, path, color }) => (
-  <div className="group flex flex-col items-center gap-2 p-4 rounded-xl bg-white/5 border border-white/5 hover:border-white/10 hover:bg-white/10 transition-all duration-300 w-24 h-24 justify-center">
-    <svg viewBox="0 0 24 24" className={`w-8 h-8 ${color} group-hover:scale-110 transition-transform`} fill="currentColor">
-      {path}
-    </svg>
-    <span className="text-[10px] uppercase tracking-wider text-zinc-500 group-hover:text-zinc-300">{name}</span>
+// Animated Tech Icon Component
+const TechIcon = ({ name, Icon, color, delay = 0 }) => (
+  <div 
+    className="group relative"
+    style={{ animationDelay: `${delay}ms` }}
+  >
+    <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-cyan-500/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-all duration-500" />
+    <div className="relative flex flex-col items-center gap-2 p-5 rounded-xl bg-[#0a1628]/60 backdrop-blur-md border border-blue-500/20 hover:border-cyan-400/40 hover:bg-[#0d1d35]/80 transition-all duration-500 w-28 h-28 justify-center hover:scale-110 hover:shadow-lg hover:shadow-blue-500/20">
+      <Icon className={`w-8 h-8 ${color} group-hover:scale-110 transition-transform duration-500`} strokeWidth={1.5} />
+      <span className="text-[10px] uppercase tracking-wider font-bold text-gray-400 group-hover:text-white transition-colors">{name}</span>
+    </div>
   </div>
 );
 
-// --- CUSTOMIZED CONTENT ---
+// Floating Particles
+const FloatingParticles = () => (
+  <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    {[...Array(30)].map((_, i) => (
+      <div
+        key={i}
+        className="absolute w-1 h-1 bg-cyan-400/40 rounded-full animate-float"
+        style={{
+          left: `${Math.random() * 100}%`,
+          top: `${Math.random() * 100}%`,
+          animationDelay: `${Math.random() * 5}s`,
+          animationDuration: `${5 + Math.random() * 10}s`
+        }}
+      />
+    ))}
+  </div>
+);
+
+// Grid Background
+const GridBackground = () => (
+  <div className="absolute inset-0 pointer-events-none opacity-30">
+    <div 
+      className="absolute inset-0"
+      style={{
+        backgroundImage: `
+          linear-gradient(rgba(0,150,255,0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0,150,255,0.08) 1px, transparent 1px)
+        `,
+        backgroundSize: '40px 40px'
+      }}
+    />
+  </div>
+);
+
 const serviceData = {
-  subtitle: "Build a Powerful Online Presence",
-  title: "Website Development Company in Indore",
-  introHead: "Aaj ke digital time me website sirf ek online brochure nahi hoti.",
-  introBody: "Website aapke business ka digital showroom, sales executive aur brand identity hoti hai. Customer impression website se hi banata hai — aur wahi impression decide karta hai ki visitor lead banega ya competitor ke paas chala jayega.",
-  description: "Digital Success Solution me hum sirf websites design aur develop nahi karte, balki aise e-commerce platforms build karte hain jo directly sales aur business growth ko support karen. Hamara focus har client ke liye ek aisi website banana hota hai jo user-friendly ho, fast ho aur conversion-optimized ho.",
+  hero: {
+    title: "Website Development Company in Indore",
+    subtitle: "Build a Powerful Online Presence",
+    intro: "In today's digital age, a website isn't just an online brochure. A website is your business's digital showroom, sales executive, and brand identity. Customer impressions are formed through the website—and that impression determines whether a visitor converts into a lead or moves on to a competitor.",
+    desc: "At Digital Success Solutions, we don't just design and develop websites, but also build e-commerce platforms that directly support sales and business growth. Our focus is on creating a website for each client that is user-friendly, fast, and conversion-optimized.",
+    ctaText: "So you need a high-quality, fast, mobile-friendly, and conversion-optimized website."
+  },
 
   types: [
     {
-      title: "Business & Corporate",
-      desc: "Business aur corporate websites ka use company ki professional image build karne ke liye kiya jata hai. Ye websites brand trust aur client enquiries badhane me madad karti hain.",
-      icon: <Building2 />,
-      gradient: "from-blue-500/20 to-purple-500/20"
+      title: "Business & Corporate Websites",
+      desc: "Business and corporate websites are used to project a professional image for a company. They clearly display services, company profiles, and contact details. These websites help build brand trust and increase client inquiries.",
+      icon: Building2,
+      color: "text-blue-400"
     },
     {
-      title: "E-Commerce Stores",
-      desc: "Products ko online sell karne ke liye secure payment gateway aur smooth checkout process wali websites. Ye websites direct sales badhane me help karti hain.",
-      icon: <ShoppingCart />,
-      gradient: "from-emerald-500/20 to-teal-500/20"
+      title: "E-Commerce Websites",
+      desc: "E-commerce websites are designed to sell products or services online. They feature product listings, secure payment gateways, and a smooth checkout process. These websites help increase direct sales and scale businesses quickly.",
+      icon: ShoppingCart,
+      color: "text-cyan-400"
     },
     {
       title: "Dynamic Websites",
-      desc: "Growing businesses ke liye best jahan regular changes ki zarurat hoti hai. Admin panel ke through content control simple aur fast hota hai.",
-      icon: <Database />,
-      gradient: "from-orange-500/20 to-red-500/20"
+      desc: "Dynamic websites me content ko easily update aur manage kiya ja sakta hai. Ye websites growing businesses ke liye best hoti hain jahan regular changes aur updates ki zarurat hoti hai. Admin panel ke through content control simple aur fast hota hai.",
+      icon: Database,
+      color: "text-indigo-400"
     },
     {
-      title: "High-Convert Landing Pages",
-      desc: "Ads aur lead generation campaigns ke liye specialized pages. High-converting design aur strong CTA ke sath ye enquiries aur sales badhate hain.",
-      icon: <MousePointerClick />,
-      gradient: "from-pink-500/20 to-rose-500/20"
+      title: "Landing Pages",
+      desc: "The main goal of landing pages is to generate conversions. These pages are used for ads, promotions, and lead generation campaigns. With high-converting designs and strong CTAs, they drive inquiries and sales.",
+      icon: Target,
+      color: "text-red-400"
     },
     {
-      title: "Portfolio Websites",
-      desc: "Professionals aur creators ke liye ideal. Ye skills, work experience aur achievements ko showcase karti hain aur personal branding me madad karti hain.",
-      icon: <User />,
-      gradient: "from-cyan-500/20 to-blue-500/20"
+      title: "Portfolio & Personal Websites",
+      desc: "Portfolio and personal websites are ideal for professionals, freelancers, and creators. They showcase skills, work experience, and achievements. Such websites aid in personal branding and career growth.",
+      icon: UserCircle,
+      color: "text-purple-400"
     },
     {
-      title: "Multi Vendor Marketplaces",
-      desc: "Amazon/Flipkart jaisa platform jahan multiple sellers sell kar sakein. Vendor dashboard aur commission system features included.",
-      icon: <Store />,
-      gradient: "from-violet-500/20 to-fuchsia-500/20"
+      title: "Multi-Vendor Website Development",
+      desc: "Multi-vendor websites allow multiple vendors to sell on a single platform. Vendor dashboards, commission systems, and order management features are often included. These marketplaces are the perfect solution for businesses.",
+      icon: Store,
+      color: "text-orange-400"
+    },
+    {
+      title: "UI/UX Design",
+      desc: "This phase creates a website visual design that is professional, modern, and brand-focused. Mobile users are given special priority.",
+      icon: Palette,
+      color: "text-pink-400"
     }
   ],
 
-  uiUxContent: {
-    title: "Boosting Online Sales with High-Converting Design",
-    p1: "We have designed e-commerce and brand websites for many fashion and cosmetic brands where users get smooth browsing, attractive product presentation and easy checkout experience.",
-    p2: "Our expert website development team puts special focus on UI (User Interface) and UX (User Experience). When the user finds it comfortable to use the website, they spend more time and the chances of conversion automatically increase.",
-    features: ["Mobile First", "Visual Storytelling", "Fast Performance"]
+  strategySection: {
+    title: "Boosting Online Sales with High-Converting E-Commerce Websites & Powerful UI/UX Design",
+    part1: {
+      heading: "Strategic Structure & Growth",
+      text: "We have designed e-commerce and brand websites for many fashion and cosmetic brands where users get smooth browsing, attractive product presentation and easy checkout experience. The structure of these websites is planned in such a way that customers can easily explore the products and take purchase decisions quickly. This has helped the brands get strong growth in online sales along with organic traffic."
+    },
+    part2: {
+      heading: "UI/UX & User Engagement",
+      text: "Our expert website development team puts special focus on UI (User Interface) and UX (User Experience) in every project. A clean design, clear navigation and fast loading website engages the users. When the user finds it comfortable to use the website, they spend more time and the chances of conversion automatically increase. This is why we see higher engagement and better sales performance on our clients' websites."
+    }
   },
 
   industries: [
-    { name: "Real Estate", desc: "Property listings & lead generation.", icon: <Building2 /> },
-    { name: "Hospitals", desc: "Patient trust & appointment booking.", icon: <Stethoscope /> },
-    { name: "Doctors", desc: "Personal branding & credibility.", icon: <User /> },
-    { name: "Fashion", desc: "Visual aesthetics & sales focused.", icon: <User /> },
-    { name: "Hospitality", desc: "Booking systems & galleries.", icon: <Utensils /> },
-    { name: "Education", desc: "Course details & student enquiries.", icon: <GraduationCap /> },
-    { name: "E-Commerce", desc: "High volume sales & inventory.", icon: <ShoppingCart /> },
-    { name: "Services", desc: "Local SEO & lead capture.", icon: <Briefcase /> }
+    { name: "Real Estate Companies", icon: Building2 },
+    { name: "Hospitals & Clinics", icon: Stethoscope },
+    { name: "Doctors", icon: UserCircle },
+    { name: "Fashion & Cosmetic Brands", icon: Store },
+    { name: "Hotels & Restaurants", icon: Utensils },
+    { name: "E-commerce Business", icon: ShoppingCart },
+    { name: "Service Provider", icon: Briefcase }
   ],
 
   benefits: [
-    { title: "Strong Online Presence", text: "Brand visibility on Google & Social Media." },
-    { title: "Higher Trust", text: "Professional design builds instant credibility." },
-    { title: "More Leads", text: "Conversion-focused layouts capture more data." },
-    { title: "Better UX", text: "Fast loading & mobile-friendly experience." },
-    { title: "SEO Ready", text: "Clean code structure for better rankings." },
-    { title: "Scalable", text: "Built to grow with your business needs." },
-    { title: "High ROI", text: "Long-term asset that reduces ad costs." }
+    { title: "Strong Online Presence", text: "A professional website strengthens your business online. Makes brand visible on Google & social media.", icon: Globe },
+    { title: "Higher Trust and Credibility", text: "Consistent branding increases credibility. Customers trust brands that appear professional.", icon: Shield },
+    { title: "More Leads and Inquiries", text: "Conversion-optimized website with clear CTAs consistently increases enquiries.", icon: TrendingUp },
+    { title: "Better User Experience", text: "Fast loading & mobile-friendliness keeps visitors longer and reduces bounce rate.", icon: Sparkles },
+    { title: "SEO and Ads Friendly", text: "SEO-ready structure makes website ideal for Google rankings and better Ad ROI.", icon: Rocket },
+    { title: "Scalable Growth", text: "Scalable for future growth. New pages, features, and tools can be easily added.", icon: Layers },
+    { title: "Long-Term ROI", text: "Generates consistent leads over the long term, reducing marketing costs.", icon: Zap }
   ],
 
-  // 16 Tech Icons Paths
   techStack: [
-    { name: "React", color: "text-cyan-400", path: <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/> }, // Abstract Atom
-    { name: "Next.js", color: "text-white", path: <path d="M12 2L2 19h3l7-12 5 12h3L12 2zm0 3l5 12H7l5-12z"/> }, // Abstract N
-    { name: "Node.js", color: "text-green-500", path: <path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.3l8 4v7.4l-8 4-8-4V8.3l8-4z"/> }, // Hexagon
-    { name: "MongoDB", color: "text-green-400", path: <path d="M12 2s-6 7-6 13c0 3.31 2.69 6 6 6s6-2.69 6-6c0-6-6-13-6-13z"/> }, // Leaf shape
-    { name: "Tailwind", color: "text-cyan-300", path: <path d="M4 12c0-2 1.5-3 3-3s3 1 3 3-1.5 3-3 3-3-1-3-3zm8 0c0-2 1.5-3 3-3s3 1 3 3-1.5 3-3 3-3-1-3-3z"/> }, // Waves abstract
-    { name: "TypeScript", color: "text-blue-500", path: <path d="M4 4h16v16H4V4zm2 2v12h12V6H6zm3 4h6v2H9v4h-2v-6z"/> }, // T shape box
-    { name: "JavaScript", color: "text-yellow-400", path: <path d="M4 4h16v16H4V4zm2 2v12h12V6H6zm6 4h4v2h-2v4h2v2h-4v-8z"/> }, // J shape box
-    { name: "HTML5", color: "text-orange-500", path: <path d="M3 3l2 16 7 2 7-2 2-16H3zm13 14l-4 1-4-1-1-6h2l.5 4 2.5.5 2.5-.5.5-4H8l-.5-4h9l.5 4z"/> }, // Shield
-    { name: "CSS3", color: "text-blue-400", path: <path d="M3 3l2 16 7 2 7-2 2-16H3zm13 14l-4 1-4-1-.5-4h-2l.5 4 2.5.5 2.5-.5 1-6H8l-.5-4h9l.5 4z"/> }, // Shield
-    { name: "Git", color: "text-red-500", path: <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11l-4 4-4-4 1.41-1.41L11 13.17V7h2v6.17l1.59-1.59L16 13z"/> }, // Branch-ish
-    { name: "AWS", color: "text-orange-400", path: <path d="M4 14c2 2 5 3 8 3s6-1 8-3v3c-2 2-5 3-8 3s-6-1-8-3v-3zm0-4c2 2 5 3 8 3s6-1 8-3v3c-2 2-5 3-8 3s-6-1-8-3v-3z"/> }, // Cloud-ish
-    { name: "Docker", color: "text-blue-500", path: <path d="M2 12h20v6H2v-6zm2-4h4v3H4V8zm5 0h4v3H9V8zm5 0h4v3h-4V8z"/> }, // Container blocks
-    { name: "Figma", color: "text-purple-400", path: <path d="M12 2C9 2 7 4 7 7s2 5 5 5 5-2 5-5-2-5-5-5zm0 10c-3 0-5 2-5 5s2 5 5 5 5-2 5-5-2-5-5-5z"/> }, // Circle drops
-    { name: "Redux", color: "text-purple-600", path: <path d="M12 2L2 12l10 10 10-10L12 2zm0 4l6 6-6 6-6-6 6-6z"/> }, // Diamond atom
-    { name: "Firebase", color: "text-yellow-500", path: <path d="M12 2l-2 4-6 12h16l-6-12-2-4zm0 6l3 7H9l3-7z"/> }, // Flame-ish
-    { name: "GraphQL", color: "text-pink-500", path: <path d="M12 2l8.66 5v10L12 22 3.34 17V7L12 2zm0 4L6 8l6 6 6-6-6-6z"/> } // Hexagon star
+    { name: "React", Icon: Code, color: "text-cyan-400" },
+    { name: "Next.js", Icon: Layout, color: "text-white" },
+    { name: "Node.js", Icon: Server, color: "text-green-500" },
+    { name: "MongoDB", Icon: Database, color: "text-green-400" },
+    { name: "WordPress", Icon: Globe, color: "text-blue-500" },
+    { name: "Shopify", Icon: ShoppingCart, color: "text-cyan-400" }
   ]
 };
 
-const Webdev = () => {
+const WebDevAgency = () => {
   const containerRef = useRef(null);
   const [isGsapReady, setIsGsapReady] = useState(false);
 
@@ -140,182 +180,264 @@ const Webdev = () => {
     const gsap = window.gsap;
     const ScrollTrigger = window.ScrollTrigger;
     gsap.registerPlugin(ScrollTrigger);
+    
     const ctx = gsap.context(() => {
-      gsap.fromTo(".hero-text", { y: 50, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.1, duration: 1, ease: "power3.out" });
-      gsap.utils.toArray(".animate-card").forEach((card) => {
-        gsap.fromTo(card, { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power2.out", scrollTrigger: { trigger: card, start: "top 90%" } });
+      gsap.fromTo(".hero-animate", 
+        { y: 80, opacity: 0 }, 
+        { y: 0, opacity: 1, stagger: 0.2, duration: 1.4, ease: "power4.out" }
+      );
+
+      gsap.fromTo(".strategy-card",
+        { y: 60, opacity: 0 },
+        { y: 0, opacity: 1, stagger: 0.3, duration: 1.2, scrollTrigger: { trigger: ".strategy-section", start: "top 70%" }}
+      );
+      
+      ScrollTrigger.batch(".animate-card", {
+        start: "top 80%",
+        onEnter: (batch) => gsap.to(batch, { autoAlpha: 1, y: 0, stagger: 0.15, overwrite: true, duration: 0.9, ease: "power3.out" })
       });
-      gsap.fromTo(".ui-ux-image", { scale: 0.9, opacity: 0.5 }, { scale: 1, opacity: 1, duration: 1, scrollTrigger: { trigger: ".ui-ux-section", start: "top 70%", scrub: 1 } });
     }, containerRef);
+    
     return () => ctx.revert();
   }, [isGsapReady]);
 
   return (
-    <div ref={containerRef} className="relative min-h-screen bg-[#020205] text-white overflow-hidden pt-24 pb-20">
+    <div ref={containerRef} className="relative min-h-screen bg-[#050b18] text-white overflow-hidden font-sans selection:bg-cyan-500/30">
       
-      {/* --- AMBIENT GRADIENT ORBS (Randomly placed) --- */}
+      <style>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.4; }
+          50% { transform: translateY(-25px) translateX(15px); opacity: 0.7; }
+        }
+        .animate-float { animation: float linear infinite; }
+        
+        @keyframes scan {
+          0% { transform: translateY(-100%); }
+          100% { transform: translateY(100%); }
+        }
+        .scan-line { animation: scan 8s linear infinite; }
+      `}</style>
+
+      {/* Futuristic Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-          <div className="absolute top-0 right-[-10%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px] mix-blend-screen" />
-          <div className="absolute bottom-20 left-[-10%] w-[400px] h-[400px] bg-purple-600/10 rounded-full blur-[100px] mix-blend-screen" />
-          <div className="absolute top-[40%] left-[20%] w-[300px] h-[300px] bg-cyan-500/5 rounded-full blur-[80px] mix-blend-screen" />
+        <FloatingParticles />
+        <GridBackground />
+        
+        {/* Radial Glows */}
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[120%] h-64 bg-gradient-radial from-blue-600/30 via-cyan-500/20 to-transparent blur-3xl" />
+        <div className="absolute top-20 right-1/4 w-96 h-96 bg-blue-500/15 rounded-full blur-[100px]" />
+        <div className="absolute bottom-40 left-1/4 w-80 h-80 bg-cyan-500/15 rounded-full blur-[100px]" />
+        
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#020716] via-[#061a3a]/80 to-[#050b18]" />
+        
+        {/* Scan Line Effect */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="scan-line absolute w-full h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent" />
+        </div>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
+      <div className="relative z-10 max-w-7xl mx-auto px-5 md:px-8 py-20">
         
-        {/* --- HERO SECTION --- */}
-        <div className="mb-24 mt-12 md:mt-20 relative">
-            {/* Subtle Gradient Behind Title */}
-            <div className="absolute -top-20 -left-20 w-64 h-64 bg-blue-500/20 blur-[80px] rounded-full pointer-events-none" />
-
-            <div className="flex items-center gap-3 mb-6 hero-text">
-                 <div className="h-[1px] w-12 bg-blue-500/50"></div>
-                 <span className="text-blue-400 uppercase tracking-[0.2em] text-sm font-semibold">{serviceData.subtitle}</span>
+        {/* Hero Section */}
+        <div className="min-h-[85vh] flex flex-col justify-center mb-32">
+          <div className="hero-animate inline-flex items-center gap-3 mb-8 group">
+            <div className="relative">
+              <div className="absolute inset-0 bg-cyan-500/30 blur-xl rounded-full animate-pulse" />
+              <div className="relative px-5 py-2 rounded-full border border-cyan-400/40 bg-cyan-500/10 backdrop-blur-md flex items-center gap-2">
+                <Star size={14} className="text-cyan-400 fill-cyan-400" />
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-cyan-300">Premium Web Solutions</span>
+              </div>
             </div>
+          </div>
+          
+          <h1 className="hero-animate text-5xl md:text-7xl lg:text-8xl font-black tracking-tight mb-8 leading-[1.1]">
+            <span className="text-white">Website Development</span><br/>
+            <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 bg-clip-text text-transparent">Company in Indore</span>
+          </h1>
+          
+          <div className="hero-animate max-w-3xl space-y-6 mb-10">
+            <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
+              {serviceData.hero.intro}
+            </p>
             
-            <h1 className="hero-text text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-white mb-8 leading-[1.1]">
-                WEBSITE <br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500">DEVELOPMENT.</span>
-            </h1>
-            
-            <div className="flex flex-col md:flex-row gap-8 mb-10 hero-text">
-                <p className="text-zinc-300 text-lg md:text-xl max-w-2xl leading-relaxed border-l-2 border-blue-500/30 pl-6 bg-gradient-to-r from-blue-500/5 to-transparent pr-4 py-2 rounded-r-lg">
-                    {serviceData.introHead} {serviceData.introBody}
-                </p>
-                <p className="text-zinc-400 text-base max-w-xl leading-relaxed">
-                    {serviceData.description}
-                </p>
-            </div>
+            <p className="text-base text-gray-400 leading-relaxed border-l-2 border-cyan-500/50 pl-6">
+              {serviceData.hero.desc}
+            </p>
+          </div>
 
-            <div className="mt-8 hero-text">
-                <Link to="/LetsConnect">
-                    <button className="group relative px-8 py-4 bg-white text-black font-bold text-sm uppercase tracking-widest rounded-full overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_-5px_rgba(59,130,246,0.6)]">
-                        <div className="absolute inset-0 bg-blue-600 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out" />
-                        <span className="relative z-10 group-hover:text-white flex items-center gap-2">
-                            Start Your Project
-                        </span>
-                    </button>
-                </Link>
-            </div>
+          <div className="hero-animate flex flex-wrap gap-4">
+            <button className="group px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-sm rounded-lg hover:shadow-2xl hover:shadow-cyan-500/50 transition-all duration-300 flex items-center gap-3 hover:gap-4 hover:scale-105">
+              Get Your Free Quote 
+              <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+            </button>
+            
+            <button className="group px-8 py-4 border-2 border-cyan-500/30 text-cyan-300 font-bold text-sm rounded-lg hover:bg-cyan-500/10 hover:border-cyan-400/50 transition-all duration-300 flex items-center gap-3">
+              View Our Work
+              <ChevronRight size={18} />
+            </button>
+          </div>
         </div>
 
-        {/* --- TYPES OF WEBSITES --- */}
-        <div className="mb-32">
-            <h2 className="text-3xl font-bold mb-10 text-center"><span className="text-blue-500">Types of Websites</span> We Build</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {serviceData.types.map((type, i) => (
-                    <div key={i} className={`animate-card group relative p-8 rounded-3xl bg-zinc-900/40 border border-white/5 backdrop-blur-sm hover:border-white/10 transition-all duration-500 overflow-hidden`}>
-                        {/* Subtle Card Gradient on Hover */}
-                        <div className={`absolute inset-0 bg-gradient-to-br ${type.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`} />
-                        
-                        <div className="relative z-10">
-                            <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-6 text-blue-400 group-hover:scale-110 group-hover:text-white transition-all duration-500 shadow-lg shadow-black/50">
-                                {type.icon}
-                            </div>
-                            <h3 className="text-xl font-bold text-white mb-3">{type.title}</h3>
-                            <p className="text-zinc-400 leading-relaxed text-sm group-hover:text-zinc-300 transition-colors">{type.desc}</p>
-                        </div>
+        {/* Services Grid */}
+        <div className="mb-40">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="h-px w-12 bg-gradient-to-r from-cyan-500 to-transparent" />
+            <span className="text-xs uppercase tracking-[0.25em] text-cyan-400 font-bold">Our Expertise</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-16">What We Build</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {serviceData.types.map((type, i) => (
+              <div key={i} className="animate-card opacity-0 translate-y-8 group relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative p-7 rounded-2xl bg-[#0a1628]/70 backdrop-blur-md border border-blue-500/20 hover:bg-[#0d1d35]/90 hover:border-cyan-400/40 transition-all duration-500 h-full flex flex-col hover:scale-[1.03] hover:shadow-xl hover:shadow-blue-500/20">
+                  <div className="flex items-start justify-between mb-5">
+                    <div className="p-3 rounded-xl bg-gradient-to-br from-[#0d1d35] to-[#0a1628] border border-cyan-500/20 group-hover:border-cyan-400/40 transition-all duration-500 group-hover:scale-110">
+                      <type.icon className={type.color} size={26} strokeWidth={1.5} />
                     </div>
-                ))}
-            </div>
-        </div>
-
-        {/* --- UI/UX SECTION --- */}
-        <div className="ui-ux-section relative mb-32 p-8 md:p-12 rounded-[2.5rem] bg-gradient-to-br from-[#0f172a] via-[#020205] to-black border border-white/10 overflow-hidden shadow-2xl">
-             <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-             
-             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div className="animate-card">
-                    <div className="flex items-center gap-2 mb-4">
-                         <Layers className="text-blue-400" size={20} />
-                         <span className="text-blue-400 font-bold uppercase tracking-widest text-xs">UI/UX & Sales</span>
-                    </div>
-                    <h2 className="text-3xl md:text-5xl font-black text-white mb-6 leading-tight">
-                        {serviceData.uiUxContent.title}
-                    </h2>
-                    <p className="text-zinc-300 mb-6 leading-relaxed">
-                        {serviceData.uiUxContent.p1}
-                    </p>
-                    <p className="text-zinc-400 mb-8 text-sm leading-relaxed">
-                        {serviceData.uiUxContent.p2}
-                    </p>
-                    <div className="flex flex-wrap gap-4">
-                        {serviceData.uiUxContent.features.map((tag, i) => (
-                            <span key={i} className="px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-white/10 text-xs font-bold uppercase tracking-wider text-zinc-300">
-                                {tag}
-                            </span>
-                        ))}
-                    </div>
+                  </div>
+                  <h3 className="text-lg font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors">{type.title}</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed flex-grow">{type.desc}</p>
+                  <div className="mt-5 pt-4 border-t border-white/5">
+                    <span className="text-xs text-cyan-400 font-semibold flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      Learn More <ChevronRight size={14} />
+                    </span>
+                  </div>
                 </div>
+              </div>
+            ))}
+          </div>
+        </div>
 
-                <div className="animate-card ui-ux-image relative h-full min-h-[300px] rounded-2xl overflow-hidden border border-white/10 bg-black/40 flex items-center justify-center backdrop-blur-md">
-                     <div className="relative w-3/4 aspect-video bg-zinc-900 rounded-lg shadow-2xl border border-zinc-700 p-4">
-                         <div className="flex gap-2 mb-4">
-                             <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                             <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                             <div className="w-3 h-3 rounded-full bg-green-500/80" />
-                         </div>
-                         <div className="w-full h-2 bg-zinc-800 rounded mb-2" />
-                         <div className="grid grid-cols-2 gap-4 mt-6">
-                             <div className="h-24 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded border border-white/5" />
-                             <div className="h-24 bg-zinc-800/50 rounded" />
-                         </div>
-                     </div>
+        {/* Strategy Section */}
+        <div className="strategy-section mb-40 relative">
+          <div className="mb-20 text-center max-w-4xl mx-auto">
+            <div className="flex items-center justify-center gap-3 text-cyan-400 mb-6">
+              <div className="h-px w-16 bg-gradient-to-r from-transparent via-cyan-500 to-transparent" />
+              <TrendingUp size={22} />
+              <span className="text-xs font-bold uppercase tracking-[0.25em]">Strategy & Design</span>
+              <div className="h-px w-16 bg-gradient-to-r from-transparent via-cyan-500 to-transparent" />
+            </div>
+            <h2 className="text-3xl md:text-5xl font-black leading-tight text-white">
+              {serviceData.strategySection.title}
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="strategy-card group relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-transparent rounded-2xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              <div className="relative p-10 rounded-2xl bg-gradient-to-br from-[#0d1d35]/90 to-[#0a1628]/70 backdrop-blur-md border border-blue-500/20 hover:border-blue-400/40 transition-all duration-500 h-full flex flex-col justify-between">
+                <div>
+                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-600/30 to-blue-900/30 flex items-center justify-center mb-7 group-hover:scale-110 transition-transform duration-500 border border-blue-500/20">
+                    <Store className="text-blue-400" size={28} strokeWidth={1.5} />
+                  </div>
+                  <h3 className="text-2xl font-black text-white mb-5 group-hover:text-blue-400 transition-colors">
+                    {serviceData.strategySection.part1.heading}
+                  </h3>
+                  <p className="text-gray-400 leading-relaxed text-sm">
+                    {serviceData.strategySection.part1.text}
+                  </p>
                 </div>
-             </div>
+                <div className="mt-8 pt-6 border-t border-white/10 flex gap-2">
+                  <span className="px-3 py-1.5 bg-blue-500/10 rounded-md text-xs text-blue-400 uppercase tracking-wider border border-blue-500/20 hover:bg-blue-500/20 transition-all">Conversion</span>
+                  <span className="px-3 py-1.5 bg-blue-500/10 rounded-md text-xs text-blue-400 uppercase tracking-wider border border-blue-500/20 hover:bg-blue-500/20 transition-all">Growth</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="strategy-card group relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-transparent rounded-2xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              <div className="relative p-10 rounded-2xl bg-gradient-to-br from-[#0d1d35]/90 to-[#0a1628]/70 backdrop-blur-md border border-cyan-500/20 hover:border-cyan-400/40 transition-all duration-500 h-full flex flex-col justify-between">
+                <div>
+                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-600/30 to-cyan-900/30 flex items-center justify-center mb-7 group-hover:scale-110 transition-transform duration-500 border border-cyan-500/20">
+                    <Layers className="text-cyan-400" size={28} strokeWidth={1.5} />
+                  </div>
+                  <h3 className="text-2xl font-black text-white mb-5 group-hover:text-cyan-400 transition-colors">
+                    {serviceData.strategySection.part2.heading}
+                  </h3>
+                  <p className="text-gray-400 leading-relaxed text-sm">
+                    {serviceData.strategySection.part2.text}
+                  </p>
+                </div>
+                <div className="mt-8 pt-6 border-t border-white/10 flex gap-2">
+                  <span className="px-3 py-1.5 bg-cyan-500/10 rounded-md text-xs text-cyan-400 uppercase tracking-wider border border-cyan-500/20 hover:bg-cyan-500/20 transition-all">Interface</span>
+                  <span className="px-3 py-1.5 bg-cyan-500/10 rounded-md text-xs text-cyan-400 uppercase tracking-wider border border-cyan-500/20 hover:bg-cyan-500/20 transition-all">Experience</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* --- INDUSTRIES SECTION --- */}
-        <div className="mb-32">
-            <h2 className="text-3xl font-bold mb-12 text-center">Industries We <span className="text-blue-500">Serve</span></h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {serviceData.industries.map((ind, i) => (
-                    <div key={i} className="animate-card p-5 rounded-2xl bg-zinc-900/30 border border-white/5 hover:border-blue-500/40 hover:bg-gradient-to-b hover:from-zinc-900 hover:to-blue-900/20 transition-all group cursor-default">
-                        <div className="flex items-center gap-3 mb-3">
-                            <span className="text-zinc-500 group-hover:text-blue-400 transition-colors">{ind.icon}</span>
-                            <h4 className="text-lg font-bold text-white group-hover:text-blue-100">{ind.name}</h4>
-                        </div>
-                        <p className="text-zinc-500 text-xs leading-relaxed pl-9 group-hover:text-zinc-400">{ind.desc}</p>
-                    </div>
-                ))}
-            </div>
+        {/* Industries */}
+        <div className="mb-40 pt-20 border-t border-white/5">
+          <h2 className="text-3xl font-black mb-16 text-center">Industries We Serve</h2>
+          <div className="flex flex-wrap justify-center gap-3">
+            {serviceData.industries.map((ind, i) => (
+              <div key={i} className="animate-card opacity-0 translate-y-4 group relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative px-6 py-3 rounded-full bg-[#0a1628]/70 backdrop-blur-md border border-blue-500/20 flex items-center gap-2.5 hover:border-cyan-400/40 hover:bg-[#0d1d35]/80 transition-all group-hover:scale-105">
+                  <ind.icon className="text-gray-500 group-hover:text-cyan-400 transition-colors" size={18} strokeWidth={1.5} />
+                  <span className="text-sm font-semibold text-gray-300 group-hover:text-white transition-colors">{ind.name}</span>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* --- BENEFITS SECTION --- */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-20 relative">
-            <div className="absolute inset-0 bg-blue-500/5 blur-[100px] rounded-full pointer-events-none" />
-            
-            <div className="col-span-1 lg:col-span-1 animate-card relative z-10">
-                 <h2 className="text-4xl font-black text-white mb-6 uppercase">Why <br/><span className="text-blue-500">Choose Us?</span></h2>
-                 <p className="text-zinc-400 text-sm leading-relaxed mb-8">
-                    Investing in a professional website is investing in the future of your business. Here is why our clients trust us.
-                 </p>
-                 <Link to="/LetsConnect">
-                    <button className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-bold text-sm transition-all shadow-lg shadow-blue-900/50">
-                        Get Your Free Quote
-                    </button>
-                 </Link>
-            </div>
-            <div className="col-span-1 lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
-                {serviceData.benefits.map((benefit, i) => (
-                    <div key={i} className="animate-card flex gap-4">
-                        <CheckCircle2 className="text-blue-500 shrink-0 mt-1" size={24} />
-                        <div>
-                            <h4 className="text-lg font-bold text-white mb-2">{benefit.title}</h4>
-                            <p className="text-zinc-400 text-sm leading-relaxed">{benefit.text}</p>
-                        </div>
-                    </div>
-                ))}
-            </div>
+        {/* Benefits */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 mb-40 items-start">
+          <div className="animate-card sticky top-32">
+            <span className="text-xs uppercase tracking-[0.25em] text-cyan-400 font-bold mb-4 block">The Advantage</span>
+            <h2 className="text-4xl md:text-5xl font-black text-white mb-8 leading-tight">
+              Why Choose Professional Web Design?
+            </h2>
+            <p className="text-gray-400 leading-relaxed text-base mb-10">
+              A strong website generates consistent leads and sales over the long term. Once properly developed, it reduces marketing costs and increases organic reach.
+            </p>
+            <button className="group px-10 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-sm rounded-lg hover:shadow-2xl hover:shadow-cyan-500/40 transition-all duration-300 hover:scale-105 flex items-center gap-3">
+              Start Your Project
+              <Rocket size={18} className="group-hover:translate-y-[-2px] transition-transform" />
+            </button>
+          </div>
+          
+          <div className="space-y-4">
+            {serviceData.benefits.map((benefit, i) => (
+              <div key={i} className="animate-card opacity-0 translate-y-4 group relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 to-blue-500/5 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative flex gap-4 p-5 rounded-xl bg-[#0a1628]/60 backdrop-blur-md hover:bg-[#0d1d35]/80 transition-all border border-blue-500/20 hover:border-cyan-400/40 group-hover:scale-[1.02]">
+                  <div className="mt-0.5 p-2.5 rounded-lg bg-gradient-to-br from-[#0d1d35] to-[#0a1628] border border-cyan-500/20 group-hover:scale-110 transition-transform flex-shrink-0">
+                    <benefit.icon className="text-cyan-400" size={20} strokeWidth={1.5} />
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-base font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">{benefit.title}</h4>
+                    <p className="text-gray-400 text-sm leading-relaxed">{benefit.text}</p>
+                  </div>
+                  <Check className="text-cyan-500/30 group-hover:text-cyan-500 transition-colors flex-shrink-0" size={18} />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* --- TECH STACK (ICONS GRID) --- */}
-        <div className="mb-20 text-center">
-            <h3 className="text-xs uppercase tracking-[0.3em] text-zinc-600 mb-12 font-bold">Powered By Modern Tech</h3>
-            <div className="flex flex-wrap justify-center gap-4">
-                {serviceData.techStack.map((tech, i) => (
-                    <TechIcon key={i} name={tech.name} color={tech.color} path={tech.path} />
-                ))}
-            </div>
+        {/* Tech Stack */}
+        <div className="border-t border-white/5 pt-24">
+          <div className="text-center mb-20">
+            <span className="text-xs uppercase tracking-[0.25em] text-gray-600 font-bold mb-4 block">Our Arsenal</span>
+            <h2 className="text-3xl font-black">Technologies We Master</h2>
+          </div>
+          <div className="flex flex-wrap justify-center gap-5">
+            {serviceData.techStack.map((tech, i) => (
+              <div key={i} className="animate-card opacity-0 translate-y-4">
+                <TechIcon 
+                  name={tech.name} 
+                  Icon={tech.Icon} 
+                  color={tech.color}
+                  delay={i * 80}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       
       </div>
@@ -323,4 +445,4 @@ const Webdev = () => {
   );
 };
 
-export default Webdev;
+export default WebDevAgency;

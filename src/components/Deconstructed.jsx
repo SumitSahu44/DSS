@@ -2,16 +2,58 @@ import React, { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { ArrowRight, Code2, Smartphone, Palette, Search, ShoppingBag, Rocket } from "lucide-react";
-
+import { Link } from "react-router-dom";
 gsap.registerPlugin(ScrollTrigger);
 
 const services = [
-  { id: "01", title: "Web Dev", desc: "MERN & Next.js Scalable Architectures", icon: Code2, img: "https://images.unsplash.com/photo-1605379399642-870262d3d051?q=80&w=1000&auto=format&fit=crop" },
-  { id: "02", title: "Mobile Apps", desc: "Native iOS & Android Solutions", icon: Smartphone, img: "https://images.unsplash.com/photo-1551650975-87deedd944c3?q=80&w=1000&auto=format&fit=crop" },
-  { id: "03", title: "UI/UX Design", desc: "Award Winning User Interfaces", icon: Palette, img: "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=1000&auto=format&fit=crop" },
-  { id: "04", title: "SEO Growth", desc: "Rank #1 on Google Search", icon: Search, img: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1000&auto=format&fit=crop" },
-  { id: "05", title: "E-Commerce", desc: "Shopify & Custom Stores", icon: ShoppingBag, img: "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?q=80&w=1000&auto=format&fit=crop" },
-  { id: "06", title: "Marketing", desc: "High ROI PPC Campaigns", icon: Rocket, img: "https://images.unsplash.com/photo-1533750349088-cd871a92f312?q=80&w=1000&auto=format&fit=crop" },
+  {
+    id: "01",
+    title: "Website Design & Development",
+    desc: "High performance websites using MERN, Next.js & modern UI",
+    icon: Code2,
+    img: "/images/WeDeliver/4.png",
+    link: "/website-design-and-website-development",
+  },
+  {
+    id: "02",
+    title: "Performance Marketing (PPC)",
+    desc: "ROI focused Google Ads & Paid Campaigns",
+    icon: Rocket,
+    img: "/images/WeDeliver/3.png",
+    link: "/performance-marketing-ppc",
+  },
+  {
+    id: "03",
+    title: "Social Media Marketing",
+    desc: "Build brand presence & engagement on social platforms",
+    icon: Smartphone,
+    img: "/images/WeDeliver/2.png",
+    link: "/social-media-marketing",
+  },
+  {
+    id: "04",
+    title: "Search Engine Optimization",
+    desc: "Rank higher on Google with proven SEO strategies",
+    icon: Search,
+    img: "/images/WeDeliver/1.png",
+    link: "/search-engine-optimization",
+  },
+  {
+    id: "05",
+    title: "Influencer Marketing",
+    desc: "Influencer collaborations that drive trust & sales",
+    icon: Palette,
+    img: "/images/WeDeliver/5.png",
+    link: "/influencer-marketing",
+  },
+  {
+    id: "06",
+    title: "E-Commerce Applications",
+    desc: "Scalable Shopify & custom e-commerce solutions",
+    icon: ShoppingBag,
+    img: "/images/WeDeliver/6.png",
+    link: "/e-commerce-applications",
+  },
 ];
 
 export default function ServicesScroll() {
@@ -79,6 +121,7 @@ export default function ServicesScroll() {
 
             {/* Cards Loop */}
             {services.map((service, index) => (
+              <Link to={service.link}>
                 <div 
                     key={index} 
                     className="relative w-[85vw] md:w-[30vw] h-full flex-shrink-0 group rounded-3xl overflow-hidden border border-white/10 bg-[#111]"
@@ -113,6 +156,7 @@ export default function ServicesScroll() {
                         </p>
                     </div>
                 </div>
+                </Link>
             ))}
             
             {/* Spacer at the end to ensure last card isn't glued to the edge */}

@@ -16,32 +16,32 @@ const CameraIcon = ({className}) => (
 const serviceData = {
   subtitle: "Build Brand Authority",
   title: "Social Media Marketing Services in Indore",
-  intro: "Aaj ke digital time me social media sirf engagement ka platform nahi raha, balki brand authority, customer trust aur business growth ka powerful tool ban chuka hai. Agar aap apne business ko Indore me grow karna chahte ho, to strong social media presence hona bahut zaroori hai.",
-  description: "Digital Success Solution Indore me professional Social Media Marketing Services provide karta hai jo brands ko online strong aur trustworthy banata hai. Humane kai fashion, cosmetic, real estate, hospital, restaurant or service-based brands like social media handles successfully manage kite hain. Hamara focus sirf likes aur followers badhane par nahi hota, balki right audience ke sath meaningful engagement create karna hota hai.",
+  intro: "In today's digital era, social media is not just a platform for engagement but has become a powerful tool for brand authority, customer trust and business growth. If you want to grow your business in Indore, then having a strong social media presence is very important.",
+  description: "Digital Success Solution provides professional Social Media Marketing Services in Indore that makes brands strong and trustworthy online. We have successfully managed social media handles of many fashion, cosmetic, real estate, hospital, restaurant or service-based brands. Our focus is not just on increasing likes and followers but on creating meaningful engagement with the right audience. We create a custom social media strategy for every brand by understanding their business goals, target audience and competitors.",
 
   // SECTION 1: PLATFORM MANAGEMENT
   platforms: [
     {
       title: "Facebook Management",
-      desc: "Facebook aaj bhi ek powerful social media platform hai jahan old generation aur new generation dono active hain. Digital Success Solution ke professional Facebook Management services brands ko unki target audience ke sath effectively connect karne me help karte hain.",
+      desc: "Facebook remains a powerful social media platform, with both older and younger generations active. Therefore, if Facebook marketing is done correctly, it can be a powerful medium for brand awareness, engagement, and lead generation. Digital Success Solution's professional Facebook Management services help brands connect effectively with their target audience.",
       icon: <Users className="text-blue-500" />,
       color: "blue"
     },
     {
       title: "Instagram Management",
-      desc: "Instagram aaj ke time me sabse fast-growing social media platform hai. Chahe aapka business fashion, cosmetic, restaurant, real estate ya service-based ho, Instagram management sahi tarike se kiya jaye to brand visibility aur conversions ko multiple times increase kiya ja sakta hai.",
+      desc: "Instagram is the fastest-growing social media platform today, where visual content has become a key factor in brand success. Whether your business is fashion, cosmetic, restaurant, real estate, or service-based, proper Instagram management can increase brand visibility, engagement, and conversions multiple times.",
       icon: <CameraIcon className="text-pink-500" />,
       color: "pink"
     },
     {
       title: "LinkedIn Management",
-      desc: "LinkedIn ek powerful professional networking platform hai. Agar LinkedIn marketing sahi strategy ke sath ki jaye, to ye brand authority build karne, B2B leads generate karne aur professional credibility strong karne ka best platform ban sakta hai.",
+      desc: "LinkedIn is a powerful professional networking platform where businesses, decision-makers, and industry leaders are active. If LinkedIn marketing is done with the right strategy, it can be an excellent platform for building brand authority, generating B2B leads, and strengthening professional credibility.",
       icon: <Target className="text-blue-400" />,
       color: "sky"
     },
     {
       title: "Twitter (X) Management",
-      desc: "Twitter ek fast-paced social media platform hai jahan real-time updates aur trends brand visibility ke liye important hote hain. Ye platform brand voice build karne aur trust create karne me bahut effective hota hai.",
+      desc: "Twitter (now X) is a fast-paced social media platform where real-time updates, conversations, and trends are crucial for brand visibility. If Twitter is managed strategically, it can be a platform for brand voice.",
       icon: <MessageCircle className="text-white" />,
       color: "zinc"
     }
@@ -51,27 +51,27 @@ const serviceData = {
   services: [
     {
       title: "Social Page Optimization",
-      desc: "Hum har social platform ke rules aur audience behavior ke according optimization karte hain. Profile bio, description, username, profile photo, cover image, CTA buttons aur page settings ko strategically optimize kiya jata hai.",
+      desc: "Digital Success Solution provides professional Social Page Optimization services in which we optimize according to the rules and audience behavior of each social platform. In this, profile bio, description, username, profile photo, cover image, CTA buttons and page settings are strategically optimized so that the brand message is clear and impactful.",
       icon: <Monitor />
     },
     {
       title: "Content Scheduling",
-      desc: "Hum brand ke goals aur algorithms ko samajhkar custom content calendar banate hain. Posts, reels, stories aur promotional content ko sahi time aur frequency ke sath schedule kiya jata hai for maximum reach.",
+      desc: "Digital Success Solution provides professional Content Scheduling services where we understand the brand's goals, target audience, and platform's algorithm to create a custom content calendar. This calendar schedules posts, reels, stories, and promotional content at the right time and frequency to maximize reach and engagement.",
       icon: <Calendar />
     },
     {
       title: "Brand Awareness",
-      desc: "Brand awareness long-term success ka foundation hota hai. Aaj ke competitive digital environment me strong brand awareness banana zaroori ho gaya hai, especially social media platforms par.",
+      desc: "Brand awareness is the foundation of any business's long-term success. When people recognize and trust your brand, they choose your services or products. Building strong brand awareness is crucial in today's competitive digital environment, especially on social media platforms where audiences are active daily.",
       icon: <Lightbulb />
     },
     {
       title: "Low Cost Social Traffic",
-      desc: "Hum paid campaigns ke sath organic strategies ka perfect combination use karte hain. Targeted audience selection aur optimized ad placement se aapko high-quality traffic milta hai jo conversion potential rakhta hai.",
+      desc: "Digital Success Solutions provides professional, low-cost social traffic services that are customized to suit every business's budget. We use the perfect combination of organic strategies with paid campaigns to achieve maximum reach and engagement. Targeted audience selection, interest-based campaigns, and optimized ad placement ensure you get high-quality traffic with conversion potential.",
       icon: <TrendingUp />
     },
     {
       title: "Reels & Video Marketing",
-      desc: "Video content, especially reels, audience engagement ka sabse powerful tool hai. Hum strategy, creative scripting, video editing aur posting schedule tak plan karte hain taaki har video maximum reach deliver kare.",
+      desc: "In today's digital era, video content, especially reels and short videos, has become the most powerful tool for audience engagement and brand visibility. Social media users now prefer more visual content, hence Reels & Video Marketing is the perfect medium for businesses to generate leads and conversions. We not only create the content but also plan the strategy, creative scripting, video editing and posting schedule.",
       icon: <Video />
     }
   ],
@@ -80,38 +80,38 @@ const serviceData = {
   industries: [
     {
       title: "Real Estate",
-      desc: "Property listings, blogs aur informative posts create kiye jate hain jo potential buyers aur investors ko attract karte hain. Isse lead generation aur brand visibility improve hoti hai.",
+      desc: "Content marketing for real estate businesses involves creating property listings, blogs, and informative posts that attract potential buyers and investors. This improves lead generation and brand visibility.",
       icon: <Layers />
     },
     {
       title: "Fashion & Clothing",
-      desc: "Trend-focused content, styling guides aur social media campaigns design kiye jate hain. Ye audience engagement aur online sales ko boost karte hain.",
+      desc: "Designs trend-focused content, styling guides, and social media campaigns for fashion and clothing brands. These boost audience engagement and online sales.",
       icon: <ShoppingBag />
     },
     {
       title: "Hospitals & Clinics",
-      desc: "Health blogs, patient awareness posts aur service highlights develop kiye jate hain. Ye trust aur credibility build karte hain aur patients ko services explore karne me help karte hain.",
+      desc: "Develops health blogs, patient awareness posts, and service highlights for hospitals and clinics. These build trust and credibility and help patients.",
       icon: <Activity />
     }
   ],
 
   // SECTION 4: WHY SMM IMPORTANT
   importance: [
-    "Aaj ke digital yug me brand visibility ka matlab hai ki log aapke brand ko kitni baar dekhte aur yaad rakhte hain.",
-    "Local audience ka trust banana kisi bhi local business ke liye zaroori hota hai, aur social media is process ko fast banata hai.",
-    "SMM sirf likes tak simit nahi hai, ye direct sales aur conversions badhane ka powerful tool ban chuka hai.",
-    "Jab sahi strategy ke sath social media use kiya jata hai, to potential customers ko actual buyers me convert kiya ja sakta hai."
+    "In today's digital age, brand visibility means how often people see, recognize, and remember your brand. Social Media Marketing (SMM) is the most effective and affordable way to increase brand visibility.",
+    "Building the trust of a local audience is crucial for any local business, and social media makes this process fast and effective. When people see businesses in their area online, their trust naturally builds.",
+    "In today's digital age, Social Media Marketing (SMM) isn't just about likes and followers; it's become a powerful tool for increasing direct sales and conversions.",
+    "When social media is used strategically, potential customers can be converted into actual buyers."
   ],
 
   // SECTION 5: CONTENT STRATEGY (The 7 Points)
   strategy: [
-    { title: "Educational Posts", text: "Audience ko value dete hain. Simple tips aur how-to guides trust build karte hain." },
-    { title: "Reels & Short Videos", text: "Fast attention grab karte hain. Quick tips aur trends zyada reach laate hain." },
-    { title: "Testimonials", text: "Real customers ki baatein brand ko authentic banati hain. Honest reviews sales decision badal dete hain." },
-    { title: "Case Studies", text: "Real results dikhati hain. Problem se solution tak ka journey serious buyers ko convince karta hai." },
-    { title: "Offers & Promotions", text: "Limited time offers logon ko jaldi action lene par majboor karti hain aur sales boost karti hain." },
-    { title: "Behind-the-Scenes", text: "Team moments aur efforts brand ko human banate hain aur connection banate hain." },
-    { title: "Brand Storytelling", text: "Struggles, vision aur growth story brand ko yaadgar banati hai aur emotionally connect karti hai." }
+    { title: "Educational Posts", text: "Educational posts provide value to the audience and establish the brand as an expert. Simple tips, how-to guides, and problem-solving content build trust. When people learn, they remember the brand." },
+    { title: "Reels & Short Videos", text: "Short videos grab attention quickly. Quick tips, trends, and relatable moments reach a wider audience. The magic of Reels is that the message becomes clear in a short time." },
+    { title: "Testimonials", text: "Real customer stories authenticate a brand. People trust experiences more than ads. An honest review often sways a sales decision." },
+    { title: "Case Studies", text: "Case studies show real results, not just promises. The journey from problem to solution is clearly explained. This is strong, convincing content for serious buyers." },
+    { title: "Offers & Promotions", text: "Limited-time offers compel people to take action quickly. Discounts and deals attract both attention and conversions. Offers at the right time boost sales." },
+    { title: "Behind-the-Scenes", text: "Showing real people behind the brand builds connection. Daily work, team moments, and efforts make the brand human. This content increases both trust and likeability." },
+    { title: "Brand Storytelling", text: "The brand's journey connects emotionally with the audience. Struggles, vision, and growth stories make the brand memorable. When people feel the story, the brand is no longer just a business." }
   ]
 };
 
