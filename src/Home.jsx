@@ -14,6 +14,8 @@ const NewVisionMission = React.lazy(() => import("./components/NewVisionMission.
 const UGCTestimonials = React.lazy(() => import("./components/UGCTestimonials.jsx"));
 // const ContactSection = React.lazy(() => import("./components/ContactSection.jsx"));
 import  DssPhilosophy from "./components/DssPhilosophy.jsx";
+import HeroBg from "./components/HeroBg.jsx";
+
 /* ✅ PRO Loader – black, no white flash */
 const Loader = () => (
   <div className="h-screen w-full bg-[#050505] flex items-center justify-center">
@@ -55,7 +57,8 @@ const Home = () => {
     <div className="w-full overflow-hidden bg-[#050505] text-white">
       {/* 1️⃣ Hero */}
       <section id="hero">
-        <PremiumHero />
+        {/* <PremiumHero /> */}
+        <HeroBg />
       </section>
 
       <Suspense fallback={<Loader />}>
