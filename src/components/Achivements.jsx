@@ -226,12 +226,13 @@ export default function WhyChooseSection() {
                 <div className="flex-1 w-full pl-12 md:pl-0 md:px-12">
                   <div className="relative rounded-2xl overflow-hidden aspect-video group border border-white/10 shadow-2xl transform-gpu">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10" />
-                    <img 
-                      src={item.img} 
-                      alt={item.title} 
-                      loading="lazy"
-                      className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0 will-change-transform"
-                    />
+                   <img
+  src={item.img}
+  alt={item.title}
+  loading="lazy"
+  className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 will-change-transform"
+/>
+
                     
                     {/* Mobile Badge */}
                     <div className="md:hidden absolute bottom-4 left-4 z-20 bg-black/60 backdrop-blur-md px-3 py-1 rounded-md text-white font-bold text-xs border border-white/10">
