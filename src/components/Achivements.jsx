@@ -14,7 +14,7 @@ const features = [
     title: "Indore Digital Marketing Experts",
     desc: "We deliver sustainable growth through advanced strategies and an analytics-driven approach. Our robust planning helps achieve every business goal, ensuring your brand dominates the Indore market.",
     color: "text-[#ff9f20]", 
-    img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" // Analytics/Growth
+    img: "/images/Achivements/1.png" // Analytics/Growth
   },
   {
     number: "02",
@@ -22,7 +22,7 @@ const features = [
     title: "Reliable Support & Retention",
     desc: "Professional support and timely execution are our core values. We support your brand 24x7. Our high customer retention rate proves that our results-review service and regular updates keep clients happy.",
     color: "text-[#0078f0]", 
-    img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&q=80&w=800" // Support Team
+    img: "/images/Achivements/2.png" // Support Team
   },
   {
     number: "03",
@@ -30,7 +30,7 @@ const features = [
     title: "Custom-Choice Channels",
     desc: "Every business receives personalized SEO, PPC, and social media channel strategies. We help creative brands stand out in Indore's competitive market by targeting the right audience on the right platform.",
     color: "text-[#ff9f20]", 
-    img: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=800" // Social Media
+    img: "/images/Achivements/3.png" // Social Media
   },
   {
     number: "04",
@@ -38,7 +38,7 @@ const features = [
     title: "Comprehensive Solutions",
     desc: "We offer integrated solutions for website development, content creation, and comprehensive digital visibility. Get all your digital marketing needs fulfilled on a single, powerful platform.",
     color: "text-[#0078f0]", 
-    img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=800" // All in one/Tech
+    img: "/images/Achivements/4.png" // All in one/Tech
   },
   {
     number: "05",
@@ -46,7 +46,7 @@ const features = [
     title: "100% Transparency",
     desc: "No hidden costs. No confusing reports. We keep all campaign results, project updates, and pricing open. You get complete clarity on every rupee spent and every lead generated.",
     color: "text-[#ff9f20]", 
-    img: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=800" // Transparency/Glass
+    img: "/images/Achivements/5.png" // Transparency/Glass
   },
   {
     number: "06",
@@ -54,7 +54,7 @@ const features = [
     title: "Dedicated Marketing Manager",
     desc: "Every client gets a dedicated expert who manages communication, strategy, execution, and reporting. We collaborate closely with you to understand your specific business challenges.",
     color: "text-[#0078f0]", 
-    img: "https://media.istockphoto.com/id/2163365819/photo/group-of-business-persons-talking-in-the-office.webp?a=1&b=1&s=612x612&w=0&k=20&c=QYpmadCi2vj6XNxuF2kZilI9k8dXfi8KLMjqDpxuO6U=" // Professional Manager
+    img: "/images/Achivements/6.png" // Professional Manager
   },
   {
     number: "07",
@@ -62,7 +62,7 @@ const features = [
     title: "Measurable, Data-Driven Results",
     desc: "Our ads are designed to generate real business results — not just clicks. We optimize campaigns daily using premium tools and automation to ensure the highest ROI for your business.",
     color: "text-[#ff9f20]", 
-    img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800" // ROI/Results
+    img: "/images/Achivements/7.png" // ROI/Results
   },
   {
     number: "08",
@@ -70,7 +70,7 @@ const features = [
     title: "Proven Indore Experience",
     desc: "We understand Indore’s market deeply — from local businesses to service providers, real estate, coaching institutes, and startups. We know what works in this city.",
     color: "text-[#0078f0]", 
-    img: "https://images.unsplash.com/photo-1596568359553-a56de6970068?auto=format&fit=crop&q=80&w=800" // Local/City
+    img: "/images/Achivements/8.png" // Local/City
   }
 ];
 
