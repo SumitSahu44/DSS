@@ -18,6 +18,8 @@ import InfluencerMarketing from "./components/InfluencerMarketing.jsx";
 import ECommerceApplications from "./components/EcommerceApplications.jsx"; 
 import Webdev from "./components/Webdev.jsx";
 import LetsConnect from "./components/LetsConnect.jsx";
+import BlogList from './components/BlogList';
+import BlogDetail from './components/BlogDetail';
 // Lazy Loaded Pages (Inke liye Suspense zaroori hai)
 const PrivacyPolicy = React.lazy(() => import("./components/PrivacyPolicy.jsx"));
 const TermsAndConditions = React.lazy(() => import("./components/TermsAndConditions.jsx"));
@@ -70,6 +72,13 @@ const App = () => {
               <Route path="/influencer-marketing" element={<InfluencerMarketing />} />
                <Route path="/e-commerce-applications" element={<ECommerceApplications />} />
           
+
+          {/* Home Page: Cards Dikhenge */}
+        <Route path="/blogs" element={<BlogList />} />
+        
+        {/* Detail Page: Jab card click hoga (:id dynamic hai) */}
+        <Route path="/blog/:id" element={<BlogDetail />} />
+
           {/* Legal Pages */}
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/TermsAndConditions" element={<TermsAndConditions />} />

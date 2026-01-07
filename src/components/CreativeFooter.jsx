@@ -51,11 +51,7 @@ export default function Footer() {
       href: "https://www.linkedin.com/company/digital-success-solutions-dss/", 
       label: "LinkedIn" 
     },
-    { 
-      icon: <FaXTwitter size={14} />, 
-      href: "https://twitter.com/your-handle", 
-      label: "X (Twitter)" 
-    },
+   
     { 
       icon: <FaInstagram size={16} />, 
       href: "https://www.instagram.com/digitalsuccess_solutions/", 
@@ -95,15 +91,18 @@ export default function Footer() {
         
         {/* --- 1. CALL TO ACTION --- */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 pb-16 border-b border-white/10">
-           <div className="max-w-2xl">
-              <h2 className="text-4xl md:text-6xl font-black tracking-tighter leading-[1.1] mb-4">
-                 READY TO <br/>
-                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0078f0] to-[#ff9f20]">SCALE UP?</span>
-              </h2>
-              <p className="text-base md:text-lg text-gray-400 font-light max-w-md">
-                 Let's build something that defines your industry. Schedule a call with our strategy team today.
-              </p>
-           </div>
+          <div className="max-w-2xl">
+            {/* Text color updated to white, tracking tight for clean look */}
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.1] mb-6">
+                READY TO <br/>
+                {/* Gradient hataya, Solid Blue aur Solid Orange use kiya */}
+                <span className="text-[#0078f0]">SCALE</span> <span className="text-[#ff9f20]">UP?</span>
+            </h2>
+            {/* Paragraph color updated to slate for better theme matching */}
+            <p className="text-base md:text-lg text-slate-400 font-light max-w-md leading-relaxed">
+                Let's build something that defines your industry. Schedule a call with our strategy team today.
+            </p>
+          </div>
            
            {/* CTA Button */}
            <Link to="/LetsConnect" className="group relative mt-8 md:mt-0 inline-flex items-center justify-center px-8 py-4 bg-white text-black font-bold uppercase tracking-widest text-xs md:text-sm overflow-hidden rounded-full transition-transform hover:scale-105">
@@ -160,6 +159,13 @@ export default function Footer() {
   </li>
 
    <li>
+    <Link to="/Blogs" className="hover:text-[#ff9f20] transition-colors flex items-center gap-2 group">
+      <span className="w-0 group-hover:w-2 h-[1px] bg-[#ff9f20] transition-all duration-300" />
+      Blogs
+    </Link>
+  </li>
+
+  <li>
     <Link to="/LetsConnect" className="hover:text-[#ff9f20] transition-colors flex items-center gap-2 group">
       <span className="w-0 group-hover:w-2 h-[1px] bg-[#ff9f20] transition-all duration-300" />
       Lets Talk

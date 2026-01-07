@@ -79,7 +79,7 @@ export default function Navbar() {
       {/* --- MAIN NAVBAR (Absolute) --- */}
       <nav
         ref={navRef}
-        className="absolute top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] md:w-auto md:min-w-[700px] max-w-7xl rounded-full"
+        className="absolute top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] md:w-auto md:min-w-[800px] max-w-8xl rounded-full"
       >
         {/* Glass Background */}
         <div className="absolute inset-0 bg-[#050505]/80 backdrop-blur-xl rounded-full border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)]" />
@@ -158,6 +158,14 @@ export default function Navbar() {
                 Portfolio
             </button>
            
+
+            <button 
+                onClick={() => handleNavClick("/Blogs")} 
+                className="px-5 py-2 text-xs font-medium text-gray-400 hover:text-white hover:bg-white/10 rounded-full transition-all duration-300 uppercase tracking-wide"
+            >
+                Blogs
+            </button>
+           
           </div>
 
           {/* CTA + HAMBURGER */}
@@ -232,10 +240,17 @@ export default function Navbar() {
           </div>
 
           <button 
-            onClick={() => handleNavClick("/contact-us")} 
+            onClick={() => handleNavClick("/PortfolioPage")} 
             className="text-lg font-medium text-gray-400 hover:text-white w-full text-left py-3 border-b border-white/5 uppercase tracking-wide active:text-white"
           >
-            Contact
+            Portfolio
+          </button>
+
+            <button 
+            onClick={() => handleNavClick("/Blogs")} 
+            className="text-lg font-medium text-gray-400 hover:text-white w-full text-left py-3 border-b border-white/5 uppercase tracking-wide active:text-white"
+          >
+            Blogs
           </button>
 
           <button
