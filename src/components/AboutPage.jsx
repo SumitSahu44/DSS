@@ -136,6 +136,9 @@ const AboutPage = () => {
         </div>
       </section>
 
+      
+
+
       {/* --- NEW SECTION: SUSTAINABLE GROWTH (SEO Content) --- */}
       <section className="py-24 bg-[#05050a] border-y border-white/5 relative z-10">
         <div className="max-w-7xl mx-auto px-6 md:px-12 text-center">

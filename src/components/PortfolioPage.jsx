@@ -10,53 +10,78 @@ gsap.registerPlugin(ScrollTrigger);
 const projects = [
   {
     id: 1,
-    title: "FinTech Dashboard",
+    title: "Starlight Solar",
     category: "Development",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop", // Reduced Res for speed
-    desc: "A high-performance banking dashboard built with Next.js.",
+    image: "/images/starlightsolar.webp",
+    desc: "Modern solar energy website focused on clean UI, performance, and lead generation.",
     link: "#"
   },
   {
     id: 2,
-    title: "Nike Air Campaign",
-    category: "Social Media",
-    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop",
-    desc: "Viral Instagram reel edits and carousel strategy.",
+    title: "Sadabahar Handloom",
+    category: "E-Commerce",
+    image: "/images/sadabahaar.webp",
+    desc: "Handloom e-commerce store showcasing traditional fabrics with smooth shopping experience.",
     link: "#"
   },
   {
     id: 3,
-    title: "E-Com Growth",
-    category: "Performance",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop",
-    desc: "Scaled revenue by 300% using Meta Ads.",
+    title: "Lithoveda",
+    category: "E-Commerce",
+    image: "/images/lithoveda.webp",
+    desc: "Ayurvedic and wellness e-commerce platform with product-focused UI and fast checkout.",
     link: "#"
   },
   {
     id: 4,
-    title: "Luxe Estate Web",
+    title: "Vanya Resort",
     category: "Development",
-    image: "https://images.unsplash.com/photo-1600596542815-205db30dcc53?q=80&w=1200&auto=format&fit=crop",
-    desc: "Luxury real estate website with 3D walkthroughs.",
+    image: "/images/vanya.webp",
+    desc: "Hospitality website designed for resorts with booking flow and immersive visuals.",
     link: "#"
   },
   {
     id: 5,
-    title: "Brand Identity: Zen",
-    category: "Branding",
-    image: "https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=1200&auto=format&fit=crop",
-    desc: "Complete visual identity and logo design.",
+    title: "Jeevan Shaadi",
+    category: "Development",
+    image: "/images/jeewanshaadi.webp",
+    desc: "Matrimonial platform with user profiles, matchmaking features, and secure authentication.",
     link: "#"
   },
   {
     id: 6,
-    title: "SaaS SEO Surge",
-    category: "Performance",
-    image: "https://images.unsplash.com/photo-1572021335469-31706a17aaef?q=80&w=1200&auto=format&fit=crop",
-    desc: "Ranked #1 for 50+ high-intent keywords.",
+    title: "Edmirai",
+    category: "Development",
+    image: "/images/edmirai.webp",
+    desc: "EdTech platform built for online learning, courses, and student engagement.",
+    link: "#"
+  },
+  {
+    id: 7,
+    title: "Amla Pharma",
+    category: "Development",
+    image: "/images/amla-pharma.webp",
+    desc: "Skincare and pharma product website focused on trust, branding, and product clarity.",
+    link: "#"
+  },
+  {
+    id: 8,
+    title: "RudraGroup Indore",
+    category: "Development",
+    image: "/images/rudragroupindore.webp",
+    desc: "Professional security service provider website with service listings and enquiry system.",
+    link: "#"
+  },
+  {
+    id: 9,
+    title: "MJ Finserv",
+    category: "Development",
+    image: "/images/mjfinserv.webp",
+    desc: "Finance and investment services website with clean layout and lead-focused design.",
     link: "#"
   },
 ];
+
 
 const categories = ["All", "Development", "Social Media", "Performance", "Branding"];
 
@@ -143,9 +168,9 @@ const PortfolioPage = () => {
         
         {/* --- HEADER --- */}
         <div className="text-center mb-16">
-            <h1 className="page-header-item text-5xl md:text-7xl font-black mb-6 tracking-tighter">
+            <h2 className="page-header-item text-5xl md:text-7xl font-black mb-6 tracking-tighter">
                 Selected <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0078f0] to-[#ff9f20]">Works.</span>
-            </h1>
+            </h2>
             <p className="page-header-item text-zinc-400 text-lg max-w-2xl mx-auto">
                 A showcase of digital excellence. From pixel-perfect code to high-converting campaigns, see how we transform businesses.
             </p>
@@ -183,7 +208,7 @@ const PortfolioPage = () => {
                             alt={project.title} 
                             loading="lazy" // Lazy load
                             decoding="async" // Don't block main thread
-                            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-80 group-hover:opacity-100"
+                            className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105 opacity-80 group-hover:opacity-100"
                         />
                     </div>
 

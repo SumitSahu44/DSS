@@ -2,6 +2,7 @@ import React, { useEffect, Suspense } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
 // --- COMPONENTS ---
+
 import CustomCursor from "./components/CustomCursor.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Preloader from "./components/Preloader.jsx";
@@ -23,7 +24,7 @@ import BlogDetail from './components/BlogDetail';
 // Lazy Loaded Pages (Inke liye Suspense zaroori hai)
 const PrivacyPolicy = React.lazy(() => import("./components/PrivacyPolicy.jsx"));
 const TermsAndConditions = React.lazy(() => import("./components/TermsAndConditions.jsx"));
-
+import AdminPanel from "./AdminPanel.jsx";
 // ✅ ULTIMATE SCROLL HANDLER (Top + Hash)
 function ScrollController() {
   const { pathname, hash } = useLocation();
@@ -50,6 +51,7 @@ function ScrollController() {
 const App = () => {
   return (
     <BrowserRouter>
+  
       {/* 1. Scroll Logic sabse upar */}
       <ScrollController />
 
@@ -75,6 +77,7 @@ const App = () => {
 
           {/* Home Page: Cards Dikhenge */}
         <Route path="/blogs" element={<BlogList />} />
+          <Route path="/Admin" element={<AdminPanel />} />
         
         {/* Detail Page: Jab card click hoga (:id dynamic hai) */}
         <Route path="/blog/:id" element={<BlogDetail />} />
@@ -88,6 +91,7 @@ const App = () => {
       </Suspense>
 
       <CreativeFooter />
+      
     </BrowserRouter>
   );
 };

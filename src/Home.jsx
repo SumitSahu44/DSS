@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 
 import PremiumHero from "./components/PremiumHero.jsx";
 import TestimonialSection from "./components/Testimonials.jsx";
-
+import WhyChooseDSS from "./components/WhyChooseDSS.jsx";
 const DssAbout = React.lazy(() => import("./components/DssAbout.jsx"));
 const AchievementTimeline = React.lazy(() => import("./components/Achivements.jsx"));
 const Deconstructed = React.lazy(() => import("./components/Deconstructed.jsx"));
@@ -83,7 +83,7 @@ const Home = () => {
         </section>
 
 
-       
+       <WhyChooseDSS />
 
         {/* 6️⃣ Vision & Mission */}
         <section id="visionmission">

@@ -70,10 +70,10 @@ export default function VisionMissionReveal() {
           <div ref={visionContentRef} className="relative z-10 grid md:grid-cols-2 gap-8 md:gap-16 max-w-7xl w-full items-center will-change-transform">
             <div className="space-y-4 md:space-y-6">
               <h2 className="text-[#0078f0] font-bold tracking-[0.2em] uppercase text-xs md:text-sm">The Future</h2>
-              <h1 className="text-5xl md:text-8xl font-bold text-white leading-none">
+              <h2 className="text-5xl md:text-8xl font-bold text-white leading-none">
                 OUR <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0078f0] to-white/60">VISION</span>
-              </h1>
+              </h2>
               <div className="h-1.5 md:h-2 w-24 md:w-32 bg-[#0078f0] rounded-full mt-4" />
             </div>
 
@@ -127,10 +127,10 @@ export default function VisionMissionReveal() {
 
             <div className="order-1 md:order-2 space-y-4 md:space-y-6 text-left md:text-right">
               <h2 className="text-black/60 font-bold tracking-[0.2em] uppercase text-xs md:text-sm">The Impact</h2>
-              <h1 className="text-5xl md:text-8xl font-black text-black leading-none">
+              <h2 className="text-5xl md:text-8xl font-black text-black leading-none">
                 OUR <br />
                 <span className="text-white drop-shadow-sm">MISSION</span>
-              </h1>
+              </h2>
               <div className="h-1.5 md:h-2 w-24 md:w-32 bg-black rounded-full mt-4 ml-0 md:ml-auto" />
             </div>
           </div>

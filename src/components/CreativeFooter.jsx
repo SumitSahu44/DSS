@@ -1,9 +1,8 @@
-import React, { useRef } from "react"; // useEffect hata diya kyunki ab animation nahi hai
+import React, { useRef } from "react"; 
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 // Icons Import
 import { FaLinkedinIn, FaInstagram, FaFacebookF } from "react-icons/fa6";
-import { FaXTwitter } from "react-icons/fa6"; 
 
 export default function Footer() {
   const footerRef = useRef(null);
@@ -16,10 +15,7 @@ export default function Footer() {
       const hashValue = hash.startsWith('#') ? hash.substring(1) : hash;
       navigate({ pathname: "/", hash: hashValue }, { replace: false });
     } else {
-      // Update URL hash
       window.history.pushState(null, "", hash);
-      
-      // Try immediate scroll, Home's useHashScroll will handle if element not ready
       const scrollToElement = (attempt = 0) => {
         const el = document.querySelector(hash);
         if (el) {
@@ -39,7 +35,6 @@ export default function Footer() {
           setTimeout(() => scrollToElement(attempt + 1), 200);
         }
       };
-      
       scrollToElement();
     }
   };
@@ -51,7 +46,6 @@ export default function Footer() {
       href: "https://www.linkedin.com/company/digital-success-solutions-dss/", 
       label: "LinkedIn" 
     },
-   
     { 
       icon: <FaInstagram size={16} />, 
       href: "https://www.instagram.com/digitalsuccess_solutions/", 
@@ -67,7 +61,8 @@ export default function Footer() {
   return (
     <footer 
       ref={footerRef}
-      className="relative bg-[#050505] text-white pt-20 pb-10 overflow-hidden font-sans border-t border-white/5"
+      // UPDATE: Padding reduced (pt-20 -> pt-12, pb-10 -> pb-6) to make it compact
+      className="relative bg-[#050505] text-white pt-12 pb-6 overflow-hidden font-sans border-t border-white/5"
     >
       
       {/* --- BACKGROUND ELEMENTS --- */}
@@ -76,12 +71,12 @@ export default function Footer() {
          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay" />
          
          {/* Gradient Mesh */}
-         <div className="absolute bottom-0 left-[-20%] w-[50vw] h-[50vw] bg-[#0078f0]/5 rounded-full blur-[120px]" />
-         <div className="absolute top-0 right-[-20%] w-[50vw] h-[50vw] bg-[#ff9f20]/5 rounded-full blur-[120px]" />
+         <div className="absolute bottom-0 left-[-20%] w-[40vw] h-[40vw] bg-[#0078f0]/5 rounded-full blur-[100px]" />
+         <div className="absolute top-0 right-[-20%] w-[40vw] h-[40vw] bg-[#ff9f20]/5 rounded-full blur-[100px]" />
 
-         {/* BACKGROUND TEXT */}
+         {/* BACKGROUND TEXT - Scaled down slightly */}
          <div className="absolute bottom-0 left-0 w-full text-center pointer-events-none select-none overflow-hidden">
-            <h1 className="text-[15vw] font-black text-white/[0.03] leading-none tracking-tighter">
+            <h1 className="text-[12vw] font-black text-white/[0.03] leading-none tracking-tighter">
                DSS
             </h1>
          </div>
@@ -89,185 +84,125 @@ export default function Footer() {
 
       <div className="container mx-auto px-6 relative z-10">
         
-        {/* --- 1. CALL TO ACTION --- */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 pb-16 border-b border-white/10">
-          <div className="max-w-2xl">
-            {/* Text color updated to white, tracking tight for clean look */}
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.1] mb-6">
-                READY TO <br/>
-                {/* Gradient hataya, Solid Blue aur Solid Orange use kiya */}
-                <span className="text-[#0078f0]">SCALE</span> <span className="text-[#ff9f20]">UP?</span>
+        {/* --- 1. CALL TO ACTION (Compact Version) --- */}
+        {/* UPDATE: Margin reduced (mb-16 -> mb-10) */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 pb-10 border-b border-white/10">
+          <div className="max-w-xl">
+            {/* UPDATE: Text sizes reduced slightly */}
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tight leading-[1.1] mb-4">
+               READY TO <br/>
+               <span className="text-[#0078f0]">SCALE</span> <span className="text-[#ff9f20]">UP?</span>
             </h2>
-            {/* Paragraph color updated to slate for better theme matching */}
-            <p className="text-base md:text-lg text-slate-400 font-light max-w-md leading-relaxed">
-                Let's build something that defines your industry. Schedule a call with our strategy team today.
+            <p className="text-sm md:text-base text-slate-400 font-light max-w-sm leading-relaxed">
+               Let's build something that defines your industry. Schedule a call today.
             </p>
           </div>
            
            {/* CTA Button */}
-           <Link to="/LetsConnect" className="group relative mt-8 md:mt-0 inline-flex items-center justify-center px-8 py-4 bg-white text-black font-bold uppercase tracking-widest text-xs md:text-sm overflow-hidden rounded-full transition-transform hover:scale-105">
-       
+           <Link to="/LetsConnect" className="group relative mt-6 md:mt-0 inline-flex items-center justify-center px-6 py-3 bg-white text-black font-bold uppercase tracking-widest text-xs overflow-hidden rounded-full transition-transform hover:scale-105">
               <span className="relative z-10 group-hover:text-white transition-colors duration-300">Start Project</span>
               <div className="absolute inset-0 bg-[#0078f0] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-        
            </Link>
         </div>
 
-        {/* --- 2. MAIN GRID LINKS --- */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 mb-16">
+        {/* --- 2. MAIN GRID LINKS (The Layout Fix) --- */}
+        {/* UPDATE: grid-cols-2 (Mobile) and lg:grid-cols-4 (Laptop) */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-8 gap-x-4 mb-10">
            
            {/* Column 1: Brand Info */}
-           <div className="col-span-1 md:col-span-4 flex flex-col gap-6">
-              <div className="text-xl md:text-2xl font-black tracking-tighter uppercase">
+           <div className="col-span-1 flex flex-col gap-4">
+              <div className="text-xl font-black tracking-tighter uppercase">
                  DSS<span className="text-[#0078f0]">.</span>
               </div>
-              <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
-                 DSS Digital Success Solutions LLP. We are a digital innovation agency crafting world-class experiences.
+              <p className="text-gray-500 text-xs leading-relaxed max-w-[180px]">
+                 Digital Success Solutions. Crafting world-class digital experiences.
               </p>
               
-              <div className="mt-2 text-gray-400 text-sm leading-relaxed">
-                <p className="font-bold text-white mb-1 uppercase tracking-wider text-xs">Headquarters</p>
-                <p>PLOT NO. 22, Scheme No 53,</p>
-                <p>Vijay Nagar, Indore,</p>
-                <p>Madhya Pradesh – 452010</p>
+              <div className="mt-1 text-gray-400 text-xs leading-relaxed">
+                <p className="font-bold text-white mb-1 uppercase tracking-wider text-[10px]">Indore HQ</p>
+                <p>Scheme No 53, Vijay Nagar,</p>
+                <p>Indore, MP – 452010</p>
               </div>
            </div>
 
-           {/* Column 2: Sitemap */}
-           <div className="col-span-1 md:col-span-2 md:col-start-6">
+           {/* Column 2: Explore */}
+           <div className="col-span-1">
               <h4 className="text-xs font-bold uppercase tracking-widest text-white mb-4">Explore</h4>
-              <ul className="flex flex-col gap-3 text-gray-400 text-sm">
-  <li>
-    <Link to="/" className="hover:text-[#ff9f20] transition-colors flex items-center gap-2 group">
-      <span className="w-0 group-hover:w-2 h-[1px] bg-[#ff9f20] transition-all duration-300" />
-      Home
-    </Link>
-  </li>
-
-  <li>
-    <Link to="/about" className="hover:text-[#ff9f20] transition-colors flex items-center gap-2 group">
-      <span className="w-0 group-hover:w-2 h-[1px] bg-[#ff9f20] transition-all duration-300" />
-      Who We Are
-    </Link>
-  </li>
-
-  <li>
-    <Link to="/PortfolioPage" className="hover:text-[#ff9f20] transition-colors flex items-center gap-2 group">
-      <span className="w-0 group-hover:w-2 h-[1px] bg-[#ff9f20] transition-all duration-300" />
-      Portfolio
-    </Link>
-  </li>
-
-   <li>
-    <Link to="/Blogs" className="hover:text-[#ff9f20] transition-colors flex items-center gap-2 group">
-      <span className="w-0 group-hover:w-2 h-[1px] bg-[#ff9f20] transition-all duration-300" />
-      Blogs
-    </Link>
-  </li>
-
-  <li>
-    <Link to="/LetsConnect" className="hover:text-[#ff9f20] transition-colors flex items-center gap-2 group">
-      <span className="w-0 group-hover:w-2 h-[1px] bg-[#ff9f20] transition-all duration-300" />
-      Lets Talk
-    </Link>
-  </li>
-</ul>
-
+              <ul className="flex flex-col gap-2 text-gray-400 text-xs md:text-sm">
+                <li><Link to="/" className="hover:text-[#ff9f20] transition-colors">Home</Link></li>
+                <li><Link to="/about" className="hover:text-[#ff9f20] transition-colors">Who We Are</Link></li>
+                <li><Link to="/PortfolioPage" className="hover:text-[#ff9f20] transition-colors">Portfolio</Link></li>
+                <li><Link to="/Blogs" className="hover:text-[#ff9f20] transition-colors">Blogs</Link></li>
+                <li><Link to="/LetsConnect" className="hover:text-[#ff9f20] transition-colors">Lets Talk</Link></li>
+              </ul>
            </div>
 
            {/* Column 3: Services */}
-           <div className="col-span-1 md:col-span-3">
+           <div className="col-span-1">
               <h4 className="text-xs font-bold uppercase tracking-widest text-white mb-4">Services</h4>
-            <ul className="flex flex-col gap-3 text-gray-400 text-sm">
-  <li>
-    <Link to="/website-design-and-website-development" className="hover:text-[#0078f0] transition-colors">
-      Website Development
-    </Link>
-  </li>
-  <li>
-    <Link to="/performance-marketing-ppc" className="hover:text-[#0078f0] transition-colors">
-      Performance Marketing
-    </Link>
-  </li>
-  <li>
-    <Link to="/social-media-marketing" className="hover:text-[#0078f0] transition-colors">
-      Social Media
-    </Link>
-  </li>
-  <li>
-    <Link to="/search-engine-optimization" className="hover:text-[#0078f0] transition-colors">
-      SEO Optimization
-    </Link>
-  </li>
-  <li>
-    <Link to="/influencer-marketing" className="hover:text-[#0078f0] transition-colors">
-      Influencer Marketing
-    </Link>
-  </li>
-  <li>
-    <Link to="/e-commerce-applications" className="hover:text-[#0078f0] transition-colors">
-      E-Commerce Apps
-    </Link>
-  </li>
-</ul>
-
+              <ul className="flex flex-col gap-2 text-gray-400 text-xs md:text-sm">
+                <li><Link to="/website-design-and-website-development" className="hover:text-[#0078f0] transition-colors">Web Development</Link></li>
+                <li><Link to="/performance-marketing-ppc" className="hover:text-[#0078f0] transition-colors">Performance Marketing</Link></li>
+                <li><Link to="/social-media-marketing" className="hover:text-[#0078f0] transition-colors">Social Media</Link></li>
+                <li><Link to="/search-engine-optimization" className="hover:text-[#0078f0] transition-colors">SEO</Link></li>
+                <li><Link to="/influencer-marketing" className="hover:text-[#0078f0] transition-colors">Influencer Marketing</Link></li>
+              </ul>
            </div>
 
            {/* Column 4: Contact & Socials */}
-           <div className="col-span-1 md:col-span-3">
+           <div className="col-span-1 flex flex-col">
               <h4 className="text-xs font-bold uppercase tracking-widest text-white mb-4">Connect</h4>
               
-              {/* Emails */}
-              <div className="flex flex-col gap-1 mb-6">
-                  <a href="mailto:Info@digitalsuccesssolutions.in" className="text-gray-400 hover:text-[#0078f0] transition-colors text-sm break-all">
+              {/* Emails - Compact */}
+              <div className="flex flex-col gap-1 mb-4 text-xs md:text-sm">
+                  <a href="mailto:Info@digitalsuccesssolutions.in" className="text-gray-400 hover:text-[#0078f0] break-all">
                     Info@digitalsuccesssolutions.in
                   </a>
-                  <a href="mailto:business@digitalsuccesssolutions.in" className="text-gray-400 hover:text-[#0078f0] transition-colors text-sm break-all">
+                  <a href="mailto:business@digitalsuccesssolutions.in" className="text-gray-400 hover:text-[#0078f0] break-all">
                     business@digitalsuccesssolutions.in
                   </a>
               </div>
 
-              {/* Phones */}
-              <div className="flex flex-col gap-1 mb-6">
-                <a href="tel:+916264398990" className="text-white hover:text-[#ff9f20] transition-colors font-mono text-sm">
+              {/* Phones - Compact */}
+              <div className="flex flex-col gap-1 mb-5 text-xs  md:text-sm">
+                <a href="tel:+916264398990" className="text-white hover:text-[#ff9f20] font-mono">
                     +91 62643 98990
                 </a>
-                <a href="tel:+918718980114" className="text-white hover:text-[#ff9f20] transition-colors font-mono text-sm">
+                <a href="tel:+918718980114" className="text-white hover:text-[#ff9f20] font-mono">
                     +91 87189 80114
                 </a>
               </div>
               
               {/* Social Icons */}
-              <div className="flex gap-4">
-                 {socialLinks.map((social, i) => (
+              <div className="flex gap-3">
+                  {socialLinks.map((social, i) => (
                     <a 
-                       key={i} 
-                       href={social.href}
-                       target="_blank" 
-                       rel="noopener noreferrer"
-                       aria-label={social.label}
-                       className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#0078f0] hover:border-[#0078f0] transition-all duration-300"
+                        key={i} 
+                        href={social.href}
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#0078f0] hover:border-[#0078f0] transition-all duration-300"
                     >
-                       {social.icon}
+                        {social.icon}
                     </a>
-                 ))}
+                  ))}
               </div>
            </div>
 
         </div>
 
-        {/* --- 3. BOTTOM BAR (Legal) --- */}
-        <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/5 text-[10px] md:text-xs text-gray-600 font-mono uppercase tracking-wider gap-4 md:gap-0">
-           <div className="flex gap-6">
-              <span>© 2025 DSS Digital Success Solutions LLP</span>
+        {/* --- 3. BOTTOM BAR (Compact) --- */}
+        <div className="flex flex-col md:flex-row justify-between items-center pt-6 border-t border-white/5 text-[10px] text-gray-600 font-mono uppercase tracking-wider gap-3 md:gap-0">
+           <div className="text-center md:text-left">
+             © 2025 DSS LLP. All Rights Reserved.
            </div>
            
-           <div className="flex flex-wrap justify-center gap-6 md:gap-8">
-             <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
-             <Link to="/TermsAndConditions" className="hover:text-white transition-colors">Terms of Service</Link>
-              <a href="https://www.digitalsuccesssolutions.in" target="_blank" rel="noreferrer" className="hover:text-[#0078f0] transition-colors">
-                www.digitalsuccesssolutions.in
-              </a>
+           <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+             <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy</Link>
+             <Link to="/TermsAndConditions" className="hover:text-white transition-colors">Terms</Link>
+             <a href="https://www.digitalsuccesssolutions.in" className="hover:text-[#0078f0] transition-colors">
+               digitalsuccesssolutions.in
+             </a>
            </div>
         </div>
 

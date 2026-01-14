@@ -21,7 +21,7 @@ export default function Navbar() {
   const services = [
     { name: "Website Development", path: "/website-design-and-website-development", icon: Globe, color: "text-blue-400", bg: "bg-blue-500/10" },
     { name: "Performance Marketing", path: "/performance-marketing-ppc", icon: Megaphone, color: "text-orange-400", bg: "bg-orange-500/10" },
-    { name: "Social Media", path: "/social-media-marketing", icon: Share2, color: "text-pink-400", bg: "bg-pink-500/10" },
+    { name: "Social Media Marketing", path: "/social-media-marketing", icon: Share2, color: "text-pink-400", bg: "bg-pink-500/10" },
     { name: "SEO Optimization", path: "/search-engine-optimization", icon: Search, color: "text-green-400", bg: "bg-green-500/10" },
     { name: "Influencer Marketing", path: "/influencer-marketing", icon: Users, color: "text-purple-400", bg: "bg-purple-500/10" },
     { name: "E-Commerce Apps", path: "/e-commerce-applications", icon: ShoppingBag, color: "text-yellow-400", bg: "bg-yellow-500/10" },

@@ -98,8 +98,8 @@ export default function ServicesScroll() {
             <div className="h-[2px] w-10 bg-blue-500"></div>
             <span className="text-blue-400 uppercase tracking-widest text-xs font-bold">Services</span>
          </div>
-         <h2 className="text-4xl md:text-6xl font-black text-white uppercase leading-tight">
-            What We <br/> Deliver
+         <h2 className="text-3xl md:text-5xl font-black text-white uppercase leading-tight">
+            We Provide the Best <br/> Digital Marketing Services in Indore
          </h2>
       </div>
 

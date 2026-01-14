@@ -153,12 +153,12 @@ export default function WhyChooseSection() {
         <h2 className="text-[#ff9f20] font-bold tracking-[0.2em] uppercase text-xs md:text-sm mb-4 border border-[#ff9f20]/20 inline-block px-4 py-1 rounded-full bg-[#ff9f20]/5 backdrop-blur-sm">
           Why Choose DSS
         </h2>
-        <h3 className="text-4xl md:text-6xl font-black text-white leading-tight">
+        <h2 className="text-4xl md:text-6xl font-black text-white leading-tight">
           Your Digital Marketing <br/>
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff9f20] via-white to-[#0078f0]">
             Partner in Indore
           </span>
-        </h3>
+        </h2>
         <p className="mt-6 text-gray-400 text-lg max-w-2xl mx-auto">
           We combine local expertise with global standards to deliver measurable growth, transparency, and advanced performance strategies.
         </p>

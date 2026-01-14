@@ -14,8 +14,8 @@ const LetsConnect = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const servicesList = [
-    "Website Dev", "App Dev", "Performance Mkt", 
-    "Social Media", "SEO", "Branding", "UI/UX Design"
+    "Website Development", "App Development", "Performance Marketing", 
+    "Social Media Marketing", "SEO", "Branding", "UI/UX Design"
   ];
 
   const toggleService = (service) => {
@@ -188,10 +188,11 @@ const LetsConnect = () => {
                 <label className="text-xs font-bold text-zinc-500 uppercase tracking-wider ml-4">Budget Range</label>
                 <div className="relative">
                   <select name="budget" className="w-full bg-[#020205] border border-white/10 rounded-2xl px-6 py-4 text-white appearance-none focus:outline-none focus:border-[#0078f0] cursor-pointer">
+                    <option>₹10k - ₹25k</option>
+                    <option>₹25k - ₹50k</option>
                     <option>₹50k - ₹1 Lakh</option>
-                    <option>₹1 Lakh - ₹5 Lakh</option>
-                    <option>₹5 Lakh - ₹10 Lakh</option>
-                    <option>₹10 Lakh+</option>
+                    <option>₹1Lakh - ₹3 Lakh</option>
+                    <option>₹3Lakh+</option>
                   </select>
                   <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none" size={16} />
                 </div>
