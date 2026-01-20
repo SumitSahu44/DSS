@@ -16,15 +16,18 @@ import PerformanceMarketing from "./components/PerformanceMarketing.jsx";
 import SocialMediaMarketing from "./components/SocialMediaMarketing.jsx";
 import SearchEngineOptimization from "./components/SeoOptimization.jsx";
 import InfluencerMarketing from "./components/InfluencerMarketing.jsx";
-import ECommerceApplications from "./components/EcommerceApplications.jsx"; 
+import ECommerceApplications from "./components/EcommerceApplications.jsx";
 import Webdev from "./components/Webdev.jsx";
 import LetsConnect from "./components/LetsConnect.jsx";
 import BlogList from './components/BlogList';
 import BlogDetail from './components/BlogDetail';
+
 // Lazy Loaded Pages (Inke liye Suspense zaroori hai)
+// React.lazy(() => import("./components/PrivacyPolicy.jsx"));
 const PrivacyPolicy = React.lazy(() => import("./components/PrivacyPolicy.jsx"));
 const TermsAndConditions = React.lazy(() => import("./components/TermsAndConditions.jsx"));
-import AdminPanel from "./AdminPanel.jsx";
+// import AdminPanel from "./AdminPanel.jsx"; // Removed as per user request (build fix)
+
 // ✅ ULTIMATE SCROLL HANDLER (Top + Hash)
 function ScrollController() {
   const { pathname, hash } = useLocation();
@@ -38,7 +41,7 @@ function ScrollController() {
           el.scrollIntoView({ behavior: "smooth", block: "start" });
         }
       }, 500); // Thoda delay taaki content load ho jaye
-    } 
+    }
     // Agar normal page change hai (Jaise Home -> Services)
     else {
       window.scrollTo(0, 0); // PAGE KO TOP PE FEK DO
@@ -51,7 +54,7 @@ function ScrollController() {
 const App = () => {
   return (
     <BrowserRouter>
-  
+
       {/* 1. Scroll Logic sabse upar */}
       <ScrollController />
 
@@ -64,34 +67,39 @@ const App = () => {
       <Suspense fallback={<div className="h-screen w-full bg-[#050505]"></div>}>
         <Routes>
           <Route path="/" element={<Home />} />
-           <Route path="/About" element={<AboutPage />} />
-            <Route path="/PortfolioPage" element={<PortfolioPage />} />
-                 {/* Services Routes */}
+          <Route path="/About" element={<AboutPage />} />
+          <Route path="/PortfolioPage" element={<PortfolioPage />} />
+          {/* Services Routes */}
           <Route path="/website-design-and-website-development" element={<Webdev />} />
-           <Route path="/performance-marketing-ppc" element={<PerformanceMarketing />} />
-            <Route path="/social-media-marketing" element={<SocialMediaMarketing />} />
-             <Route path="/search-engine-optimization" element={<SearchEngineOptimization />} />
-              <Route path="/influencer-marketing" element={<InfluencerMarketing />} />
-               <Route path="/e-commerce-applications" element={<ECommerceApplications />} />
-          
+          <Route path="/performance-marketing-ppc" element={<PerformanceMarketing />} />
+          <Route path="/social-media-marketing" element={<SocialMediaMarketing />} />
+          <Route path="/search-engine-optimization" element={<SearchEngineOptimization />} />
+          <Route path="/influencer-marketing" element={<InfluencerMarketing />} />
+          <Route path="/e-commerce-applications" element={<ECommerceApplications />} />
+
 
           {/* Home Page: Cards Dikhenge */}
-        <Route path="/blogs" element={<BlogList />} />
-          <Route path="/Admin" element={<AdminPanel />} />
-        
-        {/* Detail Page: Jab card click hoga (:id dynamic hai) */}
-        <Route path="/blog/:id" element={<BlogDetail />} />
+          <Route path="/blogs" element={<BlogList />} />
+          {/* <Route path="/Admin" element={<AdminPanel />} /> */}
+
+          {/* Detail Page: Jab card click hoga (:id dynamic hai) */}
+          <Route path="/blog/:id" element={<BlogDetail />} />
 
           {/* Legal Pages */}
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/TermsAndConditions" element={<TermsAndConditions />} />
-            <Route path="/LetsConnect" element={<LetsConnect />} />
-            <Route path="/contact-us" element={<LetsConnect />} />
+          <Route path="/LetsConnect" element={<LetsConnect />} />
+          <Route path="/contact-us" element={<LetsConnect />} />
+
+
+
+
+
         </Routes>
       </Suspense>
 
       <CreativeFooter />
-      
+
     </BrowserRouter>
   );
 };

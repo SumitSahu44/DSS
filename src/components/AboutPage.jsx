@@ -83,7 +83,7 @@ const AboutPage = () => {
           </h1>
 
           <p className="fade-up text-zinc-400 text-lg md:text-2xl max-w-4xl leading-relaxed">
-            Our <span className="text-white font-semibold">7-year-old digital marketing company</span> provides leading services in Indore, delivering real growth to major brands through <span className="text-[#0078f0]">social media marketing, SEO, and creative strategy.</span>
+            Our <span className="text-white font-semibold">5-year-old digital marketing company</span> provides leading services in Indore, delivering real growth to major brands through <span className="text-[#0078f0]">social media marketing, SEO, and creative strategy.</span>
           </p>
         </div>
       </section>

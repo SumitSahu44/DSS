@@ -1,10 +1,49 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { blogs } from './blogData'; 
+import { blogs } from './blogData';
+import axios from 'axios';
 
 const BlogDetail = () => {
-  const { id } = useParams(); 
-  const blog = blogs.find((b) => b.id === parseInt(id)); 
+  const { id } = useParams();
+  const [blog, setBlog] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBlog = async () => {
+      // Check if id is numeric (static blog)
+      if (!isNaN(id)) {
+        const staticBlog = blogs.find((b) => b.id === parseInt(id));
+        setBlog(staticBlog);
+        setLoading(false);
+      } else {
+        // Assume it's a slug (dynamic blog)
+        try {
+          const response = await axios.get(`https://dssbackend.onrender.com/api/blogs/${id}`);
+          const dbBlog = {
+            id: response.data.slug,
+            title: response.data.title,
+            image: response.data.thumbnail ? `https://dssbackend.onrender.com/uploads/${response.data.thumbnail}` : '/images/placeholder.jpg',
+            category: "Latest Update",
+            date: new Date(response.data.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+            author: "Digital Success Solutions",
+            content: response.data.content
+          };
+          setBlog(dbBlog);
+        } catch (error) {
+          console.error("Error fetching blog:", error);
+          setBlog(null);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchBlog();
+  }, [id]);
+
+  if (loading) {
+    return <div className="text-white text-center py-20 bg-[#050505] min-h-screen">Loading...</div>;
+  }
 
   if (!blog) {
     return <div className="text-white text-center py-20 bg-[#050505] min-h-screen">Blog not found!</div>;
@@ -12,10 +51,10 @@ const BlogDetail = () => {
 
   return (
     <div className="bg-[#050505] min-h-screen mt-20 pb-24 pt-24">
-      
+
       {/* Container */}
       <article className="max-w-4xl mx-auto px-6">
-        
+
         {/* Back Button */}
         <Link to="/blogs" className="inline-flex items-center text-gray-400 hover:text-[#0078f0] transition-colors mb-10 text-sm font-medium group">
           <span className="group-hover:-translate-x-1 transition-transform mr-2">&larr;</span> Back to all blogs
@@ -37,11 +76,11 @@ const BlogDetail = () => {
 
         {/* Hero Image */}
         <div className="w-full h-[300px] md:h-[500px] rounded-2xl overflow-hidden mb-12 border border-white/10 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5)] relative group">
-           {/* Image Overlay */}
-           <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent opacity-60"></div>
-          <img 
-            src={blog.image} 
-            alt={blog.title} 
+          {/* Image Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent opacity-60"></div>
+          <img
+            src={blog.image}
+            alt={blog.title}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
           />
         </div>
@@ -66,9 +105,9 @@ const BlogDetail = () => {
         {/* Is div ke andar hum 'dangerouslySetInnerHTML' use kar rahe hain.
             Styling ke liye maine 'blog-content' class banayi hai (CSS neeche dekhein).
         */}
-        <div 
-            className="blog-content text-gray-300 leading-relaxed text-lg"
-            dangerouslySetInnerHTML={{ __html: blog.content }} 
+        <div
+          className="blog-content text-gray-300 leading-relaxed text-lg"
+          dangerouslySetInnerHTML={{ __html: blog.content }}
         />
 
       </article>

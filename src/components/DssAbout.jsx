@@ -121,7 +121,7 @@ export default function AboutSection() {
           {/* LEFT: CONTENT */}
           <div className="pr-0 lg:pr-10">
             <div className="anim-text inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-400 text-xs font-bold uppercase tracking-widest mb-6">
-              <MapPin size={14} /> 7+ Years of Excellence
+              <MapPin size={14} /> 5+ Years of Excellence
             </div>
 
             <h1 className="anim-text text-3xl md:text-4xl lg:text-5xl font-black leading-tight mb-6">
@@ -129,7 +129,7 @@ export default function AboutSection() {
             </h1>
 
             <p className="anim-text text-lg text-gray-400 leading-relaxed mb-8 border-l-4 border-orange-500 pl-6">
-              Our 7-year-old digital marketing company provides leading services in Indore, where we've delivered real growth to major brands through 
+              Our 5-year-old digital marketing company provides leading services in Indore, where we've delivered real growth to major brands through 
               <span className="text-white font-semibold"> social media marketing, SEO, and creative marketing.</span>
             </p>
               <div className="anim-text flex flex-wrap gap-4">
